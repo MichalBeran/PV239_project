@@ -8,6 +8,6 @@ android:
     - android-26
     - extra
 script:
-   - ./TestMeApp/gradlew build connectedCheck
+   - ./TestMeApp/gradlew build
 before_install:
    - chmod +x ./TestMeApp/gradlew
