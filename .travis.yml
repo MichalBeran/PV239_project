@@ -9,3 +9,5 @@ android:
     - extra
 script:
    - ./TestMeApp/gradlew build connectedCheck
+before_install:
+   - chmod +x ./TestMeApp/gradlew
