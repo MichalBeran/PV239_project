@@ -14,8 +14,10 @@ import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.api.testApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
+import io.realm.Realm;
 
 /**
  * Created by Michal on 21.03.2018.
@@ -25,6 +27,7 @@ public class GetTestActivity extends AppCompatActivity{
 
     private testApi mTestApi;
     private Unbinder mUnbinder;
+    private Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,12 @@ public class GetTestActivity extends AppCompatActivity{
         setContentView(R.layout.activity_get_test);
         mTestApi = new testApi();
         mUnbinder = ButterKnife.bind(this);
+        mRealm = Realm.getDefaultInstance();
+        RealmResults<Test> tests = mRealm.where(Test.class).findAll();
+        Test test = tests.first();
+        TextView text = findViewById(R.id.jsonResult);
+        text.setText(test.name + " " + test.testDuration + " " + test.questions.first().text);
+
     }
 
     @OnClick(R.id.urlButton)
@@ -52,7 +61,8 @@ public class GetTestActivity extends AppCompatActivity{
                 }
 
                 TextView text = findViewById(R.id.jsonResult);
-                text.setText(test.name + " " + test.testDuration + " " + test.questions[0].text);
+                text.setText(test.name + " " + test.testDuration + " " + test.questions.first().text);
+                saveResult(test);
 
             }
 
@@ -73,5 +83,23 @@ public class GetTestActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        mRealm.close();
+    }
+
+    private void saveResult(final Test test) {
+        Realm realm = null;
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insertOrUpdate(test);
+                }
+            });
+        } finally {
+            if(realm != null) {
+                realm.close();
+            }
+        }
     }
 }
