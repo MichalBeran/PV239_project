@@ -1,6 +1,7 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import com.bumptech.glide.Glide;
 import org.json.JSONObject;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.api.testApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
@@ -26,36 +29,23 @@ import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
 
-    private testApi mTestApi;
+    private Unbinder mUnbinder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTestApi = new testApi();
-        loadTest("example.json");
+        mUnbinder = ButterKnife.bind(this);
     }
 
-    private void loadTest(@NonNull String testname) {
-        Call<Test> testCall = mTestApi.getService().getTest(testname);
-        testCall.enqueue(new Callback<Test>() {
-
-            @Override
-            public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
-                Test test = response.body();
-                if (test == null) {
-                    return;
-                }
-
-                TextView text = findViewById(R.id.jsonText);
-                text.setText(test.name + " " + test.testDuration + " " + test.questions[0].text);
-
-            }
-
-            @Override
-            public void onFailure(Call<Test> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+    @OnClick(R.id.downloadTest)
+    protected void downloadTests(){
+        Intent intent = GetTestActivity.newIntent(this);
+        startActivity(intent);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+    }
 }
