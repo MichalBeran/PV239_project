@@ -1,0 +1,34 @@
+{
+  "name": "test",
+  "testCount": 10,
+  "testDuration": "5:00",
+  "testMinPoint": 70,
+  "question": [
+    {
+      "text": "Je vse ok ?",
+      "type": "test",
+      "answer": [
+        {
+          "text": "ano",
+          "correct": true,
+          "points": 50
+        },
+        {
+          "text": "ne",
+          "correct": false,
+          "points": 0
+        }
+      ]
+    },
+    {
+      "text": "Napis test",
+      "type": "open",
+      "answer": [
+        {
+          "text": "test",
+          "points": 50
+        }
+      ]
+    }
+  ]
+}
