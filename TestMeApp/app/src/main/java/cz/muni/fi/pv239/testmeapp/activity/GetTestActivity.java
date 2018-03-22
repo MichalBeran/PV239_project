@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,12 +37,6 @@ public class GetTestActivity extends AppCompatActivity{
         mTestApi = new testApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
-        TextView text = findViewById(R.id.jsonResult);
-        RealmResults<Test> tests = mRealm.where(Test.class).findAll();
-        if (!tests.isEmpty()) {
-            Test test = tests.first();
-            text.setText(test.url + "\n" + test.name + " " + test.testDuration + " " + test.questions.first().text);
-        }
     }
 
     @OnClick(R.id.urlButton)
@@ -62,8 +57,9 @@ public class GetTestActivity extends AppCompatActivity{
                 }
 
                 TextView text = findViewById(R.id.jsonResult);
-                text.setText(test.name + " " + test.testDuration + " " + test.questions.first().text);
                 test.url = mTestApi.getUrlBase() + testname;
+                text.setText("URL:" + test.url + "\n"
+                        + "NAME:" + test.name + "\n DURATION:" + test.testDuration + "\n FIRST QUESTION:" + test.questions.first().text);
                 saveResult(test);
 
             }
@@ -103,5 +99,6 @@ public class GetTestActivity extends AppCompatActivity{
                 realm.close();
             }
         }
+        Toast.makeText(GetTestActivity.this, "SAVED", Toast.LENGTH_SHORT).show();
     }
 }
