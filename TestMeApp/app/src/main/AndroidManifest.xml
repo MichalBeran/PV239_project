@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.GetTestActivity"></activity>
+        <activity android:name=".activity.ListTestsActivity"></activity>
     </application>
 
 </manifest>

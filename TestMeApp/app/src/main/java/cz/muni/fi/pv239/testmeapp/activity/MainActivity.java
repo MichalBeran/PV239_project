@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.showTests)
+    protected void showTests(){
+        Intent intent = ListTestsActivity.newIntent(this);
+        startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
