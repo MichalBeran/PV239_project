@@ -37,4 +37,7 @@ public class testApi {
     public testService getService() {
         return mService;
     }
+    public String getUrlBase(){
+        return GITHUB_ENDPOINT;
+    }
 }
