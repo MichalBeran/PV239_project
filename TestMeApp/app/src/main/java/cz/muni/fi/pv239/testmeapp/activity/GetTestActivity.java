@@ -36,11 +36,12 @@ public class GetTestActivity extends AppCompatActivity{
         mTestApi = new testApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
-        RealmResults<Test> tests = mRealm.where(Test.class).findAll();
-        Test test = tests.first();
         TextView text = findViewById(R.id.jsonResult);
-        text.setText(test.name + " " + test.testDuration + " " + test.questions.first().text);
-
+        RealmResults<Test> tests = mRealm.where(Test.class).findAll();
+        if (!tests.isEmpty()) {
+            Test test = tests.first();
+            text.setText(test.url + "\n" + test.name + " " + test.testDuration + " " + test.questions.first().text);
+        }
     }
 
     @OnClick(R.id.urlButton)
@@ -49,7 +50,7 @@ public class GetTestActivity extends AppCompatActivity{
         loadTest(text.getText().toString());
     }
 
-    private void loadTest(@NonNull String testname) {
+    private void loadTest(@NonNull final String testname) {
         Call<Test> testCall = mTestApi.getService().getTest(testname);
         testCall.enqueue(new Callback<Test>() {
 
@@ -62,6 +63,7 @@ public class GetTestActivity extends AppCompatActivity{
 
                 TextView text = findViewById(R.id.jsonResult);
                 text.setText(test.name + " " + test.testDuration + " " + test.questions.first().text);
+                test.url = mTestApi.getUrlBase() + testname;
                 saveResult(test);
 
             }
