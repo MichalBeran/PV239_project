@@ -41,4 +41,8 @@ dependencies {
 
     // Realm
     implementation 'io.realm:android-adapters:2.1.1'
+
+    // RecyclerView
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+
 }
