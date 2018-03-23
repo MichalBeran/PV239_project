@@ -33,6 +33,9 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.removeTest)
     Button removeButton;
 
+    @BindView(R.id.shareQr)
+    Button shareQrButon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,13 @@ public class ShowTestActivity extends AppCompatActivity {
         mTest.deleteFromRealm();
         mRealm.commitTransaction();
         finish();
+    }
+
+    @OnClick(R.id.shareQr)
+    public void shareQrCode(){
+        Intent intent = CreateQRCodeActivity.newIntent(this);
+        intent.putExtra("qr", mTest.url);
+        startActivity(intent);
     }
 
     @NonNull

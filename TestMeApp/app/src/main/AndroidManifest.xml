@@ -3,6 +3,8 @@
     package="cz.muni.fi.pv239.testmeapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
 
     <application
         android:allowBackup="true"
@@ -22,6 +24,7 @@
         <activity android:name=".activity.GetTestActivity"></activity>
         <activity android:name=".activity.ListTestsActivity"></activity>
         <activity android:name=".activity.ShowTestActivity"></activity>
+        <activity android:name=".activity.CreateQRCodeActivity"></activity>
     </application>
 
 </manifest>
