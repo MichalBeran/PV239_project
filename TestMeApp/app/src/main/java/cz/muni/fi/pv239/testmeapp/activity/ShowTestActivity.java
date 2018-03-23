@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.api.testApi;
@@ -28,6 +30,9 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.testURL)
     TextView testUrl;
 
+    @BindView(R.id.removeTest)
+    Button removeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,14 @@ public class ShowTestActivity extends AppCompatActivity {
         mTest = mRealm.where(Test.class).equalTo("url", url).findFirst();
         testUrl.setText("URL: " + mTest.url + "\n" +
             "First Question" + mTest.questions.first().text);
+    }
+
+    @OnClick(R.id.removeTest)
+    public void removeTest(){
+        mRealm.beginTransaction();
+        mTest.deleteFromRealm();
+        mRealm.commitTransaction();
+        finish();
     }
 
     @NonNull
