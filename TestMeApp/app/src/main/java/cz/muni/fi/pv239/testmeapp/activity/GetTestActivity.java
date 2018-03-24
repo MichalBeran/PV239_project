@@ -40,15 +40,11 @@ import io.realm.Realm;
  * Created by Michal on 21.03.2018.
  */
 
-public class GetTestActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class GetTestActivity extends AppCompatActivity{
 
     private testApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
-    private ZXingScannerView mScannerView;
-
-    private static final int REQUEST_GET_ACCOUNT = 112;
-    private static final int PERMISSION_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,81 +116,7 @@ public class GetTestActivity extends AppCompatActivity implements ZXingScannerVi
 
     @OnClick(R.id.scanButton)
     public void scanQrCode(){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // Lower than Marshmallow -> permissions were granted during the install process
-            mScannerView = new ZXingScannerView(this);
-            setContentView(mScannerView);
-            mScannerView.setResultHandler(this);
-            mScannerView.startCamera();
-        } else {
-            // Let's check whethere we already have the permission
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                // Permissions granted -> save the data
-                mScannerView = new ZXingScannerView(this);
-                setContentView(mScannerView);
-                mScannerView.setResultHandler(this);
-                mScannerView.startCamera();
-            } else {
-                // Android helper method to tell us if it's useful to show a hint
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.CAMERA)) {
-                    // Show some alert explaining why it is important to grant the permission
-                    showWritePermissionRationale(this);
-                } else {
-                    // Just straight to the point
-                    requestPermissions(
-                            new String[]{Manifest.permission.CAMERA},
-                            PERMISSION_REQUEST_CODE);
-                }
-            }
-        }
-
+        Intent intent = ScanQRCodeActivity.newIntent(this);
+        startActivity(intent);
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-//        mScannerView.stopCamera();
-    }
-
-    @Override
-    public void handleResult(Result rawResult){
-        Toast.makeText(GetTestActivity.this, "SCAN SUCCESFULL", Toast.LENGTH_SHORT).show();
-        URI uri = null;
-        try {
-            uri = new URI(rawResult.getText());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        String path = uri.getPath();
-        String end = path.substring(path.lastIndexOf('/') + 1);
-
-        mScannerView.removeAllViews();  // here remove all the views, it will make an Activity having no View
-        mScannerView.stopCamera();  // then stop the camera
-//        setContentView(R.layout.activity_main);
-        loadTest(end);
-        finish();
-
-    }
-
-    private void showWritePermissionRationale(final Context context) {
-        android.support.v7.app.AlertDialog.Builder alertBuilder = new android.support.v7.app.AlertDialog.Builder(context);
-        alertBuilder.setCancelable(true);
-        alertBuilder.setTitle("Granting the permission needed");
-        alertBuilder.setMessage("Hi there, the app needs to access to camera to read QR code.");
-        alertBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                // this way you can get to the screen to set the permissions manually
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.fromParts("package", getPackageName(), null));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
-        android.support.v7.app.AlertDialog alert = alertBuilder.create();
-        alert.show();
-    }
-
 }
