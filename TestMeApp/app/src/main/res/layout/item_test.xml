@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="0dp"
-        tools:text="Test name" />
+        tools:text="@string/text_test_name" />
 
     <TextView
         android:id="@+id/url"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="0dp"
-        tools:text="Test url" />
+        tools:text="@string/text_test_url" />
 
     <TextView
         android:id="@+id/duration"
@@ -32,6 +32,6 @@
         android:layout_marginStart="0dp"
         android:layout_gravity="center_vertical"
         style="@style/TextAppearance.AppCompat.Small"
-        tools:text="Test Duration" />
+        tools:text="@string/text_test_duration" />
 
 </LinearLayout>

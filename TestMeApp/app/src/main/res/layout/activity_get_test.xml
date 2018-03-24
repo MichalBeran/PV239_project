@@ -17,18 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/urlButton"
-        android:text="Download by URL"/>
+        android:text="@string/button_download_url"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scanButton"
-        android:text="Download by QR"/>
+        android:text="@string/button_download_url"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/selectButton"
-        android:text="Download by list"/>
+        android:text="@string/button_download_list"/>
 
 </LinearLayout>

@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/downloadTest"
-        android:text="DOWNLOAD"/>
+        android:text="@string/button_download"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/showTests"
-        android:text="SHOW TESTS"/>
+        android:text="@string/button_show_test"/>
 
 </LinearLayout>
