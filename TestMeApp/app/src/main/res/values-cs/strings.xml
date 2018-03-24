@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_download">stahuj</string>
+    <string name="button_show_test">zobraz test</string>
+    <string name="button_download_url">stahuj z url</string>
+    <string name="button_download_qr">stahuj pomocí QR</string>
+    <string name="button_download_list">stahuj z listu</string>
+    <string name="text_test_name">jméno testu</string>
+    <string name="text_test_url">URL testu</string>
+    <string name="text_test_duration">doba trvání</string>
+    <string name="button_remove_test">smaž test</string>
+    <string name="button_share_qr">sdílej QR</string>
+    <string name="text_tests">seznam testů</string>
+</resources>
