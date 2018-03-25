@@ -47,8 +47,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         setTitle("Menu");
-        actualLanguage = TestMeApp.getLang();
+        actualLanguage = TestMeApp.getLang(this);
+        TestMeApp.changeLang(this, TestMeApp.getLang(TestMeApp.appContext));
+        TestMeApp.changeLang(getBaseContext(), TestMeApp.getLang(TestMeApp.appContext));
+        TestMeApp.changeLang(getApplicationContext(), TestMeApp.getLang(TestMeApp.appContext));
     }
+
 
     @OnClick(R.id.downloadTest)
     protected void downloadTests(){
@@ -87,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!(actualLanguage.equals(TestMeApp.getLang()))){
+        if (!(actualLanguage.equals(TestMeApp.getLang(TestMeApp.appContext)))){
+            actualLanguage = TestMeApp.getLang(TestMeApp.appContext);
             recreate();
         }
     }

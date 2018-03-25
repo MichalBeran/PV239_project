@@ -36,37 +36,22 @@ public class TestMeApp
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String language = getLang();
+        String language = getLang(appContext);
         changeLang(appContext, language);
     }
 
     public static void changeLang(Context context, String lang) {
         Locale myLocale = new Locale(lang);
         Locale.setDefault(myLocale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
+        Resources resources = context.getResources();
+//        android.content.res.Configuration config = new android.content.res.Configuration();
+        Configuration config = resources.getConfiguration();
         config.locale = myLocale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            context.createConfigurationContext(config);
-        }else {
-            context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-        }
-//        Resources resources = context.getResources();
-//        Configuration configuration = resources.getConfiguration();
-//        android.content.res.Configuration configuration = new android.content.res.Configuration();
-//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-//            configuration.setLocale(myLocale);
-//        } else{
-//            configuration.locale=myLocale;
-//        }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-//            context.createConfigurationContext(configuration);
-//        } else {
-//            context.getResources().updateConfiguration(configuration,displayMetrics);
-//        }
+        context.createConfigurationContext(config);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
-    public static String getLang(){
-        return sharedPreferences.getString(LANGUAGE_PREFERENCES, "en");
+    public static String getLang(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(LANGUAGE_PREFERENCES, "en");
     }
 }

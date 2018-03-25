@@ -47,6 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             pref.setSummary(sharedPreferences.getString(key, ""));
             TestMeApp.changeLang(TestMeApp.appContext, pref.getSharedPreferences().getString(key, "en"));
             TestMeApp.changeLang(getActivity().getBaseContext(), pref.getSharedPreferences().getString(key, "en"));
+            TestMeApp.changeLang(getActivity().getApplicationContext(), pref.getSharedPreferences().getString(key, "en"));
             getActivity().recreate();
         }
     }
