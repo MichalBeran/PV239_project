@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import cz.muni.fi.pv239.testmeapp.R;
@@ -44,7 +45,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (key.equals(LANGUAGE_PREFERENCES)) {
             Preference pref = findPreference(key);
             pref.setSummary(sharedPreferences.getString(key, ""));
-            TestMeApp.changeLang(TestMeApp.context, pref.getSharedPreferences().getString(key, "en"));
+            TestMeApp.changeLang(TestMeApp.appContext, pref.getSharedPreferences().getString(key, "en"));
+            TestMeApp.changeLang(getActivity().getBaseContext(), pref.getSharedPreferences().getString(key, "en"));
             getActivity().recreate();
         }
     }
