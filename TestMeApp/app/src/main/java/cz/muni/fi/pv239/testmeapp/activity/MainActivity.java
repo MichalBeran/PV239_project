@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mUnbinder = ButterKnife.bind(this);
-        setTitle("Menu");
         actualLanguage = TestMeApp.getLang(this);
         TestMeApp.changeLang(this, TestMeApp.getLang(TestMeApp.appContext));
         TestMeApp.changeLang(getBaseContext(), TestMeApp.getLang(TestMeApp.appContext));
         TestMeApp.changeLang(getApplicationContext(), TestMeApp.getLang(TestMeApp.appContext));
+        setContentView(R.layout.activity_main);
+        mUnbinder = ButterKnife.bind(this);
+        setTitle("Menu");
     }
 
 

@@ -38,6 +38,7 @@ public class TestMeApp
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String language = getLang(appContext);
         changeLang(appContext, language);
+        changeLang(getBaseContext(), language);
     }
 
     public static void changeLang(Context context, String lang) {
