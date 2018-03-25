@@ -23,4 +23,16 @@
         android:id="@+id/shareQr"
         android:text="@string/button_share_qr"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/runDrill"
+        android:text="@string/button_run_drill"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/runTest"
+        android:text="@string/button_run_test"/>
+
 </LinearLayout>
