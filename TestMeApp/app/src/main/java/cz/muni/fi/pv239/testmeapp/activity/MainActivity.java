@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.api.testApi;
 import cz.muni.fi.pv239.testmeapp.fragment.SettingsFragment;
 import cz.muni.fi.pv239.testmeapp.model.Test;
@@ -39,12 +40,14 @@ import retrofit2.Callback;
 public class MainActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
+    private String actualLanguage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         setTitle("Menu");
+        actualLanguage = TestMeApp.getLang();
     }
 
     @OnClick(R.id.downloadTest)
@@ -79,5 +82,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!(actualLanguage.equals(TestMeApp.getLang()))){
+            recreate();
+        }
     }
 }
