@@ -11,5 +11,7 @@
     <string name="text_test_duration">test duration</string>
     <string name="button_remove_test">remove test</string>
     <string name="button_share_qr">share QR</string>
+    <string name="button_run_drill">Run drill</string>
+    <string name="button_run_test">Run test</string>
     <string name="text_tests">Tests</string>
 </resources>

@@ -10,5 +10,7 @@
     <string name="text_test_duration">doba trvání</string>
     <string name="button_remove_test">smaž test</string>
     <string name="button_share_qr">sdílej QR</string>
+    <string name="button_run_drill">spustit drill</string>
+    <string name="button_run_test">spustit test</string>
     <string name="text_tests">seznam testů</string>
 </resources>

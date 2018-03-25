@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scanButton"
-        android:text="@string/button_download_url"/>
+        android:text="@string/button_download_qr"/>
 
     <Button
         android:layout_width="match_parent"

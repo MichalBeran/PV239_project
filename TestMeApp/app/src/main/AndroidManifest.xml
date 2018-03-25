@@ -26,6 +26,7 @@
         <activity android:name=".activity.ShowTestActivity"></activity>
         <activity android:name=".activity.CreateQRCodeActivity"></activity>
         <activity android:name=".activity.ScanQRCodeActivity"></activity>
+        <activity android:name=".activity.SettingsActivity"></activity>
     </application>
 
 </manifest>
