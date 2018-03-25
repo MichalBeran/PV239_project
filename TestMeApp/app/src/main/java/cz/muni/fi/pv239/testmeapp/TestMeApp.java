@@ -17,7 +17,7 @@ public class TestMeApp
     public static Context context;
     private static TestMeApp sInstance;
     public static final String LANGUAGE_PREFERENCES = "pref_selected_language";
-
+    private static SharedPreferences sharedPreferences;
     public static TestMeApp getInstance() {
         return sInstance;
     }
@@ -31,8 +31,8 @@ public class TestMeApp
         Realm.init(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String language = sharedPref.getString(LANGUAGE_PREFERENCES, "en");
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String language = getLang();
         changeLang(context, language);
     }
 
@@ -44,4 +44,7 @@ public class TestMeApp
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
+    public static String getLang(){
+        return sharedPreferences.getString(LANGUAGE_PREFERENCES, "en");
+    }
 }
