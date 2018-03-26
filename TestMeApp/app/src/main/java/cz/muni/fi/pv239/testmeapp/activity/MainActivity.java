@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Menu");
     }
 
+    @OnClick(R.id.floatingDownload)
+    protected void floatingDownloadTests(){
+        downloadTests();
+    }
 
     @OnClick(R.id.downloadTest)
     protected void downloadTests(){

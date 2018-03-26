@@ -50,4 +50,6 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     compile 'me.dm7.barcodescanner:zxing:1.8.4'
 
+    //Material design
+    implementation 'com.android.support:design:26.1.0'
 }
