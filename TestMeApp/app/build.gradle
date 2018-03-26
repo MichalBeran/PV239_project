@@ -52,4 +52,7 @@ dependencies {
 
     //Material design
     implementation 'com.android.support:design:26.1.0'
+
+    //Material cards
+    compile 'com.android.support:cardview-v7:26.1.0'
 }
