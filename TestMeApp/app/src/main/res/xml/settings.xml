@@ -4,7 +4,7 @@
     <PreferenceCategory
         android:title="Language">
         <ListPreference
-            android:title="Language"
+            android:title="@string/language"
             android:defaultValue="en"
             android:entries="@array/listLanguages"
             android:entryValues="@array/listLanguagesValues"
