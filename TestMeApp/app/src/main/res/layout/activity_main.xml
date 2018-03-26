@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cz.muni.fi.pv239.testmeapp.activity.MainActivity"
-    android:orientation="vertical">
+    tools:context="cz.muni.fi.pv239.testmeapp.activity.MainActivity">
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/downloadTest"
-        android:text="@string/button_download"/>
+        android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/downloadTest"
+            android:text="@string/button_download"
+            android:theme="@style/PrimaryButton"/>
 
-    <Button
-        android:layout_width="match_parent"
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/showTests"
+            android:text="@string/button_show_test"
+            android:theme="@style/PrimaryButton"/>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingDownload"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/showTests"
-        android:text="@string/button_show_test"/>
-
-</LinearLayout>
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_add_black_24dp"/>
+</android.support.design.widget.CoordinatorLayout>
