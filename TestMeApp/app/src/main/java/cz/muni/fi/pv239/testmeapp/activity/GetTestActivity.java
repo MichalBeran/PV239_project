@@ -11,12 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,7 +88,15 @@ public class GetTestActivity extends AppCompatActivity{
             @Override
             public void onFailure(Call<Test> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(GetTestActivity.this, "DOWNLOAD FAILED", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.getTestLayout), R.string.test_download_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Respond to the click, such as by undoing the modification that caused
+                                // this message to be displayed
+                                loadTest(testname);
+                            }
+                        }).show();
             }
         });
     }
@@ -114,7 +124,7 @@ public class GetTestActivity extends AppCompatActivity{
                     realm.insertOrUpdate(test);
                 }
             });
-            Toast.makeText(GetTestActivity.this, "SAVED", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.getTestLayout), R.string.test_save_successful, Snackbar.LENGTH_LONG).show();
         } finally {
             if(realm != null) {
                 realm.close();
