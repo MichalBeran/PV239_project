@@ -73,6 +73,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     @Override
     protected void onResume() {
         super.onResume();
+        setTitle(R.string.scan_qr_activity_head);
         startCamera();
     }
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import javax.annotation.Nullable;
@@ -76,6 +77,11 @@ public class TestsAdapter extends RealmRecyclerViewAdapter<Test, TestsAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.showTestButton)
+        public void setShowTest(){
+            link();
         }
 
         @OnClick

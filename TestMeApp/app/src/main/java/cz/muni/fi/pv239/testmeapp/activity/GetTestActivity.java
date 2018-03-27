@@ -55,6 +55,12 @@ public class GetTestActivity extends AppCompatActivity{
         mRealm = Realm.getDefaultInstance();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.get_test_activity_head);
+    }
+
     @OnClick(R.id.urlButton)
     protected void load(){
         EditText text = findViewById(R.id.urlText);

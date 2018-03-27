@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.fragment.SettingsFragment;
 
 /**
@@ -21,6 +22,12 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(android.R.id.content, SettingsFragment.newInstance())
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.settings_activity_head);
     }
 
     @Override

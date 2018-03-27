@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TestMeApp</string>
     <string name="button_download">download</string>
+    <string name="button_list_tests">My tests</string>
     <string name="button_show_test">show test</string>
     <string name="button_download_url">download by url</string>
     <string name="button_download_qr">download by qr</string>
@@ -14,4 +15,12 @@
     <string name="button_run_test">Run test</string>
     <string name="language">Language</string>
     <string name="text_tests">Tests</string>
+    <!--activities headlines-->
+    <string name="main_activity_head">Menu</string>
+    <string name="create_qr_activity_head">Share test</string>
+    <string name="list_tests_activity_head">Test list</string>
+    <string name="get_test_activity_head">Download test</string>
+    <string name="scan_qr_activity_head">Scan QR code</string>
+    <string name="settings_activity_head">Settings</string>
+    <string name="show_test_activity_head">Test</string>
 </resources>
