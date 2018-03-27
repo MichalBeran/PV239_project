@@ -21,6 +21,8 @@
     <string name="test_download_failed">Stažení se nezdařilo</string>
     <string name="test_save_successful">Uloženo</string>
     <string name="retry">Opakovat</string>
+    <string name="share">Sdílet</string>
+    <string name="settings">Nastavení</string>
     <!--activities headlines-->
     <string name="main_activity_head">Hlavní menu</string>
     <string name="create_qr_activity_head">Sdílet test</string>
