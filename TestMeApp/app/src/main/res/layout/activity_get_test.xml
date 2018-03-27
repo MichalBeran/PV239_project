@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="cz.muni.fi.pv239.testmeapp.activity.GetTestActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/getTestLayout">
 
     <EditText
         android:layout_width="match_parent"

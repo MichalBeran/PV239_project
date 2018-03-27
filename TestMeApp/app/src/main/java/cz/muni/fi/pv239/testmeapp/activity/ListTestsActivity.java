@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -32,9 +33,6 @@ public class ListTestsActivity extends AppCompatActivity {
     @BindView(android.R.id.list)
     RecyclerView mList;
 
-    @BindView(R.id.count)
-    TextView mCount;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +47,6 @@ public class ListTestsActivity extends AppCompatActivity {
         super.onResume();
         setTitle(R.string.list_tests_activity_head);
         RealmResults<Test> tests = mRealm.where(Test.class).findAll();
-        mCount.setText( "Number of tests: (" + Integer.toString(tests.size()) + ')');
         mAdapter = new TestsAdapter(this, tests);
         mList.setAdapter(mAdapter);
         mList.setLayoutManager(new LinearLayoutManager(this));
@@ -67,5 +64,16 @@ public class ListTestsActivity extends AppCompatActivity {
     public static Intent newIntent(@NonNull Context context) {
         Intent intent = new Intent(context,ListTestsActivity.class);
         return intent;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

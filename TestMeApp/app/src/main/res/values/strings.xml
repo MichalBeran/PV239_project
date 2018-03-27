@@ -8,13 +8,18 @@
     <string name="button_download_list">download by list</string>
     <string name="text_test_name">test name</string>
     <string name="text_test_url">test url</string>
+    <string name="text_test_count">Test questions</string>
     <string name="text_test_duration">test duration</string>
     <string name="button_remove_test">remove test</string>
     <string name="button_share_qr">share QR</string>
     <string name="button_run_drill">Run drill</string>
     <string name="button_run_test">Run test</string>
+    <string name="environment">Environment</string>
     <string name="language">Language</string>
     <string name="text_tests">Tests</string>
+    <string name="test_download_failed">Download failed</string>
+    <string name="test_save_successful">Saved</string>
+    <string name="retry">Retry</string>
     <!--activities headlines-->
     <string name="main_activity_head">Menu</string>
     <string name="create_qr_activity_head">Share test</string>
