@@ -29,5 +29,4 @@
         <!--<item name="cardBackgroundColor">@color/colorPrimary</item>-->
         <item name="android:layout_margin">3dp</item>
     </style>
-
 </resources>
