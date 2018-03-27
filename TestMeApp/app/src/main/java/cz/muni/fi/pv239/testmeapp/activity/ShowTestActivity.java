@@ -49,6 +49,12 @@ public class ShowTestActivity extends AppCompatActivity {
             "First Question" + mTest.questions.first().text);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.show_test_activity_head);
+    }
+
     @OnClick(R.id.removeTest)
     public void removeTest(){
         mRealm.beginTransaction();

@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         TestMeApp.changeLang(getApplicationContext(), TestMeApp.getLang(TestMeApp.appContext));
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
-        setTitle("Menu");
     }
 
     @OnClick(R.id.floatingDownload)
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setTitle(R.string.main_activity_head);
         if (!(actualLanguage.equals(TestMeApp.getLang(TestMeApp.appContext)))){
             actualLanguage = TestMeApp.getLang(TestMeApp.appContext);
             recreate();

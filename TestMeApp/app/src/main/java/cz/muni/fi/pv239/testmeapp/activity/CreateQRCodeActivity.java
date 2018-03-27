@@ -58,6 +58,12 @@ public class CreateQRCodeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.create_qr_activity_head);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();

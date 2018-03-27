@@ -42,15 +42,18 @@ public class ListTestsActivity extends AppCompatActivity {
         mTestApi = new testApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
-        RealmResults<Test> tests = mRealm.where(Test.class).findAll();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.list_tests_activity_head);
+        RealmResults<Test> tests = mRealm.where(Test.class).findAll();
+        mCount.setText( "Number of tests: (" + Integer.toString(tests.size()) + ')');
         mAdapter = new TestsAdapter(this, tests);
         mList.setAdapter(mAdapter);
         mList.setLayoutManager(new LinearLayoutManager(this));
         mList.setHasFixedSize(true);
-
-        mCount.setText( "Number of tests: (" + Integer.toString(tests.size()) + ')');
-
     }
 
     @Override
