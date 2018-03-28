@@ -2,6 +2,7 @@ package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +11,16 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.api.testApi;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 
@@ -24,7 +29,7 @@ import io.realm.Realm;
  */
 
 public class ShowTestActivity extends AppCompatActivity {
-    private testApi mTestApi;
+    private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
@@ -42,13 +47,22 @@ public class ShowTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
-        mTestApi = new testApi();
+        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
         mTest = mRealm.where(Test.class).equalTo("url", url).findFirst();
         testUrl.setText("URL: " + mTest.url + "\n" +
             "First Question" + mTest.questions.first().text);
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = getTestResults();
+        series.setColor(Color.parseColor("#FFBB33"));
+        series.setThickness(10);
+        series.setDrawBackground(true);
+        series.setBackgroundColor(Color.argb(100, 255, 187, 51));
+        graph.addSeries(series);
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
     }
 
     @Override
@@ -110,5 +124,18 @@ public class ShowTestActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.share_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private LineGraphSeries<DataPoint> getTestResults(){
+        return new LineGraphSeries<>(new DataPoint[] {
+                //foreach result generate DataPoint x:iterator y:testResult
+
+                //example data
+                new DataPoint(0, 50),
+                new DataPoint(1, 56),
+                new DataPoint(2, 30),
+                new DataPoint(3, 80),
+                new DataPoint(4, 59)
+        });
     }
 }

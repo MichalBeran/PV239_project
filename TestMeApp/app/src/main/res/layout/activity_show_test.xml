@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ShowTestActivity">
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/graph" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteTest"
+        android:text="@string/button_remove_test"
+        android:theme="@style/DeleteButton"
+        android:drawableLeft="@drawable/ic_delete_white_24dp"/>
 
     <TextView
         android:layout_width="match_parent"
