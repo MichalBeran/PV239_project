@@ -1,37 +1,19 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.zxing.Result;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.api.testApi;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
-import io.realm.RealmResults;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import io.realm.Realm;
@@ -42,7 +24,7 @@ import io.realm.Realm;
 
 public class GetTestActivity extends AppCompatActivity{
 
-    private testApi mTestApi;
+    private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
 
@@ -50,7 +32,7 @@ public class GetTestActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_test);
-        mTestApi = new testApi();
+        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
     }

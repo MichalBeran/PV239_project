@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -35,7 +34,7 @@ public class RunDrillTestActivity extends AppCompatActivity {
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction()
                         .replace(android.R.id.content,
-                                QuestionFragment.newInstance(),
+                                QuestionFragment.newInstance(0),
                                 QuestionFragment.class.getSimpleName())
                         .commit();
             }

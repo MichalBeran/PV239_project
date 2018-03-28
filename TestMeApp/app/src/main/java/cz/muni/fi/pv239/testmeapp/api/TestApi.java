@@ -10,12 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Michal on 21.03.2018.
  */
 
-public class testApi {
+public class TestApi {
     private final static String GITHUB_ENDPOINT = "https://raw.githubusercontent.com/MichalBeran/PV239_project/master/Tests/";
-    //private final static String GITHUB_ENDPOINT = "https://api.github.com/repos/MichalBeran/PV239_project/contents/Tests/";
-    private final testService mService;
+    private final TestService mService;
 
-    public testApi() {
+    public TestApi() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         if (BuildConfig.DEBUG) {
@@ -32,10 +31,10 @@ public class testApi {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        mService = retrofit.create(testService.class);
+        mService = retrofit.create(TestService.class);
     }
 
-    public testService getService() {
+    public TestService getService() {
         return mService;
     }
     public String getUrlBase(){

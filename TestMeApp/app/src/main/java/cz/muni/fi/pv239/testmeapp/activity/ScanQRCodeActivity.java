@@ -20,8 +20,7 @@ import com.google.zxing.Result;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.api.testApi;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -33,7 +32,7 @@ import retrofit2.Callback;
  */
 
 public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-    private testApi mTestApi;
+    private TestApi mTestApi;
     private Realm mRealm;
     private ZXingScannerView mScannerView;
 
@@ -47,7 +46,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
         mScannerView = new ZXingScannerView(this);
         setContentView(mScannerView);
         mScannerView.setResultHandler(this);
-        mTestApi = new testApi();
+        mTestApi = new TestApi();
         mRealm = Realm.getDefaultInstance();
         startCamera();
     }

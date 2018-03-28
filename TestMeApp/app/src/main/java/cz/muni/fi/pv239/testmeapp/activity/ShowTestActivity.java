@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.api.testApi;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 
@@ -22,7 +22,7 @@ import io.realm.Realm;
  */
 
 public class ShowTestActivity extends AppCompatActivity {
-    private testApi mTestApi;
+    private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
@@ -43,7 +43,7 @@ public class ShowTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
-        mTestApi = new testApi();
+        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
@@ -70,6 +70,9 @@ public class ShowTestActivity extends AppCompatActivity {
     @OnClick(R.id.runDrill)
     public void runTestDrill(){
         Intent intent = RunDrillTestActivity.newIntent(this);
+        String[] urlSplit = mTest.url.split("/");
+        intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
+        intent.putExtra("testName", mTest.name);
         startActivity(intent);
     }
 

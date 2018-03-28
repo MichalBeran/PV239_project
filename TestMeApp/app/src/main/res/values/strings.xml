@@ -5,6 +5,7 @@
     <string name="button_download_url">download by url</string>
     <string name="button_download_qr">download by qr</string>
     <string name="button_download_list">download by list</string>
+    <string name="button_submit">submit</string>
     <string name="text_test_name">test name</string>
     <string name="text_test_url">test url</string>
     <string name="text_test_duration">test duration</string>
