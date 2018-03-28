@@ -20,6 +20,8 @@
     <string name="test_download_failed">Download failed</string>
     <string name="test_save_successful">Saved</string>
     <string name="retry">Retry</string>
+    <string name="share">Share</string>
+    <string name="settings">Settings</string>
     <!--activities headlines-->
     <string name="main_activity_head">Menu</string>
     <string name="create_qr_activity_head">Share test</string>
