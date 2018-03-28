@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.api.TestApi;
+import cz.muni.fi.pv239.testmeapp.api.testApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 
@@ -29,7 +29,7 @@ import io.realm.Realm;
  */
 
 public class ShowTestActivity extends AppCompatActivity {
-    private TestApi mTestApi;
+    private testApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
@@ -47,7 +47,7 @@ public class ShowTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
-        mTestApi = new TestApi();
+        mTestApi = new testApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
