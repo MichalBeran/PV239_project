@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.api.testApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 
@@ -29,7 +28,6 @@ import io.realm.Realm;
  */
 
 public class ShowTestActivity extends AppCompatActivity {
-    private testApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
@@ -40,21 +38,20 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.removeTest)
     Button removeButton;
 
-    @BindView(R.id.shareQr)
-    Button shareQrButon;
+    @BindView(R.id.testName)
+    TextView testName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
-        mTestApi = new testApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
         mTest = mRealm.where(Test.class).equalTo("url", url).findFirst();
         testUrl.setText("URL: " + mTest.url + "\n" +
             "First Question" + mTest.questions.first().text);
-
+        testName.setText(mTest.name);
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = getTestResults();
         series.setColor(Color.parseColor("#FFBB33"));
@@ -79,7 +76,6 @@ public class ShowTestActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnClick(R.id.shareQr)
     public void shareQrCode(){
         Intent intent = CreateQRCodeActivity.newIntent(this);
         intent.putExtra("qr", mTest.url);
