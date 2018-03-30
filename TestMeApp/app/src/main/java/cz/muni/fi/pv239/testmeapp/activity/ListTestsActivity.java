@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
-import cz.muni.fi.pv239.testmeapp.api.testApi;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -25,7 +25,7 @@ import io.realm.RealmResults;
  */
 
 public class ListTestsActivity extends AppCompatActivity {
-    private testApi mTestApi;
+    private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private TestsAdapter mAdapter;
@@ -37,7 +37,7 @@ public class ListTestsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tests);
-        mTestApi = new testApi();
+        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
     }
@@ -51,6 +51,12 @@ public class ListTestsActivity extends AppCompatActivity {
         mList.setAdapter(mAdapter);
         mList.setLayoutManager(new LinearLayoutManager(this));
         mList.setHasFixedSize(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = MainActivity.newIntent(this);
+        startActivity(intent);
     }
 
     @Override

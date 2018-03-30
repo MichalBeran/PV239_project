@@ -41,6 +41,9 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.testName)
     TextView testName;
 
+    @BindView(R.id.runDrill)
+    Button runDrillButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +82,15 @@ public class ShowTestActivity extends AppCompatActivity {
     public void shareQrCode(){
         Intent intent = CreateQRCodeActivity.newIntent(this);
         intent.putExtra("qr", mTest.url);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.runDrill)
+    public void runTestDrill(){
+        Intent intent = RunDrillTestActivity.newIntent(this);
+        String[] urlSplit = mTest.url.split("/");
+        intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
+        intent.putExtra("testName", mTest.name);
         startActivity(intent);
     }
 
