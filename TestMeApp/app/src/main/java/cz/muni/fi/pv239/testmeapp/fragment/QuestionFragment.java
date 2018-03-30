@@ -106,10 +106,7 @@ public class QuestionFragment extends Fragment {
     protected void submitAnswer() {
         if (mQuestionNumber + 1 >= mQuestion.answers.size()) {
             Toast.makeText(getContext(), "Test finnished!", Toast.LENGTH_SHORT).show();
-            Intent intent = ShowTestActivity.newIntent(getContext());
-            intent.putExtra("url",
-                    getTest(getActivity().getIntent().getStringExtra("testName")).url);
-            startActivity(intent);
+            getActivity().finish();
         } else {
             setQuestionNumber(mQuestionNumber + 1);
             mAdapter.notifyDataSetChanged();

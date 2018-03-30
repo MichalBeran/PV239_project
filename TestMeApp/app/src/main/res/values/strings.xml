@@ -23,6 +23,10 @@
     <string name="retry">Retry</string>
     <string name="share">Share</string>
     <string name="settings">Settings</string>
+    <!--add menu-->
+    <string name="url">URL</string>
+    <string name="qr_code">QR code</string>
+    <string name="list">List</string>
     <!--activities headlines-->
     <string name="main_activity_head">Menu</string>
     <string name="create_qr_activity_head">Share test</string>
