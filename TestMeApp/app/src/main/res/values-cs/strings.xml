@@ -24,6 +24,10 @@
     <string name="retry">Opakovat</string>
     <string name="share">Sdílet</string>
     <string name="settings">Nastavení</string>
+    <!--add menu-->
+    <string name="url">Adresa</string>
+    <string name="qr_code">QR kód</string>
+    <string name="list">Seznam</string>
     <!--activities headlines-->
     <string name="main_activity_head">Hlavní menu</string>
     <string name="create_qr_activity_head">Sdílet test</string>
