@@ -21,7 +21,7 @@
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/answer_submit_button"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="5dp"

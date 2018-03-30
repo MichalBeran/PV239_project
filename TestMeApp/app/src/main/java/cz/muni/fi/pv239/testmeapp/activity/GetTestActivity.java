@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -14,9 +16,9 @@ import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
-import io.realm.Realm;
 
 /**
  * Created by Michal on 21.03.2018.
@@ -35,6 +37,12 @@ public class GetTestActivity extends AppCompatActivity{
         mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.get_test_activity_head);
     }
 
     @OnClick(R.id.urlButton)
@@ -60,7 +68,15 @@ public class GetTestActivity extends AppCompatActivity{
             @Override
             public void onFailure(Call<Test> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(GetTestActivity.this, "DOWNLOAD FAILED", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.getTestLayout), R.string.test_download_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Respond to the click, such as by undoing the modification that caused
+                                // this message to be displayed
+                                loadTest(testname);
+                            }
+                        }).show();
             }
         });
     }
@@ -88,7 +104,7 @@ public class GetTestActivity extends AppCompatActivity{
                     realm.insertOrUpdate(test);
                 }
             });
-            Toast.makeText(GetTestActivity.this, "SAVED", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.getTestLayout), R.string.test_save_successful, Snackbar.LENGTH_LONG).show();
         } finally {
             if(realm != null) {
                 realm.close();
@@ -100,5 +116,16 @@ public class GetTestActivity extends AppCompatActivity{
     public void scanQrCode(){
         Intent intent = ScanQRCodeActivity.newIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

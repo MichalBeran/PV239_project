@@ -1,6 +1,8 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +18,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
     private String actualLanguage;
+
+    @NonNull
+    public static Intent newIntent(@NonNull Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         TestMeApp.changeLang(getApplicationContext(), TestMeApp.getLang(TestMeApp.appContext));
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
-        setTitle("Menu");
     }
 
     @OnClick(R.id.floatingDownload)
@@ -70,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setTitle(R.string.main_activity_head);
         if (!(actualLanguage.equals(TestMeApp.getLang(TestMeApp.appContext)))){
             actualLanguage = TestMeApp.getLang(TestMeApp.appContext);
             recreate();

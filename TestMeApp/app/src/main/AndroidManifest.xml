@@ -21,13 +21,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GetTestActivity"></activity>
-        <activity android:name=".activity.ListTestsActivity"></activity>
-        <activity android:name=".activity.ShowTestActivity"></activity>
-        <activity android:name=".activity.CreateQRCodeActivity"></activity>
-        <activity android:name=".activity.ScanQRCodeActivity"></activity>
-        <activity android:name=".activity.SettingsActivity"></activity>
-        <activity android:name=".activity.RunDrillTestActivity"></activity>
+        <activity android:name=".activity.GetTestActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
+        <activity android:name=".activity.ListTestsActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
+        <activity android:name=".activity.ShowTestActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
+        <activity android:name=".activity.CreateQRCodeActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
+        <activity android:name=".activity.ScanQRCodeActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
+        <activity android:name=".activity.SettingsActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
+        <activity android:name=".activity.RunDrillTestActivity"
+            android:theme="@style/AppTheme.Preferences"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -52,6 +54,18 @@ public class ShowTestActivity extends AppCompatActivity {
             "First Question" + mTest.questions.first().text);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(R.string.show_test_activity_head);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = ListTestsActivity.newIntent(this);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.removeTest)
     public void removeTest(){
         mRealm.beginTransaction();
@@ -87,5 +101,32 @@ public class ShowTestActivity extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         mRealm.close();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mTest.url);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
+                return true;
+            case R.id.share_qr:
+                shareQrCode();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.share_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

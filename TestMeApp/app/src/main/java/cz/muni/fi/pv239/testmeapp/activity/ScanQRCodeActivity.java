@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
@@ -20,6 +21,7 @@ import com.google.zxing.Result;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
@@ -72,6 +74,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     @Override
     protected void onResume() {
         super.onResume();
+        setTitle(R.string.scan_qr_activity_head);
         startCamera();
     }
 
@@ -175,6 +178,17 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                             PERMISSION_REQUEST_CODE);
                 }
             }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

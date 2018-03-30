@@ -1,5 +1,6 @@
 package cz.muni.fi.pv239.testmeapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,8 +16,11 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.activity.CreateQRCodeActivity;
+import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Question;
@@ -34,7 +38,7 @@ public class QuestionFragment extends Fragment {
 
     private int mQuestionNumber;
     private TestApi mTestApi;
-    private Test mTest;
+    private Question mQuestion;
     private Realm mRealm;
     private Unbinder mUnbinder;
     private AnswersAdapter mAdapter;
@@ -45,7 +49,7 @@ public class QuestionFragment extends Fragment {
     @BindView(R.id.question_text)
     TextView mQuestionText;
 
-    @BindView(R.id.submit_button)
+    @BindView(R.id.answer_submit_button)
     Button mSubmitButton;
 
     @NonNull
@@ -98,14 +102,27 @@ public class QuestionFragment extends Fragment {
         mRealm.close();
     }
 
+    @OnClick(R.id.answer_submit_button)
+    protected void submitAnswer() {
+        if (mQuestionNumber + 1 >= mQuestion.answers.size()) {
+            Toast.makeText(getContext(), "Test finnished!", Toast.LENGTH_SHORT).show();
+            Intent intent = ShowTestActivity.newIntent(getContext());
+            intent.putExtra("url",
+                    getTest(getActivity().getIntent().getStringExtra("testName")).url);
+            startActivity(intent);
+        } else {
+            setQuestionNumber(mQuestionNumber + 1);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void loadTestOnline(@NonNull final String testName) {
         Call<Test> testCall = mTestApi.getService().getTest(testName);
 
         testCall.enqueue(new Callback<Test>() {
             @Override
             public void onResponse(Call<Test> call, Response<Test> response) {
-                mTest = response.body();
-                updateViewVariables();
+                updateViewVariables(response.body());
             }
 
             @Override
@@ -117,15 +134,19 @@ public class QuestionFragment extends Fragment {
     }
 
     private void loadDownloadedTest(@NonNull final String testName) {
-        mTest = mRealm.where(Test.class).equalTo("name", testName).findFirst();
-        updateViewVariables();
+        Test test = getTest(testName);
+        updateViewVariables(test);
     }
 
-    private void updateViewVariables() {
-        Question question = mTest.questions.get(getQuestionNumber());
-        mQuestionText.setText(question.text);
+    private Test getTest(String testName) {
+        return mRealm.where(Test.class).equalTo("name", testName).findFirst();
+    }
 
-        populateRecyclerView(question);
+    private void updateViewVariables(Test test) {
+        mQuestion = test.questions.get(getQuestionNumber());
+        mQuestionText.setText(mQuestion.text);
+
+        populateRecyclerView(mQuestion);
     }
 
     private void populateRecyclerView(Question question){
