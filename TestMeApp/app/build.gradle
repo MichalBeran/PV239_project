@@ -56,4 +56,8 @@ dependencies {
 
     //Material cards
     implementation 'com.android.support:cardview-v7:26.1.0'
+
+    //Graph
+    implementation 'com.jjoe64:graphview:4.2.1'
+
 }
