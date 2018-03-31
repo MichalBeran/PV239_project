@@ -33,7 +33,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         app:tint="@android:color/white"
-        app:srcCompat="@drawable/ic_add_black_24dp"/>
+        app:srcCompat="@drawable/ic_add_white_24dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -47,8 +47,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/PrimaryButton"
             android:text="@string/url"
-            android:drawableLeft="@drawable/ic_http_white_24dp"
-            android:drawablePadding="5dp"
             android:visibility="invisible"
             />
         <Button
@@ -57,8 +55,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/PrimaryButton"
             android:text="@string/qr_code"
-            android:drawableLeft="@drawable/ic_qrcode_white_24dp"
-            android:drawablePadding="5dp"
             android:visibility="invisible"
             />
         <Button
@@ -67,8 +63,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/PrimaryButton"
             android:text="@string/list"
-            android:drawableLeft="@drawable/ic_format_list_numbered_white_24dp"
-            android:drawablePadding="5dp"
             android:layout_marginBottom="80dp"
             android:visibility="invisible"
             />

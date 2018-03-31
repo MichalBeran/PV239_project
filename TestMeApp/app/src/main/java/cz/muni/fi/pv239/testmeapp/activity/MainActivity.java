@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.content.res.AppCompatResources;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
@@ -57,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
         rotate_forward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_forward_45);
         menu_open = AnimationUtils.loadAnimation(this, R.anim.menu_open);
         menu_close = AnimationUtils.loadAnimation(this, R.anim.menu_close);
+//        API 19 drawableLeft substitution
+        addByURLButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_http_white_24dp), null, null, null);
+        addByURLButton.setCompoundDrawablePadding(10);
+        addByQRButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_qrcode_white_24dp), null, null, null);
+        addByQRButton.setCompoundDrawablePadding(10);
+        addByListButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_format_list_numbered_white_24dp), null, null, null);
+        addByListButton.setCompoundDrawablePadding(10);
     }
 
     @OnClick(R.id.addByURL)

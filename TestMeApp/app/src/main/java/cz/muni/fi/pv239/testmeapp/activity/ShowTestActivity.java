@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
@@ -72,6 +73,13 @@ public class ShowTestActivity extends AppCompatActivity {
         rotate_forward_90 = AnimationUtils.loadAnimation(this, R.anim.rotate_forward_90);
         menu_open = AnimationUtils.loadAnimation(this, R.anim.menu_open);
         menu_close = AnimationUtils.loadAnimation(this, R.anim.menu_close);
+        //        API 19 drawableLeft substitution
+        runDrillButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_autorenew_white_24dp), null, null, null);
+        runDrillButton.setCompoundDrawablePadding(10);
+        runTestButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_play_circle_filled_white_24dp), null, null, null);
+        runTestButton.setCompoundDrawablePadding(10);
+        removeButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_delete_white_24dp), null, null, null);
+        removeButton.setCompoundDrawablePadding(10);
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = getTestResults();

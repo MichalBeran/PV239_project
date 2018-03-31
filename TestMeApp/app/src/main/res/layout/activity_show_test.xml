@@ -35,8 +35,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/removeTest"
                 android:text="@string/button_remove_test"
-                android:theme="@style/DeleteButton"
-                android:drawableLeft="@drawable/ic_delete_white_24dp"/>
+                android:theme="@style/DeleteButton" />
 
         </LinearLayout>
 
@@ -68,7 +67,7 @@
         android:layout_margin="16dp"
         app:tint="@android:color/white"
         app:borderWidth="0dp"
-        android:backgroundTint="@color/colorGreenSuccess"
+        app:backgroundTint="@color/colorGreenSuccess"
         app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
 
     <LinearLayout
@@ -83,8 +82,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/PrimaryButton"
             android:text="@string/button_run_test"
-            android:drawableLeft="@drawable/ic_play_circle_filled_white_24dp"
-            android:drawablePadding="5dp"
             android:visibility="invisible"
             android:layout_marginTop="110dp"
             />
@@ -94,8 +91,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/PrimaryButton"
             android:text="@string/button_run_drill"
-            android:drawableLeft="@drawable/ic_autorenew_white_24dp"
-            android:drawablePadding="5dp"
             android:visibility="invisible"
             />
     </LinearLayout>
