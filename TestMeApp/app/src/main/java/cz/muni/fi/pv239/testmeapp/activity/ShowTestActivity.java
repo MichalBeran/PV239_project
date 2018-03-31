@@ -38,8 +38,8 @@ public class ShowTestActivity extends AppCompatActivity {
     private Animation rotate_backward_90, rotate_forward_90, menu_open, menu_close;
     private boolean isMenuOpen = false;
 
-    @BindView(R.id.testURL)
-    TextView testUrl;
+    @BindView(R.id.testParameters)
+    TextView testParameters;
 
     @BindView(R.id.removeTest)
     Button removeButton;
@@ -65,8 +65,9 @@ public class ShowTestActivity extends AppCompatActivity {
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
         mTest = mRealm.where(Test.class).equalTo("url", url).findFirst();
-        testUrl.setText("URL: " + mTest.url + "\n" +
-            "First Question" + mTest.questions.first().text);
+        testParameters.setText(getString(R.string.text_test_count) + ": " + mTest.testCount + "\n" +
+                                getString(R.string.text_test_duration) + ": " + mTest.testDuration + "\n" +
+                                getString(R.string.text_test_min_points) + ": " + mTest.testMinPoint);
         testName.setText(mTest.name);
 
         rotate_backward_90 = AnimationUtils.loadAnimation(this, R.anim.rotate_backward_90);
@@ -95,6 +96,14 @@ public class ShowTestActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setTitle(R.string.show_test_activity_head);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isMenuOpen){
+            animateMenu();
+        }
     }
 
     @OnClick(R.id.removeTest)

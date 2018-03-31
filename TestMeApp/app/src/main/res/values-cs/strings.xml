@@ -12,6 +12,7 @@
     <string name="text_test_url">URL testu</string>
     <string name="text_test_count">Počet otázek</string>
     <string name="text_test_duration">doba trvání</string>
+    <string name="text_test_min_points">Minimální počet potebných bodů</string>
     <string name="button_remove_test">smazat test</string>
     <string name="button_share_qr">sdílet QR</string>
     <string name="button_run_drill">spustit drill</string>
