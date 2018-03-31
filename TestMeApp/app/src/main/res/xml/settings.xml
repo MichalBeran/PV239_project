@@ -5,7 +5,6 @@
         android:title="@string/environment">
         <ListPreference
             android:title="@string/language"
-            android:defaultValue="en"
             android:entries="@array/listLanguages"
             android:entryValues="@array/listLanguagesValues"
             android:key="pref_selected_language"
