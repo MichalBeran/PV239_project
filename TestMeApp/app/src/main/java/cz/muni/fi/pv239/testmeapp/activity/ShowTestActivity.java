@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,6 +34,8 @@ public class ShowTestActivity extends AppCompatActivity {
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
+    private Animation rotate_backward_90, rotate_forward_90, menu_open, menu_close;
+    private boolean isMenuOpen = false;
 
     @BindView(R.id.testURL)
     TextView testUrl;
@@ -41,8 +46,15 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.testName)
     TextView testName;
 
-    @BindView(R.id.runDrill)
+    @BindView(R.id.floatingRunTest)
+    FloatingActionButton floatingRunTest;
+
+    @BindView(R.id.runDrillButon)
     Button runDrillButton;
+
+    @BindView(R.id.runTestButton)
+    Button runTestButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,12 @@ public class ShowTestActivity extends AppCompatActivity {
         testUrl.setText("URL: " + mTest.url + "\n" +
             "First Question" + mTest.questions.first().text);
         testName.setText(mTest.name);
+
+        rotate_backward_90 = AnimationUtils.loadAnimation(this, R.anim.rotate_backward_90);
+        rotate_forward_90 = AnimationUtils.loadAnimation(this, R.anim.rotate_forward_90);
+        menu_open = AnimationUtils.loadAnimation(this, R.anim.menu_open);
+        menu_close = AnimationUtils.loadAnimation(this, R.anim.menu_close);
+
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = getTestResults();
         series.setColor(Color.parseColor("#FFBB33"));
@@ -86,6 +104,11 @@ public class ShowTestActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.runDrill)
+    public void runDrill(){
+        runTestDrill();
+    }
+
+    @OnClick(R.id.runDrillButon)
     public void runTestDrill(){
         Intent intent = RunDrillTestActivity.newIntent(this);
         String[] urlSplit = mTest.url.split("/");
@@ -145,5 +168,24 @@ public class ShowTestActivity extends AppCompatActivity {
                 new DataPoint(3, 80),
                 new DataPoint(4, 59)
         });
+    }
+
+    @OnClick(R.id.floatingRunTest)
+    public void animateMenu(){
+        if(isMenuOpen){
+            floatingRunTest.startAnimation(rotate_backward_90);
+            runDrillButton.startAnimation(menu_close);
+            runDrillButton.setClickable(false);
+            runTestButton.startAnimation(menu_close);
+            runTestButton.setClickable(false);
+            isMenuOpen = false;
+        } else {
+            floatingRunTest.startAnimation(rotate_forward_90);
+            runDrillButton.startAnimation(menu_open);
+            runDrillButton.setClickable(true);
+            runTestButton.startAnimation(menu_open);
+            runTestButton.setClickable(true);
+            isMenuOpen = true;
+        }
     }
 }

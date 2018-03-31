@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment;
@@ -38,6 +39,17 @@ public class RunDrillTestActivity extends AppCompatActivity {
                                 QuestionFragment.class.getSimpleName())
                         .commit();
             }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

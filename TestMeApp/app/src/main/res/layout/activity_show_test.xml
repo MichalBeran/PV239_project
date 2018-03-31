@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingDownload"
+        android:id="@+id/floatingRunTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -67,7 +67,36 @@
         app:layout_anchor="@id/graph"
         android:layout_margin="16dp"
         app:tint="@android:color/white"
+        app:borderWidth="0dp"
         android:backgroundTint="@color/colorGreenSuccess"
         app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/floatingRunTest"
+        app:layout_anchorGravity="bottom"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/runTestButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/PrimaryButton"
+            android:text="@string/button_run_test"
+            android:drawableLeft="@drawable/ic_play_circle_filled_white_24dp"
+            android:drawablePadding="5dp"
+            android:visibility="invisible"
+            android:layout_marginTop="110dp"
+            />
+        <Button
+            android:id="@+id/runDrillButon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/PrimaryButton"
+            android:text="@string/button_run_drill"
+            android:drawableLeft="@drawable/ic_autorenew_white_24dp"
+            android:drawablePadding="5dp"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

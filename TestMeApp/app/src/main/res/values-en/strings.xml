@@ -36,4 +36,7 @@
     <string name="scan_qr_activity_head">Scan QR code</string>
     <string name="settings_activity_head">Settings</string>
     <string name="show_test_activity_head">Test</string>
+    <!--permission-->
+    <string name="permision_needed">Granting the permission needed</string>
+    <string name="permision_camera_rationale">The app needs to access to camera to read QR code.</string>
 </resources>

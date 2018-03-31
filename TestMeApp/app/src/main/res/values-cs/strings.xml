@@ -3,16 +3,16 @@
     <string name="app_name">TestMeApp</string>
     <string name="button_download">stáhnout</string>
     <string name="button_list_tests">moje testy</string>
-    <string name="button_show_test">zobraz test</string>
-    <string name="button_download_url">stahuj z url</string>
-    <string name="button_download_qr">stahuj pomocí QR</string>
-    <string name="button_download_list">stahuj z listu</string>
+    <string name="button_show_test">zobrazit test</string>
+    <string name="button_download_url">stáhnout z url</string>
+    <string name="button_download_qr">stáhnout pomocí QR</string>
+    <string name="button_download_list">stáhnout z listu</string>
     <string name="button_submit">uložit</string>
     <string name="text_test_name">jméno testu</string>
     <string name="text_test_url">URL testu</string>
     <string name="text_test_count">Počet otázek</string>
     <string name="text_test_duration">doba trvání</string>
-    <string name="button_remove_test">smaž test</string>
+    <string name="button_remove_test">smazat test</string>
     <string name="button_share_qr">sdílet QR</string>
     <string name="button_run_drill">spustit drill</string>
     <string name="button_run_test">spustit test</string>
@@ -36,4 +36,7 @@
     <string name="scan_qr_activity_head">Skenování QR kódu</string>
     <string name="settings_activity_head">Nastavení</string>
     <string name="show_test_activity_head">Test</string>
+    <!--permission-->
+    <string name="permision_needed">Udělení potřebného oprávnění</string>
+    <string name="permision_camera_rationale">Aplikace potřebuje přístup k fotoaparátu, aby mohla snímat QR kódy.</string>
 </resources>
