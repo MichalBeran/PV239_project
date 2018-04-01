@@ -11,6 +11,7 @@
     <string name="text_test_url">test url</string>
     <string name="text_test_count">Test questions</string>
     <string name="text_test_duration">test duration</string>
+    <string name="text_test_min_points">Minimum points needed</string>
     <string name="button_remove_test">remove test</string>
     <string name="button_share_qr">share QR</string>
     <string name="button_run_drill">Run drill</string>

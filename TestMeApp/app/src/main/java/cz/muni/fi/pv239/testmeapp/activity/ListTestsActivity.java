@@ -54,12 +54,6 @@ public class ListTestsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent = MainActivity.newIntent(this);
-        startActivity(intent);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();

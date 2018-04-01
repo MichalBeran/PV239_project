@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -39,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.addByList)
     protected Button addByListButton;
 
-    @NonNull
-    public static Intent newIntent(@NonNull Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        return intent;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         rotate_forward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_forward_45);
         menu_open = AnimationUtils.loadAnimation(this, R.anim.menu_open);
         menu_close = AnimationUtils.loadAnimation(this, R.anim.menu_close);
-//        API 19 drawableLeft substitution
+        //        API 19 drawableLeft substitution
         addByURLButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_http_white_24dp), null, null, null);
         addByURLButton.setCompoundDrawablePadding(10);
         addByQRButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_qrcode_white_24dp), null, null, null);
@@ -119,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
         if (!(actualLanguage.equals(TestMeApp.getLang(TestMeApp.appContext)))){
             actualLanguage = TestMeApp.getLang(TestMeApp.appContext);
             recreate();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isMenuOpen){
+            animateMenu();
         }
     }
 
