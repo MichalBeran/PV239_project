@@ -83,10 +83,11 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.runDrill)
     public void runTestDrill(){
-        Intent intent = RunDrillTestActivity.newIntent(this);
+        Intent intent = RunDrillTestActivity.newIntent(this, mTest.questions.size());
         String[] urlSplit = mTest.url.split("/");
         intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
         intent.putExtra("testName", mTest.name);
+        intent.putExtra("url", mTest.url);
         startActivity(intent);
     }
 

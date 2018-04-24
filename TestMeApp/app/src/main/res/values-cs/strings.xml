@@ -12,10 +12,15 @@
     <string name="text_test_url">URL testu</string>
     <string name="text_test_count">Počet otázek</string>
     <string name="text_test_duration">doba trvání</string>
+    <string name="text_yes">Ano</string>
+    <string name="text_no">Ne</string>
+    <string name="text_quit_drill_title">Ukončit drill</string>
+    <string name="text_quit_drill_message">Určitě chcete ukončit drill?</string>
     <string name="button_remove_test">smaž test</string>
     <string name="button_share_qr">sdílet QR</string>
     <string name="button_run_drill">spustit drill</string>
     <string name="button_run_test">spustit test</string>
+    <string name="button_next_question">další otázka</string>
     <string name="environment">Prostředí</string>
     <string name="language">Jazyk</string>
     <string name="text_tests">seznam testů</string>
@@ -24,6 +29,8 @@
     <string name="retry">Opakovat</string>
     <string name="share">Sdílet</string>
     <string name="settings">Nastavení</string>
+
+    <string name="drill_test_finished">Test ukončen</string>
     <!--activities headlines-->
     <string name="main_activity_head">Hlavní menu</string>
     <string name="create_qr_activity_head">Sdílet test</string>

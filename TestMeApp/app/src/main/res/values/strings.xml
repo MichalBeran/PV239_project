@@ -11,10 +11,15 @@
     <string name="text_test_url">test url</string>
     <string name="text_test_count">Test questions</string>
     <string name="text_test_duration">test duration</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
+    <string name="text_quit_drill_title">Quit drill</string>
+    <string name="text_quit_drill_message">Are you sure you want to quit drill?</string>
     <string name="button_remove_test">remove test</string>
     <string name="button_share_qr">share QR</string>
     <string name="button_run_drill">Run drill</string>
     <string name="button_run_test">Run test</string>
+    <string name="button_next_question">Next Question</string>
     <string name="environment">Environment</string>
     <string name="language">Language</string>
     <string name="text_tests">Tests</string>
@@ -22,7 +27,8 @@
     <string name="test_save_successful">Saved</string>
     <string name="retry">Retry</string>
     <string name="share">Share</string>
-    <string name="settings">Settings</string>
+
+    <string name="drill_test_finished">Test finished</string>
     <!--activities headlines-->
     <string name="main_activity_head">Menu</string>
     <string name="create_qr_activity_head">Share test</string>

@@ -1,9 +1,11 @@
 package cz.muni.fi.pv239.testmeapp.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +21,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.activity.CreateQRCodeActivity;
+import cz.muni.fi.pv239.testmeapp.activity.RunDrillTestActivity;
 import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
+import cz.muni.fi.pv239.testmeapp.model.Answer;
 import cz.muni.fi.pv239.testmeapp.model.Question;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
@@ -49,7 +52,7 @@ public class QuestionFragment extends Fragment {
     @BindView(R.id.question_text)
     TextView mQuestionText;
 
-    @BindView(R.id.answer_submit_button)
+    @BindView(R.id.test_drill_submit_button)
     Button mSubmitButton;
 
     @NonNull
@@ -88,6 +91,11 @@ public class QuestionFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadDownloadedTest(getActivity().getIntent().getStringExtra("testName"));
+        System.out.println(
+                String.format("Points gathered: %d.\nQuestions answered/remained: %d/%d",
+                        getActivity().getIntent().getExtras().getInt("points"),
+                        mQuestionNumber, RunDrillTestActivity.questions)
+        );
     }
 
     @Override
@@ -102,18 +110,55 @@ public class QuestionFragment extends Fragment {
         mRealm.close();
     }
 
-    @OnClick(R.id.answer_submit_button)
-    protected void submitAnswer() {
-        if (mQuestionNumber + 1 >= mQuestion.answers.size()) {
-            Toast.makeText(getContext(), "Test finnished!", Toast.LENGTH_SHORT).show();
+    @OnClick(R.id.test_drill_submit_button)
+    protected void submitButtonClicked() {
+        System.out.println(mSubmitButton.getText().toString());
+        System.out.println(getString(R.string.button_submit));
+        if (mSubmitButton.getText().toString().equals(getString(R.string.button_submit))) {
+            checkAnswer();
+        } else {
+            submitAnswer();
+        }
+    }
+
+    private void checkAnswer() {
+        mSubmitButton.setText(R.string.button_next_question);
+        if (mAdapter.isCorrectAnswer()) {
+            ((AnswersAdapter.AnswerViewHolder)
+                    mAnswersRecyclerView
+                            .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
+                    .changeLabelColor(Color.GREEN);
+            increasePoints();
+        } else {
+            if(mAdapter.getSelectedPosition() >= 0) {
+                ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
+                        .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
+                        .changeLabelColor(Color.RED);
+            }
+
+            ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
+                    .findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()))
+                    .changeLabelColor(Color.GREEN);
+        }
+    }
+
+    private void submitAnswer() {
+        if (mQuestionNumber + 1 >= RunDrillTestActivity.questions) {
+            Snackbar.make(getActivity().findViewById(R.id.runDrillTestFragmentContainer), R.string.drill_test_finished, Snackbar.LENGTH_LONG).show();
             Intent intent = ShowTestActivity.newIntent(getContext());
             intent.putExtra("url",
                     getTest(getActivity().getIntent().getStringExtra("testName")).url);
             startActivity(intent);
         } else {
-            setQuestionNumber(mQuestionNumber + 1);
-            mAdapter.notifyDataSetChanged();
+            nextQuestion();
         }
+    }
+
+    private void increasePoints() {
+        int points = getActivity().getIntent().getExtras().getInt("points");
+        points += mRealm.copyFromRealm(mAdapter.getCorrectAnswer()).points;
+        getActivity().getIntent().removeExtra("points");
+        getActivity().getIntent().putExtra("points", points);
     }
 
     private void loadTestOnline(@NonNull final String testName) {
@@ -154,6 +199,14 @@ public class QuestionFragment extends Fragment {
         mAnswersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new AnswersAdapter(getContext(), question.answers);
         mAnswersRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void nextQuestion() {
+        QuestionFragment newFragment = newInstance(mQuestionNumber + 1);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(android.R.id.content, newFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 }

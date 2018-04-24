@@ -1,6 +1,7 @@
 package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,7 +20,7 @@ import cz.muni.fi.pv239.testmeapp.model.Answer;
 
 public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerViewHolder> {
 
-    class AnswerViewHolder extends RecyclerView.ViewHolder {
+    public class AnswerViewHolder extends RecyclerView.ViewHolder {
 
         private Answer mAnswer;
 
@@ -40,15 +42,46 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         public void setAnswer(Answer answer) {
             mAnswer = answer;
         }
+
+        public void changeLabelColor(int color) {
+            this.mAnswerLabel.setTextColor(color);
+        }
     }
 
     private Context mContext;
     private List<Answer> mAnswerList;
     private int mSelectedPosition = -1;
+    private int mCorrectPosition;
 
     public AnswersAdapter(Context context, @Nullable List<Answer> answerList) {
         mContext = context;
         mAnswerList = answerList;
+        setCorrectPosition();
+    }
+
+    public int getSelectedPosition() {
+        return mSelectedPosition;
+    }
+
+    public int getCorrectPosition() {
+        return mCorrectPosition;
+    }
+
+    public Answer getSelectedAnswer() {
+        Iterator<Answer> iterator = mAnswerList.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Answer answer = iterator.next();
+            if (i == getSelectedPosition()) {
+                return answer;
+            }
+            i++;
+        }
+        return null;
+    }
+
+    public Answer getCorrectAnswer() {
+        return mAnswerList.get(mCorrectPosition);
     }
 
     @Override
@@ -95,6 +128,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         notifyDataSetChanged();
     }
 
+    private void setCorrectPosition() {
+        for (int i = 0; i < mAnswerList.size(); i++) {
+            if (mAnswerList.get(i).correct) {
+                mCorrectPosition = i;
+            }
+        }
+    }
 
+    public boolean isCorrectAnswer() {
+        return mCorrectPosition == mSelectedPosition;
+    }
 
 }

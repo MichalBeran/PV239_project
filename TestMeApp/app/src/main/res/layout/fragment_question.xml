@@ -21,10 +21,11 @@
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/answer_submit_button"
+        android:id="@+id/test_drill_submit_button"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="5dp"
+        android:visibility="visible"
         android:text="@string/button_submit" />
 
 </LinearLayout>
