@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Random;
+
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment;
 
@@ -35,10 +37,11 @@ public class RunDrillTestActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             if (fragmentManager != null) {
+                Random random = new Random();
                 getIntent().putExtra("points", 0);
                 fragmentManager.beginTransaction()
                         .replace(android.R.id.content,
-                                QuestionFragment.newInstance(0),
+                                QuestionFragment.newInstance(random.nextInt(RunDrillTestActivity.questions)),
                                 QuestionFragment.class.getSimpleName())
                         .commit();
             }

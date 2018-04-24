@@ -1,14 +1,18 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,12 +87,34 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.runDrill)
     public void runTestDrill(){
+        //TODO: add NumberPickerDialog
         Intent intent = RunDrillTestActivity.newIntent(this, mTest.questions.size());
         String[] urlSplit = mTest.url.split("/");
         intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
         intent.putExtra("testName", mTest.name);
         intent.putExtra("url", mTest.url);
+        intent.putExtra("questionsLeft", 0);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.runTest)
+    public void runTest() {
+        //TODO: implement testRunActivity
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Run test")
+                .setMessage("Not implemented.")
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @NonNull

@@ -112,8 +112,6 @@ public class QuestionFragment extends Fragment {
 
     @OnClick(R.id.test_drill_submit_button)
     protected void submitButtonClicked() {
-        System.out.println(mSubmitButton.getText().toString());
-        System.out.println(getString(R.string.button_submit));
         if (mSubmitButton.getText().toString().equals(getString(R.string.button_submit))) {
             checkAnswer();
         } else {
@@ -161,23 +159,6 @@ public class QuestionFragment extends Fragment {
         getActivity().getIntent().putExtra("points", points);
     }
 
-    private void loadTestOnline(@NonNull final String testName) {
-        Call<Test> testCall = mTestApi.getService().getTest(testName);
-
-        testCall.enqueue(new Callback<Test>() {
-            @Override
-            public void onResponse(Call<Test> call, Response<Test> response) {
-                updateViewVariables(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<Test> call, Throwable t) {
-                t.printStackTrace();
-                Toast.makeText(getContext(), "Could not load test", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void loadDownloadedTest(@NonNull final String testName) {
         Test test = getTest(testName);
         updateViewVariables(test);
@@ -202,6 +183,8 @@ public class QuestionFragment extends Fragment {
     }
 
     private void nextQuestion() {
+        //TODO: mQuestionNumber should be random
+        //TODO: should check already answered questions, so that we don't display one question too many times
         QuestionFragment newFragment = newInstance(mQuestionNumber + 1);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, newFragment)
