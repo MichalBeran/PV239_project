@@ -8,15 +8,18 @@
 
     <TextView
         android:id="@+id/answer_label"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".80"/>
 
     <RadioButton
         android:id="@+id/answer_radio_button"
         style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"/>
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight=".2"
+        android:layout_gravity="center_vertical"
+        android:layoutDirection="rtl"/>
 
 
 </LinearLayout>

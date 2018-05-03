@@ -1,5 +1,6 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,9 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +38,7 @@ public class ShowTestActivity extends AppCompatActivity {
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
+    private Dialog mDialog;
 
     @BindView(R.id.testURL)
     TextView testUrl;
@@ -87,14 +94,31 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.runDrill)
     public void runTestDrill(){
-        //TODO: add NumberPickerDialog
-        Intent intent = RunDrillTestActivity.newIntent(this, mTest.questions.size());
-        String[] urlSplit = mTest.url.split("/");
-        intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
-        intent.putExtra("testName", mTest.name);
-        intent.putExtra("url", mTest.url);
-        intent.putExtra("questionsLeft", 0);
-        startActivity(intent);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.item_number_picker, null);
+
+        final NumberPicker np = setUpNumberPicker(dialogView);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        mDialog = builder.setTitle("How many questions would you like to get?")
+                .setView(dialogView)
+                .setPositiveButton(R.string.text_run_drill, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                startDrillTest(getCorrectNumberOfQuestions(np.getValue()));
+                    }
+                })
+                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+
+        mDialog.show();
     }
 
     @OnClick(R.id.runTest)
@@ -106,7 +130,7 @@ public class ShowTestActivity extends AppCompatActivity {
         } else {
             builder = new AlertDialog.Builder(this);
         }
-        builder.setTitle("Run test")
+        mDialog = builder.setTitle("Run test")
                 .setMessage("Not implemented.")
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -114,7 +138,8 @@ public class ShowTestActivity extends AppCompatActivity {
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+                .create();
+        mDialog.show();
     }
 
     @NonNull
@@ -128,6 +153,9 @@ public class ShowTestActivity extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         mRealm.close();
+        if (mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
     }
 
     @Override
@@ -155,5 +183,46 @@ public class ShowTestActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.share_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void startDrillTest(int numberOfQuestions) {
+        Intent intent = RunDrillTestActivity.newIntent(this, numberOfQuestions);
+        String[] urlSplit = mTest.url.split("/");
+        intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
+        intent.putExtra("testName", mTest.name);
+        intent.putExtra("url", mTest.url);
+        intent.putExtra("questionsLeft", 0);
+        startActivity(intent);
+    }
+
+    private NumberPicker setUpNumberPicker(View dialogView) {
+        NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.number_picker);
+
+        numberPicker.setMaxValue(mTest.questions.size() / 20 + 1);
+        numberPicker.setMinValue(1);
+        numberPicker.setWrapSelectorWheel(false);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                Log.i("value", "new value: " + newVal);
+            }
+        });
+        numberPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                return String.valueOf(getCorrectNumberOfQuestions(value));
+            }
+        });
+        numberPicker.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+        return numberPicker;
+    }
+
+    private int getCorrectNumberOfQuestions(int numberPickerValue) {
+        System.out.println("Number picker value is: " + numberPickerValue);
+        if ((numberPickerValue * 20) > mTest.questions.size()) {
+            return mTest.questions.size();
+        }
+        return numberPickerValue * 20;
     }
 }
