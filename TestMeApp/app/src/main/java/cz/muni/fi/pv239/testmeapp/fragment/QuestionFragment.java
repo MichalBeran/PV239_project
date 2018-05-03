@@ -1,12 +1,16 @@
 package cz.muni.fi.pv239.testmeapp.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +24,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.activity.RunDrillTestActivity;
 import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.model.Question;
@@ -38,6 +41,7 @@ public class QuestionFragment extends Fragment {
     private Realm mRealm;
     private Unbinder mUnbinder;
     private AnswersAdapter mAdapter;
+    private Dialog mDialog;
 
     @BindView(R.id.answers_view)
     RecyclerView mAnswersRecyclerView;
@@ -103,17 +107,23 @@ public class QuestionFragment extends Fragment {
 
     @OnClick(R.id.test_drill_submit_button)
     protected void submitButtonClicked() {
+        if (mSubmitButton.getText().toString().equals(getString(R.string.text_finish))) {
+            finishTest();
+        }
         if (mSubmitButton.getText().toString().equals(getString(R.string.button_submit))) {
             checkAnswer();
         } else {
-            submitAnswer();
+            nextQuestion();
         }
     }
 
 
 
     private void checkAnswer() {
-        mSubmitButton.setText(R.string.button_next_question);
+        int numberOfQuestions = getActivity().getIntent().getExtras().getInt("numberOfQuestions");
+        mSubmitButton.setText(mQuestionNumber + 1 != numberOfQuestions
+                ? R.string.button_next_question
+                : R.string.text_finish);
         if (mAdapter.isCorrectAnswer()) {
             ((AnswersAdapter.AnswerViewHolder)
                     mAnswersRecyclerView
@@ -133,17 +143,26 @@ public class QuestionFragment extends Fragment {
         }
     }
 
-    private void submitAnswer() {
-        int numberOfQuestions = getActivity().getIntent().getExtras().getInt("numberOfQuestions");
-        if (mQuestionNumber > numberOfQuestions) {
-            Snackbar.make(getActivity().findViewById(R.id.runDrillTestFragmentContainer), R.string.drill_test_finished, Snackbar.LENGTH_LONG).show();
-            Intent intent = ShowTestActivity.newIntent(getContext());
-            intent.putExtra("url",
-                    getTest(getActivity().getIntent().getStringExtra("testName")).url);
-            startActivity(intent);
+    private void finishTest() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
         } else {
-            nextQuestion();
+            builder = new AlertDialog.Builder(getContext());
         }
+        mDialog = builder.setTitle("Finished!")
+                .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = ShowTestActivity.newIntent(getContext());
+                            intent.putExtra("url",
+                                    getTest(getActivity().getIntent().getStringExtra("testName")).url);
+                            startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    })
+                .create();
+        mDialog.show();
     }
 
     private void increasePoints() {
@@ -178,8 +197,6 @@ public class QuestionFragment extends Fragment {
     }
 
     private void nextQuestion() {
-        //TODO: mQuestionNumber should be random
-        //TODO: should check already answered sQuestions, so that we don't display one question too many times
         QuestionFragment newFragment = newInstance(mQuestionNumber + 1);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, newFragment)

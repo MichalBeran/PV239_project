@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
     public AnswersAdapter(Context context, @Nullable List<Answer> answerList) {
         mContext = context;
-        mAnswerList = answerList;
+        mAnswerList = getShuffledAnswersList(answerList);
         setCorrectPosition();
     }
 
@@ -138,6 +140,19 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
     public boolean isCorrectAnswer() {
         return mCorrectPosition == mSelectedPosition;
+    }
+
+    private List<Answer> getShuffledAnswersList(List<Answer> answerList) {
+        List<Integer> indexList = new ArrayList<>();
+        for (int i = 0; i < answerList.size(); i++) {
+            indexList.add(i);
+        }
+        Collections.shuffle(indexList);
+        List<Answer> answers = new ArrayList<>();
+        for (int i = 0; i < answerList.size(); i++) {
+            answers.add(answerList.get(indexList.get(i)));
+        }
+        return answers;
     }
 
 }
