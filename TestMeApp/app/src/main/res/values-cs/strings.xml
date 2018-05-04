@@ -3,27 +3,29 @@
     <string name="app_name">TestMeApp</string>
     <string name="button_download">Stáhnout</string>
     <string name="button_list_tests">Moje testy</string>
-    <string name="button_show_test">Zobraz test</string>
-    <string name="button_download_url">Stahuj z url</string>
-    <string name="button_download_qr">Stahuj pomocí QR</string>
-    <string name="button_download_list">Stahuj z listu</string>
-    <string name="button_submit">Uložit</string>
+    <string name="button_show_test">Zobrazit test</string>
+    <string name="button_download_url">Stáhnout z url</string>
+    <string name="button_download_qr">Stáhnout pomocí QR</string>
+    <string name="button_download_list">Stáhnout z listu</string>
+    <string name="button_submit">uložit</string>
     <string name="text_test_name">Jméno testu</string>
     <string name="text_test_url">URL testu</string>
     <string name="text_test_count">Počet otázek</string>
     <string name="text_test_duration">Doba trvání</string>
+    <string name="text_test_min_points">Minimální počet potebných bodů</string>
     <string name="text_yes">Ano</string>
     <string name="text_no">Ne</string>
-    <string name="text_finish">Vyhodnotit</string>
+    <string name="text_finish">Ukončit</string>
     <string name="text_cancel">Zrušit</string>
     <string name="text_run_drill">Spustit</string>
     <string name="text_quit_drill_title">Ukončit drill</string>
-    <string name="text_quit_drill_message">Určitě chcete ukončit drill?</string>
-    <string name="button_remove_test">Smaž test</string>
+    <string name="text_quit_drill_message">Skutečne chcete ukončit drill?</string>
+
+    <string name="button_next_question">Next Question</string>
+    <string name="button_remove_test">Smazat test</string>
     <string name="button_share_qr">Sdílet QR</string>
     <string name="button_run_drill">Spustit drill</string>
     <string name="button_run_test">Spustit test</string>
-    <string name="button_next_question">Další otázka</string>
     <string name="environment">Prostředí</string>
     <string name="language">Jazyk</string>
     <string name="text_tests">Seznam testů</string>
@@ -32,8 +34,10 @@
     <string name="retry">Opakovat</string>
     <string name="share">Sdílet</string>
     <string name="settings">Nastavení</string>
-
-    <string name="drill_test_finished">Test ukončen</string>
+    <!--add menu-->
+    <string name="url">Adresa</string>
+    <string name="qr_code">QR kód</string>
+    <string name="list">Seznam</string>
     <!--activities headlines-->
     <string name="main_activity_head">Hlavní menu</string>
     <string name="create_qr_activity_head">Sdílet test</string>
@@ -42,4 +46,7 @@
     <string name="scan_qr_activity_head">Skenování QR kódu</string>
     <string name="settings_activity_head">Nastavení</string>
     <string name="show_test_activity_head">Test</string>
+    <!--permission-->
+    <string name="permision_needed">Udělení potřebného oprávnění</string>
+    <string name="permision_camera_rationale">Aplikace potřebuje přístup k fotoaparátu, aby mohla snímat QR kódy.</string>
 </resources>

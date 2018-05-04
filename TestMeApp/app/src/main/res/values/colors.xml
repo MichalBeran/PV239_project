@@ -3,5 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorOrange">#FF8C00</color>
+    <color name="colorDelete">#FF4040</color>
+    <color name="colorGreenSuccess">#60cc60</color>
 </resources>

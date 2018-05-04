@@ -10,10 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
@@ -99,8 +101,8 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     private void showCameraPermissionRationale(final Context context) {
         android.support.v7.app.AlertDialog.Builder alertBuilder = new android.support.v7.app.AlertDialog.Builder(context);
         alertBuilder.setCancelable(true);
-        alertBuilder.setTitle("Granting the permission needed");
-        alertBuilder.setMessage("Hi there, the app needs to access to camera to read QR code.");
+        alertBuilder.setTitle(R.string.permision_needed);
+        alertBuilder.setMessage(R.string.permision_camera_rationale);
         alertBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
@@ -132,7 +134,15 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
             @Override
             public void onFailure(Call<Test> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(ScanQRCodeActivity.this, "DOWNLOAD FAILED", Toast.LENGTH_SHORT).show();
+                Snackbar.make(mScannerView, R.string.test_download_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Respond to the click, such as by undoing the modification that caused
+                                // this message to be displayed
+                                loadTest(testname);
+                            }
+                        }).show();
             }
         });
     }
@@ -147,7 +157,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                     realm.insertOrUpdate(test);
                 }
             });
-            Toast.makeText(ScanQRCodeActivity.this, "SAVED", Toast.LENGTH_SHORT).show();
+            Snackbar.make(mScannerView, R.string.test_save_successful, Snackbar.LENGTH_LONG).show();
         } finally {
             if(realm != null) {
                 realm.close();

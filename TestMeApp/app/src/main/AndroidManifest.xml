@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".activity.GetTestActivity"
             android:theme="@style/AppTheme.Preferences"
+            android:windowSoftInputMode="adjustResize"
             />
         <activity android:name=".activity.ListTestsActivity"
             android:theme="@style/AppTheme.Preferences"

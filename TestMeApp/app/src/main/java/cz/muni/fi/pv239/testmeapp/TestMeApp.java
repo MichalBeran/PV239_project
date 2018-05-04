@@ -19,7 +19,6 @@ public class TestMeApp
     public static Context appContext;
     private static TestMeApp sInstance;
     public static final String LANGUAGE_PREFERENCES = "pref_selected_language";
-    private static SharedPreferences sharedPreferences;
     public static TestMeApp getInstance() {
         return sInstance;
     }
@@ -33,7 +32,6 @@ public class TestMeApp
         Realm.init(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String language = getLang(appContext);
         changeLang(appContext, language);
         changeLang(getBaseContext(), language);
@@ -43,7 +41,6 @@ public class TestMeApp
         Locale myLocale = new Locale(lang);
         Locale.setDefault(myLocale);
         Resources resources = context.getResources();
-//        android.content.res.Configuration config = new android.content.res.Configuration();
         Configuration config = resources.getConfiguration();
         config.locale = myLocale;
         context.createConfigurationContext(config);
@@ -51,6 +48,15 @@ public class TestMeApp
     }
 
     public static String getLang(Context context){
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(LANGUAGE_PREFERENCES, "en");
+        String usedLang = PreferenceManager.getDefaultSharedPreferences(context).getString(LANGUAGE_PREFERENCES, null);
+        if (usedLang == null){
+            usedLang = context.getResources().getConfiguration().locale.getLanguage();
+            if (!(usedLang.equals("en") || usedLang.equals("cs"))){
+                usedLang = "en";
+            }
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            pref.edit().putString(LANGUAGE_PREFERENCES, usedLang).commit();
+        }
+        return usedLang;
     }
 }
