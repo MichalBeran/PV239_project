@@ -52,12 +52,17 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
     private Context mContext;
     private List<Answer> mAnswerList;
-    private int mSelectedPosition = -1;
+    private int mSelectedPosition;
     private int mCorrectPosition;
+    private boolean mIsAnswered;
 
-    public AnswersAdapter(Context context, @Nullable List<Answer> answerList) {
+    public AnswersAdapter(Context context, @Nullable List<Answer> answerList,
+                          List<Integer> indexList, int checkedPosition,
+                          boolean isAnswered) {
         mContext = context;
-        mAnswerList = getShuffledAnswersList(answerList);
+        mAnswerList = getShuffledAnswersList(answerList, indexList);
+        mSelectedPosition = checkedPosition;
+        mIsAnswered = isAnswered;
         setCorrectPosition();
     }
 
@@ -70,16 +75,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     }
 
     public Answer getSelectedAnswer() {
-        Iterator<Answer> iterator = mAnswerList.iterator();
-        int i = 0;
-        while (iterator.hasNext()) {
-            Answer answer = iterator.next();
-            if (i == getSelectedPosition()) {
-                return answer;
-            }
-            i++;
-        }
-        return null;
+        return mAnswerList.get(mSelectedPosition);
     }
 
     public Answer getCorrectAnswer() {
@@ -103,21 +99,25 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         //Set the position tag to both radio button and label
         holder.mAnswerRadioButton.setTag(position);
         holder.mAnswerLabel.setTag(position);
-        holder.mAnswerRadioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemCheckChanged(view);
-            }
-        });
+        if (!mIsAnswered) {
+            holder.mAnswerRadioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemCheckChanged(view);
+                }
+            });
 
-        holder.mAnswerLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemCheckChanged(view);
-            }
+            holder.mAnswerLabel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemCheckChanged(view);
+                }
 
 
-        });
+            });
+        } else {
+            markCorrectAndSelectedPositions(holder, position);
+        }
     }
 
     @Override
@@ -142,17 +142,21 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         return mCorrectPosition == mSelectedPosition;
     }
 
-    private List<Answer> getShuffledAnswersList(List<Answer> answerList) {
-        List<Integer> indexList = new ArrayList<>();
-        for (int i = 0; i < answerList.size(); i++) {
-            indexList.add(i);
-        }
-        Collections.shuffle(indexList);
+    private List<Answer> getShuffledAnswersList(List<Answer> answerList, List<Integer> indexList) {
         List<Answer> answers = new ArrayList<>();
         for (int i = 0; i < answerList.size(); i++) {
             answers.add(answerList.get(indexList.get(i)));
         }
         return answers;
+    }
+
+    private void markCorrectAndSelectedPositions(final AnswerViewHolder holder, final int position) {
+        if (position == mCorrectPosition) {
+            holder.mAnswerLabel.setTextColor(Color.GREEN);
+        }
+        if (mCorrectPosition != mSelectedPosition && position == mSelectedPosition) {
+            holder.mAnswerLabel.setTextColor(Color.RED);
+        }
     }
 
 }

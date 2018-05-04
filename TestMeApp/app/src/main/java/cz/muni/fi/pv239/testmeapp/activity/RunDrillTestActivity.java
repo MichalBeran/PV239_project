@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ import io.realm.Realm;
  * Created by Lenka on 26/03/2018.
  */
 
-public class RunDrillTestActivity extends AppCompatActivity {
+public class RunDrillTestActivity extends FragmentActivity {
 
     private List<Integer> mQuestionsIndexes;
     private Realm mRealm;
@@ -44,17 +45,21 @@ public class RunDrillTestActivity extends AppCompatActivity {
         mRealm = Realm.getDefaultInstance();
         shuffleTestQuestions();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            if (fragmentManager != null) {
-                getIntent().putIntegerArrayListExtra("questionIndexes", (ArrayList<Integer>) mQuestionsIndexes);
-                getIntent().putExtra("points", 0);
-                fragmentManager.beginTransaction()
-                        .replace(android.R.id.content,
-                                QuestionFragment.newInstance(0),
-                                QuestionFragment.class.getSimpleName())
-                        .commit();
-            }
+            getIntent().putIntegerArrayListExtra("questionIndexes", (ArrayList<Integer>) mQuestionsIndexes);
+            getIntent().putExtra("points", 0);
+            getIntent().putExtra("questionNumber", 0);
+            getIntent().putExtra("checkedAnswer", -1);
+            getIntent().putExtra("answered", false);
+            fragmentManager.beginTransaction()
+                    .replace(android.R.id.content,
+                            QuestionFragment.newInstance(),
+                            QuestionFragment.class.getSimpleName())
+                    .commit();
+        } else {
+            fragmentManager.findFragmentByTag(QuestionFragment.class.getSimpleName());
         }
     }
 

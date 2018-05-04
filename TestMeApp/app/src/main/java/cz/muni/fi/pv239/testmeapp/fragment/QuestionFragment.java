@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +39,9 @@ import io.realm.Realm;
 
 public class QuestionFragment extends Fragment {
 
-    private int mQuestionNumber;
+    private int mCurrentQuestionNumber;
+    private int mNumberOfQuestions;
+    private ArrayList<Integer> mIndexList;
     private Question mQuestion;
     private Realm mRealm;
     private Unbinder mUnbinder;
@@ -53,18 +58,13 @@ public class QuestionFragment extends Fragment {
     Button mSubmitButton;
 
     @NonNull
-    public int getQuestionNumber() {
-        return getActivity().getIntent().getExtras().getIntegerArrayList("questionIndexes").get(mQuestionNumber);
-    }
-
-    public void setQuestionNumber(@NonNull int questionNumber) {
-        mQuestionNumber = questionNumber;
+    public int getCurrentQuestionNumber() {
+        return getActivity().getIntent().getExtras().getIntegerArrayList("questionIndexes").get(mCurrentQuestionNumber);
     }
 
     @NonNull
-    public static QuestionFragment newInstance(int questionNumber) {
+    public static QuestionFragment newInstance() {
         QuestionFragment question = new QuestionFragment();
-        question.setQuestionNumber(questionNumber);
         return question;
     }
 
@@ -72,6 +72,10 @@ public class QuestionFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRealm = Realm.getDefaultInstance();
+        mCurrentQuestionNumber = getActivity().getIntent().getExtras().getInt("questionNumber");
+        mNumberOfQuestions = getActivity().getIntent().getExtras().getInt("numberOfQuestions");
+        System.out.println("Number of questions: " + mNumberOfQuestions);
+        System.out.println("Current question:    " + mCurrentQuestionNumber);
     }
 
     @Nullable
@@ -86,7 +90,9 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadDownloadedTest(getActivity().getIntent().getStringExtra("testName"));
+        Test test = getTest(getActivity().getIntent().getStringExtra("testName"));
+        updateViewVariables(test, savedInstanceState);
+        updateSubmitButtonName();
         System.out.println(
                 String.format("Points gathered: %d.",
                         getActivity().getIntent().getExtras().getInt("points"))
@@ -107,8 +113,11 @@ public class QuestionFragment extends Fragment {
 
     @OnClick(R.id.test_drill_submit_button)
     protected void submitButtonClicked() {
+        getActivity().getIntent().removeExtra("checkedAnswer");
+        getActivity().getIntent().putExtra("checkedAnswer", mAdapter.getSelectedPosition());
         if (mSubmitButton.getText().toString().equals(getString(R.string.text_finish))) {
             finishTest();
+            return;
         }
         if (mSubmitButton.getText().toString().equals(getString(R.string.button_submit))) {
             checkAnswer();
@@ -117,29 +126,77 @@ public class QuestionFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList("indexList", mIndexList);
+    }
 
-
-    private void checkAnswer() {
-        int numberOfQuestions = getActivity().getIntent().getExtras().getInt("numberOfQuestions");
-        mSubmitButton.setText(mQuestionNumber + 1 != numberOfQuestions
-                ? R.string.button_next_question
-                : R.string.text_finish);
-        if (mAdapter.isCorrectAnswer()) {
-            ((AnswersAdapter.AnswerViewHolder)
-                    mAnswersRecyclerView
-                            .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
-                    .changeLabelColor(Color.GREEN);
-            increasePoints();
-        } else {
-            if(mAdapter.getSelectedPosition() >= 0) {
-                ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
-                        .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
-                        .changeLabelColor(Color.RED);
-            }
-
+    private void markAnswers() {
+        if (!mAdapter.isCorrectAnswer() && mAdapter.getSelectedPosition() >= 0) {
             ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
-                    .findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()))
-                    .changeLabelColor(Color.GREEN);
+                    .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
+                    .changeLabelColor(Color.RED);
+        }
+
+        ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
+                .findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()))
+                .changeLabelColor(Color.GREEN);
+
+        System.out.println("Correct position:  " + mAdapter.getCorrectPosition());
+        System.out.println("Selected position: " + mAdapter.getSelectedPosition());
+        System.out.println("mAnswersRecyclerV: " +
+                mAnswersRecyclerView.findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()));
+
+    }
+
+    private Test getTest(String testName) {
+        return mRealm.where(Test.class).equalTo("name", testName).findFirst();
+    }
+
+    private void setShuffledListOfIndexes(Bundle bundle) {
+        if (bundle != null && bundle.getIntegerArrayList("indexList") != null) {
+            mIndexList = bundle.getIntegerArrayList("indexList");
+        } else {
+            mIndexList = new ArrayList<>();
+            for (int i = 0; i < mQuestion.answers.size(); i++) {
+                mIndexList.add(i);
+            }
+            Collections.shuffle(mIndexList);
+
+        }
+    }
+
+    private void updateViewVariables(Test test, Bundle bundle) {
+
+        mQuestion = test.questions.get(getCurrentQuestionNumber());
+        mQuestionText.setText(mQuestion.text);
+
+        setShuffledListOfIndexes(bundle);
+        populateRecyclerView(mQuestion);
+    }
+
+    private void populateRecyclerView(Question question){
+        mAnswersRecyclerView.setHasFixedSize(true);
+        mAnswersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (mAdapter == null) {
+            mAdapter = new AnswersAdapter(
+                    getContext(),
+                    question.answers,
+                    mIndexList,
+                    getActivity().getIntent().getExtras().getInt("checkedAnswer"),
+                    getActivity().getIntent().getExtras().getBoolean("answered"));
+        }
+        mAnswersRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void updateSubmitButtonName(){
+        if (!getActivity().getIntent().getExtras().getBoolean("answered")) {
+            mSubmitButton.setText(R.string.button_submit);
+        } else {
+            mSubmitButton.setText(mCurrentQuestionNumber + 1 < mNumberOfQuestions
+                    ? R.string.button_next_question
+                    : R.string.text_finish);
         }
     }
 
@@ -153,16 +210,29 @@ public class QuestionFragment extends Fragment {
         mDialog = builder.setTitle("Finished!")
                 .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = ShowTestActivity.newIntent(getContext());
-                            intent.putExtra("url",
-                                    getTest(getActivity().getIntent().getStringExtra("testName")).url);
-                            startActivity(intent);
-                            dialog.dismiss();
-                        }
-                    })
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = ShowTestActivity.newIntent(getContext());
+                        intent.putExtra("url",
+                                getTest(getActivity().getIntent().getStringExtra("testName")).url);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                })
                 .create();
         mDialog.show();
+    }
+
+    private void checkAnswer() {
+        mSubmitButton.setText(mCurrentQuestionNumber + 1 != mNumberOfQuestions
+                ? R.string.button_next_question
+                : R.string.text_finish);
+        getActivity().getIntent().removeExtra("answered");
+        getActivity().getIntent().putExtra("answered", true);
+        if (mAdapter.isCorrectAnswer()) {
+            increasePoints();
+        }
+
+        markAnswers();
     }
 
     private void increasePoints() {
@@ -172,34 +242,18 @@ public class QuestionFragment extends Fragment {
         getActivity().getIntent().putExtra("points", points);
     }
 
-    private void loadDownloadedTest(@NonNull final String testName) {
-        Test test = getTest(testName);
-        updateViewVariables(test);
-    }
-
-    private Test getTest(String testName) {
-        return mRealm.where(Test.class).equalTo("name", testName).findFirst();
-    }
-
-    private void updateViewVariables(Test test) {
-
-        mQuestion = test.questions.get(getQuestionNumber());
-        mQuestionText.setText(mQuestion.text);
-
-        populateRecyclerView(mQuestion);
-    }
-
-    private void populateRecyclerView(Question question){
-        mAnswersRecyclerView.setHasFixedSize(true);
-        mAnswersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new AnswersAdapter(getContext(), question.answers);
-        mAnswersRecyclerView.setAdapter(mAdapter);
-    }
-
     private void nextQuestion() {
-        QuestionFragment newFragment = newInstance(mQuestionNumber + 1);
+        QuestionFragment newFragment = newInstance();
+
+        getActivity().getIntent().removeExtra("questionNumber");
+        getActivity().getIntent().putExtra("questionNumber", mCurrentQuestionNumber + 1);
+        getActivity().getIntent().removeExtra("checkedAnswer");
+        getActivity().getIntent().putExtra("checkedAnswer", -1);
+        getActivity().getIntent().removeExtra("answered");
+        getActivity().getIntent().putExtra("answered", false);
+
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, newFragment)
+                .replace(android.R.id.content, newFragment, Question.class.getSimpleName())
                 .addToBackStack(null)
                 .commit();
     }

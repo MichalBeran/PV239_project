@@ -153,7 +153,7 @@ public class ShowTestActivity extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         mRealm.close();
-        if (mDialog.isShowing()) {
+        if (mDialog != null) {
             mDialog.dismiss();
         }
     }
