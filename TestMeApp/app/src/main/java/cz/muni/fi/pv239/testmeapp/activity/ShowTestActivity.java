@@ -1,18 +1,26 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.content.res.AppCompatResources;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -24,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 
@@ -32,11 +41,13 @@ import io.realm.Realm;
  */
 
 public class ShowTestActivity extends AppCompatActivity {
+    private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
     private Animation rotate_backward_90, rotate_forward_90, menu_open, menu_close;
     private boolean isMenuOpen = false;
+    private Dialog mDialog;
 
     @BindView(R.id.testParameters)
     TextView testParameters;
@@ -50,7 +61,7 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.floatingRunTest)
     FloatingActionButton floatingRunTest;
 
-    @BindView(R.id.runDrillButon)
+    @BindView(R.id.runDrillButton)
     Button runDrillButton;
 
     @BindView(R.id.runTestButton)
@@ -61,6 +72,7 @@ public class ShowTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
+        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
@@ -114,22 +126,40 @@ public class ShowTestActivity extends AppCompatActivity {
         finish();
     }
 
-    public void shareQrCode(){
-        Intent intent = CreateQRCodeActivity.newIntent(this);
-        intent.putExtra("qr", mTest.url);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.runDrill)
-    public void runDrill(){
-        runTestDrill();
-    }
-
-    @OnClick(R.id.runDrillButon)
+    @OnClick(R.id.runDrillButton)
     public void runTestDrill(){
-        Intent intent = RunDrillTestActivity.newIntent(this);
-        String[] urlSplit = mTest.url.split("/");
-        intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.item_number_picker, null);
+
+        final NumberPicker np = setUpNumberPicker(dialogView);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        mDialog = builder.setTitle("How many questions would you like to get?")
+                .setView(dialogView)
+                .setPositiveButton(R.string.text_run_drill, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                if (np.getValue() > 0) {
+                                    startDrillTest(getCorrectNumberOfQuestions(np.getValue()));
+                                }
+                    }
+                })
+                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+
+        mDialog.show();
+    }
+
+    @OnClick(R.id.runTestButton)
+    public void runTest() {
+        Intent intent = RunTestActivity.newIntent(this, mTest.testCount);
         intent.putExtra("testName", mTest.name);
         startActivity(intent);
     }
@@ -145,6 +175,9 @@ public class ShowTestActivity extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         mRealm.close();
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
     }
 
     @Override
@@ -172,6 +205,49 @@ public class ShowTestActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.share_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void startDrillTest(int numberOfQuestions) {
+        Intent intent = RunDrillTestActivity.newIntent(this, numberOfQuestions);
+        intent.putExtra("testName", mTest.name);
+        startActivity(intent);
+    }
+
+    private void shareQrCode(){
+        Intent intent = CreateQRCodeActivity.newIntent(this);
+        intent.putExtra("qr", mTest.url);
+        startActivity(intent);
+    }
+
+    private NumberPicker setUpNumberPicker(View dialogView) {
+        NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.number_picker);
+
+        numberPicker.setMaxValue(mTest.questions.size() / 20 + 1);
+        numberPicker.setMinValue(0);
+        numberPicker.setWrapSelectorWheel(false);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                Log.i("value", "new value: " + newVal);
+            }
+        });
+        numberPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                return String.valueOf(getCorrectNumberOfQuestions(value));
+            }
+        });
+        numberPicker.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+        return numberPicker;
+    }
+
+    private int getCorrectNumberOfQuestions(int numberPickerValue) {
+        System.out.println("Number picker value is: " + numberPickerValue);
+        if ((numberPickerValue * 20) > mTest.questions.size()) {
+            return mTest.questions.size();
+        }
+        return numberPickerValue * 20;
     }
 
     private LineGraphSeries<DataPoint> getTestResults(){

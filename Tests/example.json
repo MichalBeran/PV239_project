@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "testCount": 10,
+  "testCount": 2,
   "testDuration": "5:00",
   "testMinPoint": 70,
   "questions": [
@@ -22,10 +22,11 @@
     },
     {
       "text": "Napis test",
-      "type": "open",
+      "type": "test",
       "answers": [
         {
           "text": "test",
+          "correct": true,
           "points": 50
         }
       ]

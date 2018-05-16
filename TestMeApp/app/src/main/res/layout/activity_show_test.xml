@@ -50,18 +50,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/testParameters"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/runDrill"
-                    android:text="@string/button_run_drill"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/runTest"
-                    android:text="@string/button_run_test"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -94,7 +82,7 @@
                 android:layout_marginTop="110dp"
                 />
             <Button
-                android:id="@+id/runDrillButon"
+                android:id="@+id/runDrillButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/PrimaryButton"

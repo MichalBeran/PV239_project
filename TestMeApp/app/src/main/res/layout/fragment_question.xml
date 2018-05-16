@@ -6,25 +6,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/question_text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_height="0dp"
+        android:layout_weight=".85">
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/answers_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/question_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/answers_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
+    </ScrollView>
     <Button
-        android:id="@+id/answer_submit_button"
+        android:id="@+id/test_drill_submit_button"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="0dp"
+        android:layout_weight=".15"
         android:layout_marginBottom="5dp"
-        android:text="@string/button_submit" />
+        android:visibility="visible"
+        android:text="" />
 
 </LinearLayout>
