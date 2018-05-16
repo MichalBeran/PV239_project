@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -23,7 +22,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -79,7 +77,7 @@ public class ShowTestActivity extends AppCompatActivity {
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
         mTest = mRealm.where(Test.class).equalTo("url", url).findFirst();
-        testParameters.setText(getString(R.string.text_test_count) + ": " + mTest.questions.size() + "\n" +
+        testParameters.setText(getString(R.string.text_test_count) + ": " + mTest.testCount + "\n" +
                                 getString(R.string.text_test_duration) + ": " + mTest.testDuration + "\n" +
                                 getString(R.string.text_test_min_points) + ": " + mTest.testMinPoint);
         testName.setText(mTest.name);
@@ -120,25 +118,12 @@ public class ShowTestActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = ListTestsActivity.newIntent(this);
-        startActivity(intent);
-    }
-
     @OnClick(R.id.removeTest)
     public void removeTest(){
         mRealm.beginTransaction();
         mTest.deleteFromRealm();
         mRealm.commitTransaction();
         finish();
-    }
-
-    //@OnClick(R.id.shareQr)
-    public void shareQrCode(){
-        Intent intent = CreateQRCodeActivity.newIntent(this);
-        intent.putExtra("qr", mTest.url);
-        startActivity(intent);
     }
 
     @OnClick(R.id.runDrillButton)
@@ -155,7 +140,9 @@ public class ShowTestActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                startDrillTest(getCorrectNumberOfQuestions(np.getValue()));
+                                if (np.getValue() > 0) {
+                                    startDrillTest(getCorrectNumberOfQuestions(np.getValue()));
+                                }
                     }
                 })
                 .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
@@ -172,23 +159,9 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.runTestButton)
     public void runTest() {
-        //TODO: implement testRunActivity
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
-        mDialog = builder.setTitle("Run test")
-                .setMessage("Not implemented.")
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .create();
-        mDialog.show();
+        Intent intent = RunTestActivity.newIntent(this, mTest.testCount);
+        intent.putExtra("testName", mTest.name);
+        startActivity(intent);
     }
 
     @NonNull
@@ -236,11 +209,13 @@ public class ShowTestActivity extends AppCompatActivity {
 
     private void startDrillTest(int numberOfQuestions) {
         Intent intent = RunDrillTestActivity.newIntent(this, numberOfQuestions);
-        String[] urlSplit = mTest.url.split("/");
-        intent.putExtra("testFileName", urlSplit[urlSplit.length - 1]);
         intent.putExtra("testName", mTest.name);
-        intent.putExtra("url", mTest.url);
-        intent.putExtra("questionsLeft", 0);
+        startActivity(intent);
+    }
+
+    private void shareQrCode(){
+        Intent intent = CreateQRCodeActivity.newIntent(this);
+        intent.putExtra("qr", mTest.url);
         startActivity(intent);
     }
 
@@ -248,7 +223,7 @@ public class ShowTestActivity extends AppCompatActivity {
         NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.number_picker);
 
         numberPicker.setMaxValue(mTest.questions.size() / 20 + 1);
-        numberPicker.setMinValue(1);
+        numberPicker.setMinValue(0);
         numberPicker.setWrapSelectorWheel(false);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override

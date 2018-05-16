@@ -20,18 +20,14 @@ import cz.muni.fi.pv239.testmeapp.model.Question;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 
-/**
- * Created by Lenka on 26/03/2018.
- */
+public class RunTestActivity extends FragmentActivity {
 
-public class RunDrillTestActivity extends FragmentActivity {
-
-    protected List<Integer> mQuestionsIndexes;
-    protected Realm mRealm;
+    private List<Integer> mQuestionsIndexes;
+    private Realm mRealm;
 
     @NonNull
     public static Intent newIntent(@NonNull Context context, int questions) {
-        Intent intent = new Intent(context, RunDrillTestActivity.class);
+        Intent intent = new Intent(context, RunTestActivity.class);
         intent.putExtra("numberOfQuestions", questions);
         Log.i("questions", "Number of requested questions is " + questions);
         return intent;
@@ -40,7 +36,7 @@ public class RunDrillTestActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_run_drill_test);
+        setContentView(R.layout.activity_run_test);
         mRealm = Realm.getDefaultInstance();
         shuffleTestQuestions();
 
@@ -82,7 +78,7 @@ public class RunDrillTestActivity extends FragmentActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.text_quit_drill_title)
-                .setMessage(R.string.text_quit_drill_message).setPositiveButton(R.string.text_yes, dialogClickListener)
+                .setMessage(R.string.text_quit_test_message).setPositiveButton(R.string.text_yes, dialogClickListener)
                 .setNegativeButton(R.string.text_no, dialogClickListener).show();
     }
 
@@ -92,14 +88,14 @@ public class RunDrillTestActivity extends FragmentActivity {
         mRealm.close();
     }
 
-    protected void shuffleTestQuestions() {
+    private void shuffleTestQuestions() {
         Test test = mRealm.where(Test.class)
                 .equalTo("name", this.getIntent().getStringExtra("testName"))
                 .findFirst();
         mQuestionsIndexes = getTestQuestionIndexesShuffled(test.questions);
     }
 
-    protected List<Integer> getTestQuestionIndexesShuffled(List<Question> questions) {
+    private List<Integer> getTestQuestionIndexesShuffled(List<Question> questions) {
         List<Integer> helperList = new ArrayList<>();
         for(int i = 0; i < questions.size(); i++) {
             helperList.add(i);

@@ -50,7 +50,7 @@ public class TestsAdapter extends RealmRecyclerViewAdapter<Test, TestsAdapter.Vi
         holder.setUrl(test.url);
         holder.mName.setText(test.name);
         holder.mDuration.setText(mContext.getString(R.string.text_test_duration) + ": " + test.testDuration);
-        holder.mCount.setText(mContext.getString(R.string.text_test_count) + ": " + test.questions.size());
+        holder.mCount.setText(mContext.getString(R.string.text_test_count) + ": " + test.testCount);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

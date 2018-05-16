@@ -20,6 +20,7 @@
     <string name="text_run_drill">Spustit</string>
     <string name="text_quit_drill_title">Ukončit drill</string>
     <string name="text_quit_drill_message">Skutečne chcete ukončit drill?</string>
+    <string name="text_quit_test_message">Skutečne chcete ukončit test?</string>
 
     <string name="button_next_question">Next Question</string>
     <string name="button_remove_test">Smazat test</string>

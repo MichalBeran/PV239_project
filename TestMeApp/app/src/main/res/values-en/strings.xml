@@ -19,6 +19,7 @@
     <string name="text_run_drill">Start</string>
     <string name="text_quit_drill_title">Quit drill</string>
     <string name="text_quit_drill_message">Are you sure you want to quit drill?</string>
+    <string name="text_quit_test_message">Are you sure you want to quit test?\nYour answers will not be saved.</string>
 
     <string name="button_next_question">Next Question</string>
     <string name="button_remove_test">Remove test</string>

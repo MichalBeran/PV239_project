@@ -223,6 +223,7 @@ public class QuestionFragment extends Fragment {
     }
 
     private void checkAnswer() {
+        System.out.println("Should put finnish: " + (mCurrentQuestionNumber + 1 == mNumberOfQuestions));
         mSubmitButton.setText(mCurrentQuestionNumber + 1 != mNumberOfQuestions
                 ? R.string.button_next_question
                 : R.string.text_finish);
