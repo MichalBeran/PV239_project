@@ -211,10 +211,7 @@ public class QuestionFragment extends Fragment {
                 .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = ShowTestActivity.newIntent(getContext());
-                        intent.putExtra("url",
-                                getTest(getActivity().getIntent().getStringExtra("testName")).url);
-                        startActivity(intent);
+                        getActivity().finish();
                         dialog.dismiss();
                     }
                 })

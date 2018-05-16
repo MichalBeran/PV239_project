@@ -40,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.addByList)
     protected Button addByListButton;
 
-    @NonNull
-    public static Intent newIntent(@NonNull Context context) {
-        Intent intent = new Intent(context,MainActivity.class);
-        return intent;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
