@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment;
 import cz.muni.fi.pv239.testmeapp.model.Question;
 import cz.muni.fi.pv239.testmeapp.model.Test;
@@ -39,6 +40,7 @@ public class RunDrillTestActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_drill_test);
         mRealm = Realm.getDefaultInstance();

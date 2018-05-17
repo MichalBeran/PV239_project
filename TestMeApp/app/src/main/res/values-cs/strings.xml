@@ -8,6 +8,8 @@
     <string name="button_download_qr">Stáhnout pomocí QR</string>
     <string name="button_download_list">Stáhnout z listu</string>
     <string name="button_submit">uložit</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Zrušit</string>
     <string name="text_test_name">Jméno testu</string>
     <string name="text_test_url">URL testu</string>
     <string name="text_test_count">Počet otázek</string>
@@ -21,6 +23,8 @@
     <string name="text_quit_drill_title">Ukončit drill</string>
     <string name="text_quit_drill_message">Skutečne chcete ukončit drill?</string>
     <string name="text_quit_test_message">Skutečne chcete ukončit test?</string>
+    <string name="how_many_questions">Kolik otázek chcete dostat?</string>
+    <string name="are_you_sure_delete">Smazat test. Jste si jistý ?</string>
 
     <string name="button_next_question">Next Question</string>
     <string name="button_remove_test">Smazat test</string>
@@ -50,4 +54,7 @@
     <!--permission-->
     <string name="permision_needed">Udělení potřebného oprávnění</string>
     <string name="permision_camera_rationale">Aplikace potřebuje přístup k fotoaparátu, aby mohla snímat QR kódy.</string>
+    <!--setting-->
+    <string name="pref_dark_theme">Tmavý režim</string>
+    <string name="pref_dark_theme_summary">Nastavení tmavého režimu</string>
 </resources>

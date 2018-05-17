@@ -1,5 +1,6 @@
 package cz.muni.fi.pv239.testmeapp;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +20,8 @@ public class TestMeApp
     public static Context appContext;
     private static TestMeApp sInstance;
     public static final String LANGUAGE_PREFERENCES = "pref_selected_language";
+    public static final String THEME_PREFERENCES = "pref_dark_theme";
+
     public static TestMeApp getInstance() {
         return sInstance;
     }
@@ -47,16 +50,24 @@ public class TestMeApp
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
-    public static String getLang(Context context){
+    public static String getLang(Context context) {
         String usedLang = PreferenceManager.getDefaultSharedPreferences(context).getString(LANGUAGE_PREFERENCES, null);
-        if (usedLang == null){
+        if (usedLang == null) {
             usedLang = context.getResources().getConfiguration().locale.getLanguage();
-            if (!(usedLang.equals("en") || usedLang.equals("cs"))){
+            if (!(usedLang.equals("en") || usedLang.equals("cs"))) {
                 usedLang = "en";
             }
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             pref.edit().putString(LANGUAGE_PREFERENCES, usedLang).commit();
         }
         return usedLang;
+    }
+
+    public static Boolean isDarkThemeSet(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(THEME_PREFERENCES, false);
+    }
+
+    public static void setTheme(Activity activity){
+        activity.setTheme(isDarkThemeSet(activity) ? R.style.AppThemeDark : R.style.AppTheme);
     }
 }

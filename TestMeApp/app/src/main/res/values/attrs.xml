@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- View styles -->
+    <attr name="PrimaryButton" format="reference" />
+    <attr name="PrimaryFlatButton" format="reference" />
+    <attr name="DeleteButton" format="reference" />
+</resources>

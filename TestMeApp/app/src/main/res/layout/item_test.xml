@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/showTestButton"
             android:text="@string/button_show_test"
-            android:theme="@style/PrimaryFlatButton"
+            android:theme="?PrimaryFlatButton"
             />
     </LinearLayout>
 </android.support.v7.widget.CardView>
