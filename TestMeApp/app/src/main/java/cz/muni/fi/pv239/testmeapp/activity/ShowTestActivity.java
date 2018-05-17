@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
@@ -70,6 +71,7 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
         mTestApi = new TestApi();
@@ -120,10 +122,27 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.removeTest)
     public void removeTest(){
-        mRealm.beginTransaction();
-        mTest.deleteFromRealm();
-        mRealm.commitTransaction();
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        mDialog = builder.setTitle(R.string.are_you_sure_delete)
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDialog.show();
+                        mRealm.beginTransaction();
+                        mTest.deleteFromRealm();
+                        mRealm.commitTransaction();
+                        finish();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        mDialog.show();
     }
 
     @OnClick(R.id.runDrillButton)
@@ -134,7 +153,7 @@ public class ShowTestActivity extends AppCompatActivity {
         final NumberPicker np = setUpNumberPicker(dialogView);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        mDialog = builder.setTitle("How many questions would you like to get?")
+        mDialog = builder.setTitle(R.string.how_many_questions)
                 .setView(dialogView)
                 .setPositiveButton(R.string.text_run_drill, new DialogInterface.OnClickListener() {
                     @Override

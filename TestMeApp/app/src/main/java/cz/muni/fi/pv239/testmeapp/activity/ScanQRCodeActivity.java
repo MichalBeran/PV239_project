@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
@@ -45,6 +46,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_get_test);
         mScannerView = new ZXingScannerView(this);

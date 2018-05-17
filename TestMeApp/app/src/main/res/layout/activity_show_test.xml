@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/removeTest"
                     android:text="@string/button_remove_test"
-                    android:theme="@style/DeleteButton" />
+                    android:theme="?DeleteButton" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                 android:id="@+id/runTestButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/PrimaryButton"
+                android:theme="?PrimaryButton"
                 android:text="@string/button_run_test"
                 android:visibility="invisible"
                 android:layout_marginTop="110dp"
@@ -85,7 +85,7 @@
                 android:id="@+id/runDrillButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/PrimaryButton"
+                android:theme="?PrimaryButton"
                 android:text="@string/button_run_drill"
                 android:visibility="invisible"
                 />

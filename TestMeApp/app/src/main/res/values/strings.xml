@@ -7,6 +7,8 @@
     <string name="button_download_qr">Download by qr</string>
     <string name="button_download_list">Download by list</string>
     <string name="button_submit">Submit</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
     <string name="text_test_name">Test name</string>
     <string name="text_test_url">Test url</string>
     <string name="text_test_count">Test questions</string>
@@ -20,6 +22,8 @@
     <string name="text_quit_drill_title">Quit drill</string>
     <string name="text_quit_drill_message">Are you sure you want to quit drill?</string>
     <string name="text_quit_test_message">Are you sure you want to quit test?\nYour answers will not be saved.</string>
+    <string name="how_many_questions">How many questions would you like to get?</string>
+    <string name="are_you_sure_delete">Delete this test. Are you sure ?</string>
 
     <string name="button_next_question">Next Question</string>
     <string name="button_remove_test">Remove test</string>
@@ -49,4 +53,7 @@
     <!--permission-->
     <string name="permision_needed">Granting the permission needed</string>
     <string name="permision_camera_rationale">The app needs to access to camera to read QR code.</string>
+    <!--setting-->
+    <string name="pref_dark_theme">Dark theme</string>
+    <string name="pref_dark_theme_summary">Dark theme settings</string>
 </resources>

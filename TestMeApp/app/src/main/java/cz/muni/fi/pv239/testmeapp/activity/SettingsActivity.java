@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.fragment.SettingsFragment;
 
 /**
@@ -14,6 +15,7 @@ import cz.muni.fi.pv239.testmeapp.fragment.SettingsFragment;
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {

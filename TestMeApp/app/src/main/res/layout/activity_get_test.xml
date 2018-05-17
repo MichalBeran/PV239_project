@@ -19,20 +19,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/urlButton"
         android:text="@string/button_download_url"
-        android:theme="@style/PrimaryButton"/>
+        android:theme="?PrimaryButton"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scanButton"
         android:text="@string/button_download_qr"
-        android:theme="@style/PrimaryButton"/>
+        android:theme="?PrimaryButton"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/selectButton"
         android:text="@string/button_download_list"
-        android:theme="@style/PrimaryButton"/>
+        android:theme="?PrimaryButton"/>
 
 </LinearLayout>

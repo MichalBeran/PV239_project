@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
     private String actualLanguage;
+    private Boolean darkThemeSet;
     private boolean isMenuOpen = false;
     private Animation rotate_backward_45, rotate_forward_45, menu_open, menu_close;
 
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TestMeApp.setTheme(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        darkThemeSet = TestMeApp.isDarkThemeSet(this);
         super.onCreate(savedInstanceState);
         actualLanguage = TestMeApp.getLang(this);
         TestMeApp.changeLang(this, TestMeApp.getLang(TestMeApp.appContext));
@@ -113,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
         setTitle(R.string.main_activity_head);
         if (!(actualLanguage.equals(TestMeApp.getLang(TestMeApp.appContext)))){
             actualLanguage = TestMeApp.getLang(TestMeApp.appContext);
+            recreate();
+        }
+        if(darkThemeSet != TestMeApp.isDarkThemeSet(this)){
             recreate();
         }
     }
