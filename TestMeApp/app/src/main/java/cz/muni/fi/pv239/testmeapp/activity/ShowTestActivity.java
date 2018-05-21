@@ -27,6 +27,9 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,7 +38,9 @@ import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
+import cz.muni.fi.pv239.testmeapp.model.TestHistory;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Michal on 22.03.2018.
@@ -95,21 +100,13 @@ public class ShowTestActivity extends AppCompatActivity {
         runTestButton.setCompoundDrawablePadding(10);
         removeButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_delete_white_24dp), null, null, null);
         removeButton.setCompoundDrawablePadding(10);
-
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = getTestResults();
-        series.setColor(Color.parseColor("#FFBB33"));
-        series.setThickness(10);
-        series.setDrawBackground(true);
-        series.setBackgroundColor(Color.argb(100, 255, 187, 51));
-        graph.addSeries(series);
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setTitle(R.string.show_test_activity_head);
+        getTestResultsGraph();
     }
 
     @Override
@@ -122,6 +119,7 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.removeTest)
     public void removeTest(){
+        final RealmResults<TestHistory> history = mRealm.where(TestHistory.class).equalTo("testURL", mTest.url).findAll();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         mDialog = builder.setTitle(R.string.are_you_sure_delete)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
@@ -129,6 +127,9 @@ public class ShowTestActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         mDialog.show();
                         mRealm.beginTransaction();
+                        for(int i = history.size()-1; i >= 0; i--){
+                            history.get(i).deleteFromRealm();
+                        }
                         mTest.deleteFromRealm();
                         mRealm.commitTransaction();
                         finish();
@@ -269,17 +270,43 @@ public class ShowTestActivity extends AppCompatActivity {
         return numberPickerValue * 20;
     }
 
-    private LineGraphSeries<DataPoint> getTestResults(){
-        return new LineGraphSeries<>(new DataPoint[] {
-                //foreach result generate DataPoint x:iterator y:testResult
+    private void getTestResultsGraph(){
+        List<TestHistory> history = mRealm.where(TestHistory.class).equalTo("testURL", mTest.url).findAllSorted("date");
 
-                //example data
-                new DataPoint(0, 50),
-                new DataPoint(1, 56),
-                new DataPoint(2, 30),
-                new DataPoint(3, 80),
-                new DataPoint(4, 59)
-        });
+        if (history.size() > 0) {
+            LineGraphSeries<DataPoint> serie = new LineGraphSeries<>();
+            for (int i = 0; i < history.size(); i++) {
+                serie.appendData(new DataPoint(i, history.get(i).points), true, history.size());
+            }
+
+//        return new LineGraphSeries<>(new DataPoint[] {
+//                //foreach result generate DataPoint x:iterator y:testResult
+//
+//
+//                //example data
+//                new DataPoint(0, 50),
+//                new DataPoint(1, 56),
+//                new DataPoint(2, 30),
+//                new DataPoint(3, 80),
+//                new DataPoint(4, 59)
+//        });
+
+
+            serie.setColor(Color.parseColor("#FFBB33"));
+            serie.setThickness(10);
+            serie.setDrawBackground(true);
+            serie.setBackgroundColor(Color.argb(100, 255, 187, 51));
+
+            GraphView graph = (GraphView) findViewById(R.id.graph);
+            graph.destroyDrawingCache();
+            graph.removeAllSeries();
+            graph.addSeries(serie);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(0);
+            graph.getViewport().setMaxX(history.size() - 1);
+            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+
+        }
     }
 
     @OnClick(R.id.floatingRunTest)

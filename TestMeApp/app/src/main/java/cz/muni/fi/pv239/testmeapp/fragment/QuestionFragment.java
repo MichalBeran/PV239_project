@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +32,7 @@ import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.model.Question;
 import cz.muni.fi.pv239.testmeapp.model.Test;
+import cz.muni.fi.pv239.testmeapp.model.TestHistory;
 import io.realm.Realm;
 
 /**
@@ -211,6 +213,28 @@ public class QuestionFragment extends Fragment {
                 .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        Test test = mRealm.where(Test.class)
+                                .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
+                                .findFirst();
+                        final TestHistory history = new TestHistory();
+                        history.testURL = test.url;
+                        history.date = new Date();
+                        history.id = history.testURL + history.date.toString();
+                        history.points = getActivity().getIntent().getExtras().getInt("points");
+                        try {
+                            mRealm = Realm.getDefaultInstance();
+                            mRealm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    realm.insertOrUpdate(history);
+                                }
+                            });
+                        } finally {
+                            if(mRealm != null) {
+                                mRealm.close();
+                            }
+                        }
+
                         getActivity().finish();
                         dialog.dismiss();
                     }
