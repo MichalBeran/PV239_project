@@ -17,6 +17,9 @@
     <string name="text_yes">Yes</string>
     <string name="text_no">No</string>
     <string name="text_finish">Finish</string>
+    <string name="text_test_finished">Test finished</string>
+    <string name="text_gathered_points">Gathered points</string>
+    <string name="text_remaining">Remaining</string>
     <string name="text_cancel">Cancel</string>
     <string name="text_run_drill">Start</string>
     <string name="text_quit_drill_title">Quit drill</string>

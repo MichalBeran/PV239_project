@@ -18,6 +18,9 @@
     <string name="text_yes">Ano</string>
     <string name="text_no">Ne</string>
     <string name="text_finish">Ukončit</string>
+    <string name="text_test_finished">Test ukončen</string>
+    <string name="text_gathered_points">Dosažené body</string>
+    <string name="text_remaining">Zbývá</string>
     <string name="text_cancel">Zrušit</string>
     <string name="text_run_drill">Spustit</string>
     <string name="text_quit_drill_title">Ukončit drill</string>

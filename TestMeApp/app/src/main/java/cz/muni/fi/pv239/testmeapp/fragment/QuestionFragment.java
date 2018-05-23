@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.activity.RunTestActivity;
 import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.model.Question;
@@ -209,11 +210,15 @@ public class QuestionFragment extends Fragment {
         } else {
             builder = new AlertDialog.Builder(getContext());
         }
-        mDialog = builder.setTitle("Finished!")
-                .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
+
+        if(getActivity().getClass() == RunTestActivity.class) {
+            saveTestResults();
+        }
+
+        mDialog = builder.setTitle(R.string.text_test_finished)
+                .setMessage(getString(R.string.text_gathered_points) + ": " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        saveTest();
                         getActivity().finish();
                         dialog.dismiss();
                     }
@@ -223,7 +228,7 @@ public class QuestionFragment extends Fragment {
         mDialog.show();
     }
 
-    private void saveTest(){
+    private void saveTestResults(){
         Test test = mRealm.where(Test.class)
                 .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
                 .findFirst();

@@ -13,8 +13,11 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,10 +73,22 @@ public class RunTestActivity extends FragmentActivity {
         } else {
             fragmentManager.findFragmentByTag(QuestionFragment.class.getSimpleName());
         }
-        mTimer = new CountDownTimer(30000, 1000) {
+
+        Date time = stringToDate(getTest().testDuration, "hh:mm:ss");
+        if(time == null){
+            time = stringToDate(getTest().testDuration, "mm:ss");
+            if(time == null){
+                time = stringToDate(getTest().testDuration, "ss");
+            }
+        }
+
+        mTimer = new CountDownTimer(time.getTime(), 1000) {
 
             public void onTick(long millisUntilFinished) {
-                mTimerText.setText("seconds remaining: " + millisUntilFinished / 1000);
+                int hours = (int) (millisUntilFinished/1000) / 3600;
+                int minutes = (int) ((millisUntilFinished/1000) - (hours * 3600))/60;
+                int seconds = (int) ((millisUntilFinished/1000) - (hours * 3600) - (minutes *60));
+                mTimerText.setText(getString(R.string.text_remaining) + ": " + hours + ":" + minutes + ":" + seconds);
             }
 
             public void onFinish() {
@@ -130,6 +145,19 @@ public class RunTestActivity extends FragmentActivity {
 
         Collections.shuffle(helperList);
         return helperList;
+    }
+
+    private Test getTest() {
+        return mRealm.where(Test.class).equalTo("name", this.getIntent().getStringExtra("testName")).findFirst();
+    }
+
+    private Date stringToDate(String aDate, String aFormat) {
+        if(aDate==null) return null;
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat simpledateformat = new SimpleDateFormat(aFormat);
+        Date stringDate = simpledateformat.parse(aDate, pos);
+        return stringDate;
+
     }
 
 
