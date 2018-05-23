@@ -55,7 +55,7 @@ public class RunDrillTestActivity extends FragmentActivity {
             getIntent().putExtra("checkedAnswer", -1);
             getIntent().putExtra("answered", false);
             fragmentManager.beginTransaction()
-                    .replace(android.R.id.content,
+                    .replace(R.id.runTestFragment,
                             QuestionFragment.newInstance(),
                             QuestionFragment.class.getSimpleName())
                     .commit();

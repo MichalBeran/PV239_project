@@ -14,15 +14,19 @@
     <string name="text_test_url">URL testu</string>
     <string name="text_test_count">Počet otázek</string>
     <string name="text_test_duration">Doba trvání</string>
-    <string name="text_test_min_points">Minimální počet potebných bodů</string>
+    <string name="text_test_min_points">Minimální počet potřebných bodů</string>
     <string name="text_yes">Ano</string>
     <string name="text_no">Ne</string>
     <string name="text_finish">Ukončit</string>
+    <string name="text_test_finished">Test ukončen</string>
+    <string name="text_gathered_points">Dosažené body</string>
+    <string name="text_remaining">Zbývá</string>
     <string name="text_cancel">Zrušit</string>
     <string name="text_run_drill">Spustit</string>
     <string name="text_quit_drill_title">Ukončit drill</string>
+    <string name="text_quit_test_title">Ukončit test</string>
     <string name="text_quit_drill_message">Skutečne chcete ukončit drill?</string>
-    <string name="text_quit_test_message">Skutečne chcete ukončit test?</string>
+    <string name="text_quit_test_message">Skutečne chcete ukončit test? Vaše odpovědi nebudou uloženy.</string>
     <string name="how_many_questions">Kolik otázek chcete dostat?</string>
     <string name="are_you_sure_delete">Smazat test. Jste si jistý ?</string>
 

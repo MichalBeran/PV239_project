@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.activity.RunTestActivity;
 import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.model.Question;
@@ -202,45 +203,53 @@ public class QuestionFragment extends Fragment {
         }
     }
 
-    private void finishTest() {
+    public void finishTest() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(getContext());
         }
-        mDialog = builder.setTitle("Finished!")
-                .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
+
+        if(getActivity().getClass() == RunTestActivity.class) {
+            saveTestResults();
+        }
+
+        mDialog = builder.setTitle(R.string.text_test_finished)
+                .setMessage(getString(R.string.text_gathered_points) + ": " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Test test = mRealm.where(Test.class)
-                                .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
-                                .findFirst();
-                        final TestHistory history = new TestHistory();
-                        history.testURL = test.url;
-                        history.date = new Date();
-                        history.id = history.testURL + history.date.toString();
-                        history.points = getActivity().getIntent().getExtras().getInt("points");
-                        try {
-                            mRealm = Realm.getDefaultInstance();
-                            mRealm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    realm.insertOrUpdate(history);
-                                }
-                            });
-                        } finally {
-                            if(mRealm != null) {
-                                mRealm.close();
-                            }
-                        }
-
                         getActivity().finish();
                         dialog.dismiss();
                     }
                 })
+                .setCancelable(false)
                 .create();
         mDialog.show();
+    }
+
+    private void saveTestResults(){
+        Test test = mRealm.where(Test.class)
+                .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
+                .findFirst();
+        final TestHistory history = new TestHistory();
+        history.testURL = test.url;
+        history.date = new Date();
+        history.id = history.testURL + history.date.toString();
+        history.points = getActivity().getIntent().getExtras().getInt("points");
+        try {
+            mRealm = Realm.getDefaultInstance();
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insertOrUpdate(history);
+                }
+            });
+        } finally {
+            if(mRealm != null) {
+                mRealm.close();
+            }
+        }
     }
 
     private void checkAnswer() {
@@ -275,7 +284,7 @@ public class QuestionFragment extends Fragment {
         getActivity().getIntent().putExtra("answered", false);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, newFragment, Question.class.getSimpleName())
+                .replace(R.id.runTestFragment, newFragment, Question.class.getSimpleName())
                 .addToBackStack(null)
                 .commit();
     }
