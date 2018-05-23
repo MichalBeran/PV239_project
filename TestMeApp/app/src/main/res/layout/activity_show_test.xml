@@ -90,5 +90,16 @@
                 android:visibility="invisible"
                 />
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addToFavourites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:layout_anchorGravity="center|right"
+            app:layout_anchor="@id/removeTest"
+            android:layout_marginLeft="160dp"
+            app:borderWidth="0dp"
+            app:srcCompat="@drawable/ic_star_white_24dp"/>
     </android.support.design.widget.CoordinatorLayout>
 </ScrollView>

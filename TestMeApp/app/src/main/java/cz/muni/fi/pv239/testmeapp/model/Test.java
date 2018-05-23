@@ -18,4 +18,5 @@ public class Test extends RealmObject{
     public String testDuration;
     public Integer testMinPoint;
     public RealmList<Question> questions;
+    public boolean favourite = false;
 }
