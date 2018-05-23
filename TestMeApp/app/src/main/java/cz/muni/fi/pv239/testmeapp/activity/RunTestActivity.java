@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment;
@@ -25,6 +31,11 @@ public class RunTestActivity extends FragmentActivity {
 
     private List<Integer> mQuestionsIndexes;
     private Realm mRealm;
+    private Unbinder mUnbinder;
+    private CountDownTimer mTimer;
+
+    @BindView(R.id.runTestTimer)
+    TextView mTimerText;
 
     @NonNull
     public static Intent newIntent(@NonNull Context context, int questions) {
@@ -40,9 +51,10 @@ public class RunTestActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_test);
         mRealm = Realm.getDefaultInstance();
+        mUnbinder = ButterKnife.bind(this);
         shuffleTestQuestions();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
             getIntent().putIntegerArrayListExtra("questionIndexes", (ArrayList<Integer>) mQuestionsIndexes);
@@ -51,13 +63,24 @@ public class RunTestActivity extends FragmentActivity {
             getIntent().putExtra("checkedAnswer", -1);
             getIntent().putExtra("answered", false);
             fragmentManager.beginTransaction()
-                    .replace(android.R.id.content,
+                    .replace(R.id.runTestFragment,
                             QuestionFragment.newInstance(),
                             QuestionFragment.class.getSimpleName())
                     .commit();
         } else {
             fragmentManager.findFragmentByTag(QuestionFragment.class.getSimpleName());
         }
+        mTimer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                mTimerText.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                QuestionFragment frag = (QuestionFragment) fragmentManager.findFragmentById(R.id.runTestFragment);
+                frag.finishTest();
+            }
+        }.start();
     }
 
     @Override
@@ -79,7 +102,7 @@ public class RunTestActivity extends FragmentActivity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.text_quit_drill_title)
+        builder.setTitle(R.string.text_quit_test_title)
                 .setMessage(R.string.text_quit_test_message).setPositiveButton(R.string.text_yes, dialogClickListener)
                 .setNegativeButton(R.string.text_no, dialogClickListener).show();
     }
@@ -87,7 +110,9 @@ public class RunTestActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mUnbinder.unbind();
         mRealm.close();
+        mTimer.cancel();
     }
 
     private void shuffleTestQuestions() {
@@ -106,4 +131,6 @@ public class RunTestActivity extends FragmentActivity {
         Collections.shuffle(helperList);
         return helperList;
     }
+
+
 }

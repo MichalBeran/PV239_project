@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    tools:context=".activity.RunTestActivity">
+    android:orientation="vertical"
+    tools:context=".activity.RunTestActivity"
+    android:id="@+id/activityRunTestLayout">
 
-</FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/runTestTimer"
+        android:text="HELLO THERE"/>
+    <FrameLayout
+        android:name="cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/runTestFragment">
+    </FrameLayout>
+
+</LinearLayout>

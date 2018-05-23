@@ -202,7 +202,7 @@ public class QuestionFragment extends Fragment {
         }
     }
 
-    private void finishTest() {
+    public void finishTest() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
@@ -213,34 +213,38 @@ public class QuestionFragment extends Fragment {
                 .setMessage("Gathered points: " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Test test = mRealm.where(Test.class)
-                                .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
-                                .findFirst();
-                        final TestHistory history = new TestHistory();
-                        history.testURL = test.url;
-                        history.date = new Date();
-                        history.id = history.testURL + history.date.toString();
-                        history.points = getActivity().getIntent().getExtras().getInt("points");
-                        try {
-                            mRealm = Realm.getDefaultInstance();
-                            mRealm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    realm.insertOrUpdate(history);
-                                }
-                            });
-                        } finally {
-                            if(mRealm != null) {
-                                mRealm.close();
-                            }
-                        }
-
+                        saveTest();
                         getActivity().finish();
                         dialog.dismiss();
                     }
                 })
+                .setCancelable(false)
                 .create();
         mDialog.show();
+    }
+
+    private void saveTest(){
+        Test test = mRealm.where(Test.class)
+                .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
+                .findFirst();
+        final TestHistory history = new TestHistory();
+        history.testURL = test.url;
+        history.date = new Date();
+        history.id = history.testURL + history.date.toString();
+        history.points = getActivity().getIntent().getExtras().getInt("points");
+        try {
+            mRealm = Realm.getDefaultInstance();
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insertOrUpdate(history);
+                }
+            });
+        } finally {
+            if(mRealm != null) {
+                mRealm.close();
+            }
+        }
     }
 
     private void checkAnswer() {
@@ -275,7 +279,7 @@ public class QuestionFragment extends Fragment {
         getActivity().getIntent().putExtra("answered", false);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, newFragment, Question.class.getSimpleName())
+                .replace(R.id.runTestFragment, newFragment, Question.class.getSimpleName())
                 .addToBackStack(null)
                 .commit();
     }
