@@ -24,7 +24,6 @@ import cz.muni.fi.pv239.testmeapp.TestMeApp;
 public class MainActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
-    private String actualLanguage;
     private Boolean darkThemeSet;
     private boolean isMenuOpen = false;
     private Animation rotate_backward_45, rotate_forward_45, menu_open, menu_close;
@@ -47,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         darkThemeSet = TestMeApp.isDarkThemeSet(this);
         super.onCreate(savedInstanceState);
-        actualLanguage = TestMeApp.getLang(this);
-        TestMeApp.changeLang(this, TestMeApp.getLang(TestMeApp.appContext));
-        TestMeApp.changeLang(getBaseContext(), TestMeApp.getLang(TestMeApp.appContext));
-        TestMeApp.changeLang(getApplicationContext(), TestMeApp.getLang(TestMeApp.appContext));
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         rotate_backward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_backward_45);
@@ -121,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setTitle(R.string.main_activity_head);
-        if (!(actualLanguage.equals(TestMeApp.getLang(TestMeApp.appContext)))){
-            actualLanguage = TestMeApp.getLang(TestMeApp.appContext);
-            recreate();
-        }
         if(darkThemeSet != TestMeApp.isDarkThemeSet(this)){
             recreate();
         }

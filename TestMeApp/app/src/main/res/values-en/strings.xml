@@ -37,7 +37,7 @@
     <string name="environment">Environment</string>
     <string name="language">Language</string>
     <string name="text_tests">Tests</string>
-    <string name="text_headline_download_url">Test name</string>
+    <string name="text_headline_download_url">Test URL address</string>
     <string name="test_downloading">Downloading ...</string>
     <string name="test_download_failed">Download failed</string>
     <string name="test_save_successful">Saved</string>

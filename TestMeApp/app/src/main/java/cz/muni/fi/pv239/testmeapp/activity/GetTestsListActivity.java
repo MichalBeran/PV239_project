@@ -25,6 +25,7 @@ import butterknife.OnClick;
 import butterknife.Optional;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
+import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.adapter.TestLightAdapter;
 import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
 import cz.muni.fi.pv239.testmeapp.api.GithubApi;
@@ -136,6 +137,7 @@ public class GetTestsListActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_list_tests);
         mUnbinder = ButterKnife.bind(this);

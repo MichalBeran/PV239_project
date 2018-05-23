@@ -58,7 +58,6 @@ public class GetTestActivity extends AppCompatActivity{
         mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
-        mUrlText.setText("example.json");
 
         mUrlText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override

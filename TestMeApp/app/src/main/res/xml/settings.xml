@@ -3,13 +3,6 @@
 
     <PreferenceCategory
         android:title="@string/environment">
-        <ListPreference
-            android:title="@string/language"
-            android:entries="@array/listLanguages"
-            android:entryValues="@array/listLanguagesValues"
-            android:key="pref_selected_language"
-            android:order="0"/>
-
         <CheckBoxPreference
             android:key="pref_dark_theme"
             android:title="@string/pref_dark_theme"
