@@ -46,6 +46,9 @@
         <activity android:name=".activity.RunTestActivity"
             android:theme="@style/AppTheme.Preferences"
             />
+        <activity android:name=".activity.GetTestsListActivity"
+            android:theme="@style/AppTheme.Preferences"
+            />
     </application>
 
 </manifest>

@@ -61,4 +61,5 @@
     <!--setting-->
     <string name="pref_dark_theme">Dark theme</string>
     <string name="pref_dark_theme_summary">Dark theme settings</string>
+    <string name="button_download_test_from_list">Download test</string>
 </resources>

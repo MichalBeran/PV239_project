@@ -77,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.addByList)
+    protected void downloadTestsFromList(){
+        Intent intent = GetTestsListActivity.newIntent(this);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.addByQR)
     protected void downloadTestByQr(){
         Intent intent = ScanQRCodeActivity.newIntent(this);
