@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ public class RunTestActivity extends FragmentActivity {
     private Realm mRealm;
     private Unbinder mUnbinder;
     private CountDownTimer mTimer;
+    private long remainingTime;
 
     @BindView(R.id.runTestTimer)
     TextView mTimerText;
@@ -74,26 +76,37 @@ public class RunTestActivity extends FragmentActivity {
             fragmentManager.findFragmentByTag(QuestionFragment.class.getSimpleName());
         }
 
-        Date time = stringToDate(getTest().testDuration, "hh:mm:ss");
-        if(time == null){
-            time = stringToDate(getTest().testDuration, "mm:ss");
-            if(time == null){
-                time = stringToDate(getTest().testDuration, "ss");
+        long timer = 0;
+        if(savedInstanceState != null) {
+            timer = savedInstanceState.getLong("remainingTime");
+        }else {
+            Date time = stringToDate(getTest().testDuration, "hh:mm:ss");
+            if (time == null) {
+                time = stringToDate(getTest().testDuration, "mm:ss");
+                if (time == null) {
+                    time = stringToDate(getTest().testDuration, "ss");
+                }
             }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(time);
+            timer = ((cal.get(Calendar.HOUR) * 3600) + (cal.get(Calendar.MINUTE) * 60) + cal.get(Calendar.SECOND)) * 1000;
+
         }
-
-        mTimer = new CountDownTimer(time.getTime(), 1000) {
-
+        mTimer = new CountDownTimer(timer, 1000) {
+            @Override
             public void onTick(long millisUntilFinished) {
                 int hours = (int) (millisUntilFinished/1000) / 3600;
                 int minutes = (int) ((millisUntilFinished/1000) - (hours * 3600))/60;
                 int seconds = (int) ((millisUntilFinished/1000) - (hours * 3600) - (minutes *60));
                 mTimerText.setText(getString(R.string.text_remaining) + ": " + hours + ":" + minutes + ":" + seconds);
+                remainingTime = millisUntilFinished;
             }
-
+            @Override
             public void onFinish() {
                 QuestionFragment frag = (QuestionFragment) fragmentManager.findFragmentById(R.id.runTestFragment);
-                frag.finishTest();
+                if(frag != null) {
+                    frag.finishTest();
+                }
             }
         }.start();
     }
@@ -160,5 +173,9 @@ public class RunTestActivity extends FragmentActivity {
 
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("remainingTime", remainingTime);
+    }
 }
