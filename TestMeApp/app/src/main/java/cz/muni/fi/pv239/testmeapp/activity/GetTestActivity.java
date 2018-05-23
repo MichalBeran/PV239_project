@@ -11,13 +11,18 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -39,6 +44,12 @@ public class GetTestActivity extends AppCompatActivity{
     private Unbinder mUnbinder;
     private Realm mRealm;
 
+    @BindView(R.id.urlText)
+    EditText mUrlText;
+
+    @BindView(R.id.floatingButtonDownload)
+    android.support.design.widget.FloatingActionButton submitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TestMeApp.setTheme(this);
@@ -47,6 +58,18 @@ public class GetTestActivity extends AppCompatActivity{
         mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
+        mUrlText.setText("example.json");
+
+        mUrlText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    submitButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -55,10 +78,9 @@ public class GetTestActivity extends AppCompatActivity{
         setTitle(R.string.get_test_activity_head);
     }
 
-    @OnClick(R.id.urlButton)
+    @OnClick(R.id.floatingButtonDownload)
     protected void load(){
-        EditText text = findViewById(R.id.urlText);
-        loadTest(text.getText().toString());
+        loadTest(mUrlText.getText().toString());
     }
 
     private void loadTest(@NonNull final String testname) {
@@ -116,7 +138,7 @@ public class GetTestActivity extends AppCompatActivity{
                     return;
                 }
                 test.url = mTestApi.getUrlBase() + testname;
-                saveResult(test);
+                Boolean state = saveResult(test);
                 if(mProgressDialog.isShowing()){
                     mProgressDialog.dismiss();
                     mSuccessDialog.show();
@@ -184,12 +206,6 @@ public class GetTestActivity extends AppCompatActivity{
             }
         }
         return state;
-    }
-
-    @OnClick(R.id.scanButton)
-    public void scanQrCode(){
-        Intent intent = ScanQRCodeActivity.newIntent(this);
-        startActivity(intent);
     }
 
     @Override

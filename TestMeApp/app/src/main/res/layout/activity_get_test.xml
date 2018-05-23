@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="cz.muni.fi.pv239.testmeapp.activity.GetTestActivity"
-    android:orientation="vertical"
-    android:id="@+id/getTestLayout">
+    tools:context="cz.muni.fi.pv239.testmeapp.activity.GetTestActivity">
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/urlText"
-        android:text="example.json"/>
+        android:orientation="vertical"
+        android:id="@+id/getTestLinearLayout"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/urlTextTitle"
+            android:labelFor="@+id/urlText"
+            android:text="@string/text_headline_download_url"/>
+        <EditText
+            android:hint="@string/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/urlText"
+            android:inputType="textUri"
+            android:imeOptions="actionDone"/>
+    </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingButtonDownload"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/urlButton"
-        android:text="@string/button_download_url"
-        android:theme="?PrimaryButton"/>
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_anchor="@id/getTestLinearLayout"
+        android:layout_margin="16dp"
+        app:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_file_download_white_24dp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scanButton"
-        android:text="@string/button_download_qr"
-        android:theme="?PrimaryButton"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/selectButton"
-        android:text="@string/button_download_list"
-        android:theme="?PrimaryButton"/>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
