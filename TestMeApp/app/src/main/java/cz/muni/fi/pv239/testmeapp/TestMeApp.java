@@ -19,7 +19,7 @@ public class TestMeApp
 
     public static Context appContext;
     private static TestMeApp sInstance;
-    public static final String LANGUAGE_PREFERENCES = "pref_selected_language";
+
     public static final String THEME_PREFERENCES = "pref_dark_theme";
 
     public static TestMeApp getInstance() {
@@ -33,34 +33,7 @@ public class TestMeApp
         appContext = getApplicationContext();
 
         Realm.init(this);
-
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-        String language = getLang(appContext);
-        changeLang(appContext, language);
-        changeLang(getBaseContext(), language);
-    }
-
-    public static void changeLang(Context context, String lang) {
-        Locale myLocale = new Locale(lang);
-        Locale.setDefault(myLocale);
-        Resources resources = context.getResources();
-        Configuration config = resources.getConfiguration();
-        config.locale = myLocale;
-        context.createConfigurationContext(config);
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-    }
-
-    public static String getLang(Context context) {
-        String usedLang = PreferenceManager.getDefaultSharedPreferences(context).getString(LANGUAGE_PREFERENCES, null);
-        if (usedLang == null) {
-            usedLang = context.getResources().getConfiguration().locale.getLanguage();
-            if (!(usedLang.equals("en") || usedLang.equals("cs"))) {
-                usedLang = "en";
-            }
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            pref.edit().putString(LANGUAGE_PREFERENCES, usedLang).commit();
-        }
-        return usedLang;
     }
 
     public static Boolean isDarkThemeSet(Context context) {

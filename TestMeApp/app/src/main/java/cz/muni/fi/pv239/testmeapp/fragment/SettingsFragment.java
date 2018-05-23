@@ -16,7 +16,6 @@ import cz.muni.fi.pv239.testmeapp.TestMeApp;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
 
-    public static final String LANGUAGE_PREFERENCES = "pref_selected_language";
     public static final String THEME_PREFERENCES = "pref_dark_theme";
 
     @NonNull
@@ -28,20 +27,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        Preference initPref = findPreference(LANGUAGE_PREFERENCES);
-        initPref.setSummary(initPref.getSharedPreferences().getString(LANGUAGE_PREFERENCES, ""));
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
-        if (key.equals(LANGUAGE_PREFERENCES)) {
-            Preference pref = findPreference(key);
-            pref.setSummary(sharedPreferences.getString(key, ""));
-            TestMeApp.changeLang(TestMeApp.appContext, pref.getSharedPreferences().getString(key, "en"));
-            TestMeApp.changeLang(getActivity().getBaseContext(), pref.getSharedPreferences().getString(key, "en"));
-            TestMeApp.changeLang(getActivity().getApplicationContext(), pref.getSharedPreferences().getString(key, "en"));
-            getActivity().recreate();
-        }
         if (key.equals(THEME_PREFERENCES)) {
             getActivity().recreate();
         }
