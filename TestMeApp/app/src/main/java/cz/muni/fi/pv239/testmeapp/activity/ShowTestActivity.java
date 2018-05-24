@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -328,6 +330,10 @@ public class ShowTestActivity extends AppCompatActivity {
         graph.removeAllSeries();
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
 
+        LineGraphSeries<DataPoint> minPointSerie = new LineGraphSeries<>();
+        minPointSerie.appendData(new DataPoint(-1, mTest.testMinPoint), true, 2);
+        minPointSerie.appendData(new DataPoint(1, mTest.testMinPoint), true, 2);
+
         if (history.size() > 0) {
 
             PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>();
@@ -337,31 +343,42 @@ public class ShowTestActivity extends AppCompatActivity {
             for (int i = 0; i < history.size(); i++) {
                 serie.appendData(new DataPoint(i, history.get(i).points), true, history.size());
             }
-//        return new LineGraphSeries<>(new DataPoint[] {
-//                //foreach result generate DataPoint x:iterator y:testResult
-//
-//
-//                //example data
-//                new DataPoint(0, 50),
-//                new DataPoint(1, 56),
-//                new DataPoint(2, 30),
-//                new DataPoint(3, 80),
-//                new DataPoint(4, 59)
-//        });
 
+            LineGraphSeries<DataPoint> minSerie = new LineGraphSeries<>();
+            minSerie.appendData(new DataPoint(0, mTest.testMinPoint), true, history.size());
+            minSerie.appendData(new DataPoint(history.size()-1, mTest.testMinPoint), true, history.size());
+
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(8);
+            paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
+            paint.setColor(Color.parseColor("#79BEE0"));
 
             serie.setColor(Color.parseColor("#FFBB33"));
             point.setColor(Color.parseColor("#FFBB33"));
+            minPointSerie.setColor(Color.parseColor("#79BEE0"));
+            minSerie.setColor(Color.parseColor("#79BEE0"));
             serie.setThickness(10);
             serie.setDrawBackground(true);
             serie.setBackgroundColor(Color.argb(100, 255, 187, 51));
+            serie.setDrawDataPoints(true);
+            minPointSerie.setThickness(8);
+            minPointSerie.setDrawBackground(false);
+            minPointSerie.setDrawAsPath(true);
+            minPointSerie.setCustomPaint(paint);
+            minSerie.setThickness(8);
+            minSerie.setDrawBackground(false);
+            minSerie.setDrawAsPath(true);
+            minSerie.setCustomPaint(paint);
 
             if (history.size() > 1){
+                graph.addSeries(minSerie);
                 graph.addSeries(serie);
                 graph.getViewport().setXAxisBoundsManual(true);
                 graph.getViewport().setMinX(0);
                 graph.getViewport().setMaxX(history.size() - 1);
             }else{
+                graph.addSeries(minPointSerie);
                 graph.addSeries(point);
                 point.setShape(PointsGraphSeries.Shape.POINT);
                 graph.getViewport().setXAxisBoundsManual(true);
@@ -369,6 +386,14 @@ public class ShowTestActivity extends AppCompatActivity {
                 graph.getViewport().setMaxX(1);
             }
 
+        }else{
+            graph.addSeries(minPointSerie);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(-1);
+            graph.getViewport().setMaxX(1);
+            graph.getViewport().setYAxisBoundsManual(true);
+            graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxY(mTest.testMinPoint + Math.ceil(mTest.testMinPoint / 10));
         }
     }
 
