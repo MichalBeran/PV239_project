@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,12 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
+import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
+import cz.muni.fi.pv239.testmeapp.model.Test;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,14 +48,26 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.addByList)
     protected Button addByListButton;
 
+    private TestApi mTestApi;
+    private Realm mRealm;
+    private TestsAdapter mAdapter;
+
+    @BindView(android.R.id.list)
+    RecyclerView mList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TestMeApp.setTheme(this);
+        super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         darkThemeSet = TestMeApp.isDarkThemeSet(this);
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
+        mRealm = Realm.getDefaultInstance();
+
+
         rotate_backward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_backward_45);
         rotate_forward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_forward_45);
         menu_open = AnimationUtils.loadAnimation(this, R.anim.menu_open);
@@ -66,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         downloadTests();
     }
 
-    @OnClick(R.id.downloadTest)
     protected void downloadTests(){
         Intent intent = GetTestActivity.newIntent(this);
         startActivity(intent);
@@ -84,16 +103,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.showTests)
-    protected void showTests(){
-        Intent intent = ListTestsActivity.newIntent(this);
-        startActivity(intent);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        mRealm.close();
     }
 
     @Override
@@ -119,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
         if(darkThemeSet != TestMeApp.isDarkThemeSet(this)){
             recreate();
         }
+
+        // favourite tests are displayed higher than others
+        RealmResults<Test> tests = mRealm.where(Test.class).findAllSorted("favourite", Sort.DESCENDING);
+        mAdapter = new TestsAdapter(this, tests);
+        mList.setAdapter(mAdapter);
+        mList.setLayoutManager(new LinearLayoutManager(this));
+        mList.setHasFixedSize(true);
     }
 
     @Override
@@ -151,4 +172,5 @@ public class MainActivity extends AppCompatActivity {
             isMenuOpen = true;
         }
     }
+
 }

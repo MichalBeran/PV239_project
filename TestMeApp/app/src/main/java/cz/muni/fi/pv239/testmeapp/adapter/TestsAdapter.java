@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import javax.annotation.Nullable;
@@ -14,9 +13,6 @@ import javax.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cz.muni.fi.pv239.testmeapp.activity.GetTestActivity;
-import cz.muni.fi.pv239.testmeapp.activity.ListTestsActivity;
-import cz.muni.fi.pv239.testmeapp.activity.MainActivity;
 import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.OrderedRealmCollection;
