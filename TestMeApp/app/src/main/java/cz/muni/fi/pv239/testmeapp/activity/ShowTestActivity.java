@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -123,9 +125,15 @@ public class ShowTestActivity extends AppCompatActivity {
         setTitle(R.string.show_test_activity_head);
         getTestResultsGraph();
         if (mTest.favourite){
-            addToFavoutiteButton.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), android.graphics.PorterDuff.Mode.SRC_IN);
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }else{
-            addToFavoutiteButton.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), android.graphics.PorterDuff.Mode.SRC_IN);
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }
     }
 
@@ -172,10 +180,16 @@ public class ShowTestActivity extends AppCompatActivity {
         mRealm.beginTransaction();
         if(test.favourite){
             test.favourite = false;
-            addToFavoutiteButton.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), android.graphics.PorterDuff.Mode.SRC_IN);
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }else{
             test.favourite = true;
-            addToFavoutiteButton.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), android.graphics.PorterDuff.Mode.SRC_IN);
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }
         mRealm.insertOrUpdate(test);
         mRealm.commitTransaction();

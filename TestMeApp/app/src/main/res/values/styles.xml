@@ -14,6 +14,7 @@
         <item name="PrimaryFlatButton">@style/PrimaryFlatButtonLight</item>
         <item name="DeleteButton">@style/DeleteButton</item>
         <item name="FavouriteButton">@style/FavouriteButton</item>
+        <item name="FavouriteButtonChecked">@style/FavouriteButtonChecked</item>
         <item name="HorizontalLine">@style/HorizontalLineLight</item>
     </style>
 
@@ -30,6 +31,7 @@
         <item name="PrimaryFlatButton">@style/PrimaryFlatButtonDark</item>
         <item name="DeleteButton">@style/DeleteButton</item>
         <item name="FavouriteButton">@style/FavouriteButton</item>
+        <item name="FavouriteButtonChecked">@style/FavouriteButtonChecked</item>
         <item name="HorizontalLine">@style/HorizontalLineDark</item>
     </style>
 
@@ -43,13 +45,13 @@
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
-    <style name="PrimaryFlatButtonLight" parent="AppTheme">
+    <style name="PrimaryFlatButtonLight" parent="Theme.AppCompat">
         <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="PrimaryFlatButtonDark" parent="AppTheme">
+    <style name="PrimaryFlatButtonDark" parent="Theme.AppCompat">
         <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -80,6 +82,10 @@
     </style>
     <style name="FavouriteButton" parent="Theme.AppCompat">
         <item name="colorButtonNormal">@color/colorFavouriteGray</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+    <style name="FavouriteButtonChecked" parent="Theme.AppCompat">
+        <item name="colorButtonNormal">@color/colorFavouriteYellow</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
     <style name="HorizontalLineLight" parent="Theme.AppCompat">
