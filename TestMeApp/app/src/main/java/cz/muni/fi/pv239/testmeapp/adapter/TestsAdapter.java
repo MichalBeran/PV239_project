@@ -2,10 +2,15 @@ package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import javax.annotation.Nullable;
@@ -47,6 +52,9 @@ public class TestsAdapter extends RealmRecyclerViewAdapter<Test, TestsAdapter.Vi
         holder.mName.setText(test.name);
         holder.mDuration.setText(mContext.getString(R.string.text_test_duration) + ": " + test.testDuration);
         holder.mCount.setText(mContext.getString(R.string.text_test_count) + ": " + test.testCount);
+        if (test.favourite) {
+            holder.favStar.setColorFilter(ContextCompat.getColor(mContext, R.color.colorFavouriteYellow));
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -61,6 +69,9 @@ public class TestsAdapter extends RealmRecyclerViewAdapter<Test, TestsAdapter.Vi
 
         @BindView(R.id.itemTestCount)
         TextView mCount;
+
+        @BindView(R.id.favouriteStar)
+        ImageView favStar;
 
         public String getUrl() {
             return mUrl;
