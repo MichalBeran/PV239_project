@@ -6,11 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorFavouriteGray">@color/colorFavouriteGray</item>
+        <item name="colorFavouriteYellow">@color/colorFavouriteYellow</item>
         <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
         <item name="displayOptions">showHome|homeAsUp|showTitle</item>
         <item name="PrimaryButton">@style/PrimaryButtonLight</item>
         <item name="PrimaryFlatButton">@style/PrimaryFlatButtonLight</item>
         <item name="DeleteButton">@style/DeleteButton</item>
+        <item name="FavouriteButton">@style/FavouriteButton</item>
+        <item name="HorizontalLine">@style/HorizontalLineLight</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat">
@@ -18,11 +22,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorFavouriteGray">@color/colorFavouriteGray</item>
+        <item name="colorFavouriteYellow">@color/colorFavouriteYellow</item>
         <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
         <item name="displayOptions">showHome|homeAsUp|showTitle</item>
         <item name="PrimaryButton">@style/PrimaryButtonDark</item>
         <item name="PrimaryFlatButton">@style/PrimaryFlatButtonDark</item>
         <item name="DeleteButton">@style/DeleteButton</item>
+        <item name="FavouriteButton">@style/FavouriteButton</item>
+        <item name="HorizontalLine">@style/HorizontalLineDark</item>
     </style>
 
     <style name="PrimaryButtonLight" parent="Theme.AppCompat">
@@ -69,5 +77,15 @@
     <style name="DeleteButton" parent="Theme.AppCompat">
         <item name="colorButtonNormal">@color/colorDelete</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+    <style name="FavouriteButton" parent="Theme.AppCompat">
+        <item name="colorButtonNormal">@color/colorFavouriteGray</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+    <style name="HorizontalLineLight" parent="Theme.AppCompat">
+        <item name="android:background">#333333</item>
+    </style>
+    <style name="HorizontalLineDark" parent="Theme.AppCompat">
+        <item name="android:background">#cccccc</item>
     </style>
 </resources>

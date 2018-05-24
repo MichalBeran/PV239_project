@@ -19,7 +19,10 @@
             <com.jjoe64.graphview.GraphView
                 android:layout_width="match_parent"
                 android:layout_height="200dip"
-                android:id="@+id/graph" />
+                android:id="@+id/graph"
+                android:layout_marginRight="7dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="7dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,28 +31,57 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="15dp">
 
-                <Button
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/removeTest"
-                    android:text="@string/button_remove_test"
-                    android:theme="?DeleteButton" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="7dp">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/removeTest"
+                        android:text="@string/button_remove_test"
+                        android:theme="?DeleteButton" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/addToFavourites"
+                        android:text="@string/button_favourite_test"
+                        android:theme="?FavouriteButton" />
 
+                </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/testName"
-                    style="@style/TextAppearance.AppCompat.Large" />
+                    style="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dip"
-                    android:background="#333333" />
+                    android:theme="?HorizontalLine"
+                    android:id="@+id/showTestLine"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/testParameters"/>
+                    android:id="@+id/testNumQuestions"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/testDuration"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/testMinPoints"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+
             </LinearLayout>
         </LinearLayout>
 
@@ -59,7 +91,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             app:layout_anchorGravity="bottom|right|end"
-            app:layout_anchor="@id/graph"
+            app:layout_anchor="@id/showTestLine"
             android:layout_margin="16dp"
             app:tint="@android:color/white"
             app:borderWidth="0dp"
@@ -70,8 +102,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/floatingRunTest"
-            app:layout_anchorGravity="bottom"
-            android:orientation="vertical">
+            app:layout_anchorGravity="top"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp">
             <Button
                 android:id="@+id/runTestButton"
                 android:layout_width="match_parent"
@@ -79,7 +112,6 @@
                 android:theme="?PrimaryButton"
                 android:text="@string/button_run_test"
                 android:visibility="invisible"
-                android:layout_marginTop="110dp"
                 />
             <Button
                 android:id="@+id/runDrillButton"
@@ -88,18 +120,8 @@
                 android:theme="?PrimaryButton"
                 android:text="@string/button_run_drill"
                 android:visibility="invisible"
+                android:layout_marginBottom="110dp"
                 />
         </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/addToFavourites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:layout_anchorGravity="center|right"
-            app:layout_anchor="@id/removeTest"
-            android:layout_marginLeft="160dp"
-            app:borderWidth="0dp"
-            app:srcCompat="@drawable/ic_star_white_24dp"/>
     </android.support.design.widget.CoordinatorLayout>
 </ScrollView>

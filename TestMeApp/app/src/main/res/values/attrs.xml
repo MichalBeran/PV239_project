@@ -4,4 +4,8 @@
     <attr name="PrimaryButton" format="reference" />
     <attr name="PrimaryFlatButton" format="reference" />
     <attr name="DeleteButton" format="reference" />
+    <attr name="FavouriteButton" format="reference" />
+    <attr name="colorFavouriteGray" format="reference" />
+    <attr name="colorFavouriteYellow" format="reference" />
+    <attr name="HorizontalLine" format="reference" />
 </resources>
