@@ -4,10 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.content.res.AppCompatResources;
@@ -67,6 +70,9 @@ public class ShowTestActivity extends AppCompatActivity {
     @BindView(R.id.floatingRunTest)
     FloatingActionButton floatingRunTest;
 
+    @BindView(R.id.addToFavourites)
+    FloatingActionButton addToFavoutiteButton;
+
     @BindView(R.id.runDrillButton)
     Button runDrillButton;
 
@@ -100,6 +106,8 @@ public class ShowTestActivity extends AppCompatActivity {
         runTestButton.setCompoundDrawablePadding(10);
         removeButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_delete_white_24dp), null, null, null);
         removeButton.setCompoundDrawablePadding(10);
+//        addToFavoutiteButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_star_white_24dp), null, null, null);
+//        addToFavoutiteButton.setCompoundDrawablePadding(10);
     }
 
     @Override
@@ -107,6 +115,13 @@ public class ShowTestActivity extends AppCompatActivity {
         super.onResume();
         setTitle(R.string.show_test_activity_head);
         getTestResultsGraph();
+        if (mTest.favourite){
+//            addToFavoutiteButton.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), android.graphics.PorterDuff.Mode.SRC_IN);
+            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteYellow)));
+        }else{
+//            floatingAddToFavoutite.setColorFilter(ContextCompat.getColor(this, R.color.colorWhite), android.graphics.PorterDuff.Mode.SRC_IN);
+            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteGray)));
+        }
     }
 
     @Override
@@ -144,6 +159,24 @@ public class ShowTestActivity extends AppCompatActivity {
                 })
                 .create();
         mDialog.show();
+    }
+
+    @OnClick(R.id.addToFavourites)
+    public void addToFavourite(){
+        Test test = mRealm.where(Test.class).equalTo("url", mTest.url).findFirst();
+        mRealm.beginTransaction();
+        if(test.favourite){
+            test.favourite = false;
+//            floatingAddToFavoutite.setColorFilter(ContextCompat.getColor(this, R.color.colorWhite), android.graphics.PorterDuff.Mode.SRC_IN);
+            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteGray)));
+        }else{
+            test.favourite = true;
+//            floatingAddToFavoutite.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), android.graphics.PorterDuff.Mode.SRC_IN);
+            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteYellow)));
+        }
+        mRealm.insertOrUpdate(test);
+        mRealm.commitTransaction();
+
     }
 
     @OnClick(R.id.runDrillButton)
