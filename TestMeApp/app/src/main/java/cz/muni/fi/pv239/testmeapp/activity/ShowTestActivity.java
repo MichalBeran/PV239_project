@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +31,7 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -58,8 +61,14 @@ public class ShowTestActivity extends AppCompatActivity {
     private boolean isMenuOpen = false;
     private Dialog mDialog;
 
-    @BindView(R.id.testParameters)
-    TextView testParameters;
+    @BindView(R.id.testNumQuestions)
+    TextView testNumQuestions;
+
+    @BindView(R.id.testDuration)
+    TextView testDuration;
+
+    @BindView(R.id.testMinPoints)
+    TextView testMinPoints;
 
     @BindView(R.id.removeTest)
     Button removeButton;
@@ -71,7 +80,7 @@ public class ShowTestActivity extends AppCompatActivity {
     FloatingActionButton floatingRunTest;
 
     @BindView(R.id.addToFavourites)
-    FloatingActionButton addToFavoutiteButton;
+    Button addToFavoutiteButton;
 
     @BindView(R.id.runDrillButton)
     Button runDrillButton;
@@ -90,9 +99,9 @@ public class ShowTestActivity extends AppCompatActivity {
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
         mTest = mRealm.where(Test.class).equalTo("url", url).findFirst();
-        testParameters.setText(getString(R.string.text_test_count) + ": " + mTest.testCount + "\n" +
-                                getString(R.string.text_test_duration) + ": " + mTest.testDuration + "\n" +
-                                getString(R.string.text_test_min_points) + ": " + mTest.testMinPoint);
+        testNumQuestions.setText(getString(R.string.text_test_count) + ": " + mTest.testCount);
+        testDuration.setText(getString(R.string.text_test_duration) + ": " + mTest.testDuration);
+        testMinPoints.setText(getString(R.string.text_test_min_points) + ": " + mTest.testMinPoint);
         testName.setText(mTest.name);
 
         rotate_backward_90 = AnimationUtils.loadAnimation(this, R.anim.rotate_backward_90);
@@ -106,8 +115,8 @@ public class ShowTestActivity extends AppCompatActivity {
         runTestButton.setCompoundDrawablePadding(10);
         removeButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_delete_white_24dp), null, null, null);
         removeButton.setCompoundDrawablePadding(10);
-//        addToFavoutiteButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_star_white_24dp), null, null, null);
-//        addToFavoutiteButton.setCompoundDrawablePadding(10);
+        addToFavoutiteButton.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(this, R.drawable.ic_star_white_24dp), null, null, null);
+        addToFavoutiteButton.setCompoundDrawablePadding(10);
     }
 
     @Override
@@ -116,11 +125,15 @@ public class ShowTestActivity extends AppCompatActivity {
         setTitle(R.string.show_test_activity_head);
         getTestResultsGraph();
         if (mTest.favourite){
-//            addToFavoutiteButton.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), android.graphics.PorterDuff.Mode.SRC_IN);
-            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteYellow)));
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }else{
-//            floatingAddToFavoutite.setColorFilter(ContextCompat.getColor(this, R.color.colorWhite), android.graphics.PorterDuff.Mode.SRC_IN);
-            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteGray)));
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }
     }
 
@@ -167,12 +180,16 @@ public class ShowTestActivity extends AppCompatActivity {
         mRealm.beginTransaction();
         if(test.favourite){
             test.favourite = false;
-//            floatingAddToFavoutite.setColorFilter(ContextCompat.getColor(this, R.color.colorWhite), android.graphics.PorterDuff.Mode.SRC_IN);
-            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteGray)));
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }else{
             test.favourite = true;
-//            floatingAddToFavoutite.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), android.graphics.PorterDuff.Mode.SRC_IN);
-            addToFavoutiteButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorFavouriteYellow)));
+            Drawable background = addToFavoutiteButton.getBackground();
+            background.mutate();
+            background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteYellow), PorterDuff.Mode.MULTIPLY);
+            addToFavoutiteButton.setBackground(background);
         }
         mRealm.insertOrUpdate(test);
         mRealm.commitTransaction();
@@ -306,12 +323,20 @@ public class ShowTestActivity extends AppCompatActivity {
     private void getTestResultsGraph(){
         List<TestHistory> history = mRealm.where(TestHistory.class).equalTo("testURL", mTest.url).findAllSorted("date");
 
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        graph.destroyDrawingCache();
+        graph.removeAllSeries();
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+
         if (history.size() > 0) {
+
+            PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>();
+            point.appendData(new DataPoint(0, history.get(0).points), true, 1);
+
             LineGraphSeries<DataPoint> serie = new LineGraphSeries<>();
             for (int i = 0; i < history.size(); i++) {
                 serie.appendData(new DataPoint(i, history.get(i).points), true, history.size());
             }
-
 //        return new LineGraphSeries<>(new DataPoint[] {
 //                //foreach result generate DataPoint x:iterator y:testResult
 //
@@ -326,18 +351,23 @@ public class ShowTestActivity extends AppCompatActivity {
 
 
             serie.setColor(Color.parseColor("#FFBB33"));
+            point.setColor(Color.parseColor("#FFBB33"));
             serie.setThickness(10);
             serie.setDrawBackground(true);
             serie.setBackgroundColor(Color.argb(100, 255, 187, 51));
 
-            GraphView graph = (GraphView) findViewById(R.id.graph);
-            graph.destroyDrawingCache();
-            graph.removeAllSeries();
-            graph.addSeries(serie);
-            graph.getViewport().setXAxisBoundsManual(true);
-            graph.getViewport().setMinX(0);
-            graph.getViewport().setMaxX(history.size() - 1);
-            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            if (history.size() > 1){
+                graph.addSeries(serie);
+                graph.getViewport().setXAxisBoundsManual(true);
+                graph.getViewport().setMinX(0);
+                graph.getViewport().setMaxX(history.size() - 1);
+            }else{
+                graph.addSeries(point);
+                point.setShape(PointsGraphSeries.Shape.POINT);
+                graph.getViewport().setXAxisBoundsManual(true);
+                graph.getViewport().setMinX(-1);
+                graph.getViewport().setMaxX(1);
+            }
 
         }
     }
@@ -345,14 +375,14 @@ public class ShowTestActivity extends AppCompatActivity {
     @OnClick(R.id.floatingRunTest)
     public void animateMenu(){
         if(isMenuOpen){
-            floatingRunTest.startAnimation(rotate_backward_90);
+            floatingRunTest.startAnimation(rotate_forward_90);
             runDrillButton.startAnimation(menu_close);
             runDrillButton.setClickable(false);
             runTestButton.startAnimation(menu_close);
             runTestButton.setClickable(false);
             isMenuOpen = false;
         } else {
-            floatingRunTest.startAnimation(rotate_forward_90);
+            floatingRunTest.startAnimation(rotate_backward_90);
             runDrillButton.startAnimation(menu_open);
             runDrillButton.setClickable(true);
             runTestButton.startAnimation(menu_open);

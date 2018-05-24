@@ -32,6 +32,7 @@
 
     <string name="button_next_question">Další otázka</string>
     <string name="button_remove_test">Smazat test</string>
+    <string name="button_favourite_test">Oblíbený</string>
     <string name="button_share_qr">Sdílet QR</string>
     <string name="button_run_drill">Spustit drill</string>
     <string name="button_run_test">Spustit test</string>
