@@ -11,19 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/downloadTest"
-            android:text="@string/button_download"
-            android:theme="?PrimaryButton"/>
 
-        <Button
+        <android.support.v7.widget.RecyclerView
+            android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/showTests"
-            android:text="@string/button_list_tests"
-            android:theme="?PrimaryButton"/>
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            />
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
