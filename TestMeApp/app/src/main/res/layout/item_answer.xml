@@ -6,8 +6,7 @@
     android:padding="16dp"
     android:layout_marginBottom="5dp"
     android:orientation="horizontal"
-    android:id="@+id/answer_item"
-    android:background="@drawable/answer_border">
+    android:id="@+id/answer_item">
 
     <TextView
         android:id="@+id/answer_label"
