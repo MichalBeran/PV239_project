@@ -2,11 +2,17 @@ package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -17,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.model.Answer;
 
@@ -25,6 +32,9 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     public class AnswerViewHolder extends RecyclerView.ViewHolder {
 
         private Answer mAnswer;
+
+        @BindView(R.id.answer_item)
+        LinearLayout mAnswerItem;
 
         @BindView(R.id.answer_label)
         TextView mAnswerLabel;
@@ -47,6 +57,19 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
         public void changeLabelColor(int color) {
             this.mAnswerLabel.setTextColor(color);
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setStroke(3, color);
+            drawable.setCornerRadius(5);
+            mAnswerItem.setBackground(drawable);
+        }
+
+        @OnClick
+        public void click(){
+            if (!mIsAnswered && itemView!=null) {
+                if (itemView.getTag() != null){
+                    itemCheckChanged(this.itemView);
+                }
+            }
         }
     }
 
@@ -99,6 +122,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         //Set the position tag to both radio button and label
         holder.mAnswerRadioButton.setTag(position);
         holder.mAnswerLabel.setTag(position);
+        holder.mAnswerItem.setTag(position);
         if (!mIsAnswered) {
             holder.mAnswerRadioButton.setOnClickListener(new View.OnClickListener() {
                 @Override

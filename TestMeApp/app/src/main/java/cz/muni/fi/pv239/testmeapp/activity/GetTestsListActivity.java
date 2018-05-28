@@ -60,10 +60,20 @@ public class GetTestsListActivity extends AppCompatActivity{
         mProgressDialog.setCancelable(true);
         mProgressDialog.setCanceledOnTouchOutside(true);
 
+        final Dialog m404Dialog;
         final Dialog mDialog;
         final Dialog mSuccessDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        mDialog = builder.setTitle(R.string.test_download_failed)
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        m404Dialog = mBuilder.setTitle(R.string.test_download_failed_bad_response)
+                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(this);
+        mDialog = mBuilder1.setTitle(R.string.test_download_failed)
                 .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -78,8 +88,8 @@ public class GetTestsListActivity extends AppCompatActivity{
                     }
                 })
                 .create();
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        mSuccessDialog = mBuilder.setTitle(R.string.test_save_successful)
+        AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(this);
+        mSuccessDialog = mBuilder2.setTitle(R.string.test_save_successful)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -103,24 +113,40 @@ public class GetTestsListActivity extends AppCompatActivity{
 
             @Override
             public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
-                Test test = response.body();
-                if (test == null) {
-                    return;
-                }
-                test.url = mTestApi.getUrlBase() + testname;
-                saveResult(test);
-                if(mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
-                    mSuccessDialog.show();
-                    final Timer t = new Timer();
-                    t.schedule(new TimerTask() {
-                        public void run() {
-                            if(mSuccessDialog.isShowing()) {
-                                mSuccessDialog.dismiss();
+                if (response.code() == 404 || response.code() == 400){
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                        m404Dialog.show();
+                        final Timer t = new Timer();
+                        t.schedule(new TimerTask() {
+                            public void run() {
+                                if (m404Dialog.isShowing()) {
+                                    m404Dialog.dismiss();
+                                }
+                                t.cancel();
                             }
-                            t.cancel();
-                        }
-                    }, 3000);
+                        }, 2000);
+                    }
+                }else {
+                    Test test = response.body();
+                    if (test == null) {
+                        return;
+                    }
+                    test.url = mTestApi.getUrlBase() + testname;
+                    Boolean state = saveResult(test);
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                        mSuccessDialog.show();
+                        final Timer t = new Timer();
+                        t.schedule(new TimerTask() {
+                            public void run() {
+                                if (mSuccessDialog.isShowing()) {
+                                    mSuccessDialog.dismiss();
+                                }
+                                t.cancel();
+                            }
+                        }, 3000);
+                    }
                 }
             }
 
