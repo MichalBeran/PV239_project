@@ -69,7 +69,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             if (!mIsAnswered && itemView!=null) {
                 if (itemView.getTag() != null){
                     itemCheckChanged(this.itemView);
-                    setBorder(mContext.getResources().getColor(R.color.colorAccent), 3, 5, mAnswerItem);
+//                    setBorder(mContext.getResources().getColor(R.color.colorAccent), 3, 5, mAnswerItem);
                 }
             }
         }
@@ -143,6 +143,12 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             });
         } else {
             markCorrectAndSelectedPositions(holder, position);
+        }
+
+        if(mSelectedPosition == position){
+            setBorder(mContext.getResources().getColor(R.color.colorAccent), 3, 5, holder.mAnswerItem);
+        }else{
+            setBorder(mContext.getResources().getColor(R.color.colorFavouriteGray), 3, 5, holder.mAnswerItem);
         }
     }
 
