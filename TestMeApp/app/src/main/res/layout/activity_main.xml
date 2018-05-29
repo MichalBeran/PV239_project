@@ -21,6 +21,16 @@
             android:layout_marginTop="5dp"
             />
 
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="30dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/no_tests_available" />
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
