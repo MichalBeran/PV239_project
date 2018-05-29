@@ -18,6 +18,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,11 +46,14 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
+import cz.muni.fi.pv239.testmeapp.adapter.HistoryAdapter;
+import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import cz.muni.fi.pv239.testmeapp.model.TestHistory;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by Michal on 22.03.2018.
@@ -62,6 +67,7 @@ public class ShowTestActivity extends AppCompatActivity {
     private Animation rotate_backward_90, rotate_forward_90, menu_open, menu_close;
     private boolean isMenuOpen = false;
     private Dialog mDialog;
+    private HistoryAdapter mAdapter;
 
     @BindView(R.id.testNumQuestions)
     TextView testNumQuestions;
@@ -89,6 +95,9 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @BindView(R.id.runTestButton)
     Button runTestButton;
+
+    @BindView(R.id.historyRecyclerView)
+    RecyclerView mList;
 
 
     @Override
@@ -137,6 +146,12 @@ public class ShowTestActivity extends AppCompatActivity {
             background.setColorFilter(ContextCompat.getColor(this, R.color.colorFavouriteGray), PorterDuff.Mode.MULTIPLY);
             addToFavoutiteButton.setBackground(background);
         }
+
+        RealmResults<TestHistory> history = mRealm.where(TestHistory.class).equalTo("testURL", mTest.url).findAllSorted("date", Sort.DESCENDING);
+        mAdapter = new HistoryAdapter(this, history);
+        mList.setAdapter(mAdapter);
+        mList.setLayoutManager(new LinearLayoutManager(this));
+        mList.setHasFixedSize(true);
     }
 
     @Override
