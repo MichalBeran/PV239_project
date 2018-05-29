@@ -1,6 +1,7 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -45,6 +46,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     private TestApi mTestApi;
     private Realm mRealm;
     private ZXingScannerView mScannerView;
+    private Activity parent;
 
     private static final int REQUEST_GET_ACCOUNT = 112;
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -60,6 +62,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
         mTestApi = new TestApi();
         mRealm = Realm.getDefaultInstance();
         startCamera();
+        parent = getParent();
     }
 
     @NonNull
@@ -137,7 +140,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                         return;
                     }
                     test.url = mTestApi.getUrlBase() + testname;
-                    Boolean state = saveResult(test);
+                    Boolean state = saveResult(test, parent);
                 }
             }
 
@@ -149,7 +152,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
         });
     }
 
-    private boolean saveResult(final Test test) {
+    private boolean saveResult(final Test test, final Activity reloadActivity) {
         Realm realm = null;
         Boolean state = false;
         try {
@@ -161,6 +164,12 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                 }
             });
             Toast.makeText(ScanQRCodeActivity.this, R.string.test_save_successful, Toast.LENGTH_SHORT).show();
+            if (reloadActivity != null) {
+                if (reloadActivity.getClass() == MainActivity.class) {
+                    MainActivity activity = (MainActivity) reloadActivity;
+                    activity.reloadList();
+                }
+            }
             state = true;
         } finally {
             if(realm != null) {

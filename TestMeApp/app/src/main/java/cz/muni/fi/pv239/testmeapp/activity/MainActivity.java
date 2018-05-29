@@ -199,4 +199,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void reloadList(){
+        mAdapter.notifyDataSetChanged();
+    }
+
 }
