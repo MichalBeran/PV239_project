@@ -59,7 +59,6 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
         mScannerView.setResultHandler(this);
         mTestApi = new TestApi();
         mRealm = Realm.getDefaultInstance();
-        startCamera();
     }
 
     @NonNull
