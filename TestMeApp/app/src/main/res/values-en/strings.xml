@@ -64,6 +64,13 @@
     <!--setting-->
     <string name="pref_dark_theme">Dark theme</string>
     <string name="pref_dark_theme_summary">Dark theme settings</string>
+    <string name="pref_git_category">GIT settings</string>
+    <string name="pref_git_user">GIT repository owner</string>
+    <string name="pref_git_repo">GIT repository</string>
+    <string name="pref_git_folder">GIT repository folder</string>
+    <string name="pref_git_user_default">MichalBeran</string>
+    <string name="pref_git_repo_default">PV239_project</string>
+    <string name="pref_git_folder_default">Tests</string>
     <string name="button_download_test_from_list">Download test</string>
     <string name="no_tests_available">There are no tests available, because you have not downloaded any yet. You can add new by add button.</string>
 </resources>

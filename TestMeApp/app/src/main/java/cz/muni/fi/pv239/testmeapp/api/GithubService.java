@@ -19,7 +19,7 @@ public interface GithubService {
 
 
     //curl -i https://api.github.com/repos/MichalBeran/PV239_project/contents/Tests
-    @GET("repos/{username}/{reponame}/contents/Tests")
-    Call<List<TestLight>> getTestsList(@Path("username") String username, @Path("reponame") String reponame);
+    @GET("repos/{username}/{reponame}/contents/{folder}")
+    Call<List<TestLight>> getTestsList(@Path("username") String username, @Path("reponame") String reponame, @Path("folder") String folder);
 
 }

@@ -186,7 +186,7 @@ public class GetTestsListActivity extends AppCompatActivity{
         mRealm = Realm.getDefaultInstance();
 
 
-        loadTests("MichalBeran", "PV239_project");
+        loadTests(TestMeApp.getGitUser(this), TestMeApp.getGitRepo(this), TestMeApp.getGitFolder(this));
     }
 
     @Override
@@ -241,8 +241,8 @@ public class GetTestsListActivity extends AppCompatActivity{
         }
     }
 
-    private void loadTests(@NonNull String username, @NonNull String repositoryName) {
-        Call<List<TestLight>> listsCall = mGithubApi.getService().getTestsList(username, repositoryName);
+    private void loadTests(@NonNull String username, @NonNull String repositoryName, @NonNull String repositoryFolder) {
+        Call<List<TestLight>> listsCall = mGithubApi.getService().getTestsList(username, repositoryName, repositoryFolder);
         listsCall.enqueue(new Callback<List<TestLight>>() {
 
             @Override
