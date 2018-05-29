@@ -3,6 +3,7 @@ package cz.muni.fi.pv239.testmeapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.DataSetObserver;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -155,6 +156,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mAdapter = new TestsAdapter(this, tests);
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                if (itemCount == 0){
+                    mList.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    mList.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+            }
+        });
         mList.setAdapter(mAdapter);
         mList.setLayoutManager(new LinearLayoutManager(this));
         mList.setHasFixedSize(true);
@@ -198,5 +213,4 @@ public class MainActivity extends AppCompatActivity {
             isMenuOpen = true;
         }
     }
-
 }
