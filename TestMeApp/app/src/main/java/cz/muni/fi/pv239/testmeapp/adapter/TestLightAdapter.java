@@ -46,6 +46,7 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
     public void onBindViewHolder(ViewHolder holder, int position) {
         TestLight test = mTests.get(position);
         holder.mFileName.setText(test.name);
+        holder.setDownloadUrl(test.download_url);
     }
 
     @Override
@@ -54,10 +55,18 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
+        private String downloadUrl;
 
         @BindView(R.id.name)
         TextView mFileName;
+
+        public String getDownloadUrl() {
+            return downloadUrl;
+        }
+
+        public void setDownloadUrl(String downloadUrl) {
+            this.downloadUrl = downloadUrl;
+        }
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -66,7 +75,7 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
 
         @OnClick(R.id.downloadTestFromListButton)
         protected void downloadTestFromList(){
-            mActivity.downloadTest(mFileName.getText() + "");
+            mActivity.downloadTest(downloadUrl);
 
         }
     }

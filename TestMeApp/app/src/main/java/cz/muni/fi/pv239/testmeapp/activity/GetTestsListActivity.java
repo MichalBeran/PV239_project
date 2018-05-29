@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -57,7 +58,7 @@ public class GetTestsListActivity extends AppCompatActivity{
     @BindView(android.R.id.list)
     RecyclerView mList;
 
-    public void downloadTest(@NonNull final String testname){
+    public void downloadTest(@NonNull final String testUrl){
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(getString(R.string.test_downloading));
@@ -82,7 +83,7 @@ public class GetTestsListActivity extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        downloadTest(testname);
+                        downloadTest(testUrl);
                     }
                 })
                 .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
@@ -102,7 +103,8 @@ public class GetTestsListActivity extends AppCompatActivity{
                 })
                 .create();
 
-        final Call<Test> testCall = mTestApi.getService().getTest(testname);
+        final String path = Uri.parse(testUrl).getPath();
+        final Call<Test> testCall = mTestApi.getService().getTest(path);
 
         mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.text_cancel), new DialogInterface.OnClickListener() {
             @Override
@@ -136,7 +138,7 @@ public class GetTestsListActivity extends AppCompatActivity{
                     if (test == null) {
                         return;
                     }
-                    test.url = mTestApi.getUrlBase() + testname;
+                    test.url = mTestApi.getUrlBase() + path;
                     Boolean state = saveResult(test);
                     if (mProgressDialog.isShowing()) {
                         mProgressDialog.dismiss();

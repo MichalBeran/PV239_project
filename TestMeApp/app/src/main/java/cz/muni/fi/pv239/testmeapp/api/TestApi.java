@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class TestApi {
-    private final static String GITHUB_ENDPOINT = "https://raw.githubusercontent.com/MichalBeran/PV239_project/master/Tests/";
+    private final static String GITHUB_ENDPOINT = "https://raw.githubusercontent.com";
     private final TestService mService;
 
     public TestApi() {

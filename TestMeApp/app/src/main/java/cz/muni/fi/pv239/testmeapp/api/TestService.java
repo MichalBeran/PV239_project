@@ -15,6 +15,6 @@ public interface TestService {
     @Headers({
             "Accept: application/vnd.github.v3.raw"
     })
-    @GET("{testname}")
-    Call<Test> getTest(@Path("testname") String testname);
+    @GET("{testUrl}")
+    Call<Test> getTest(@Path(value = "testUrl", encoded = true) String testUrl);
 }

@@ -7,4 +7,5 @@ package cz.muni.fi.pv239.testmeapp.model;
 public class TestLight {
     // Name from serialized ouput of api
     public String name;
+    public String download_url;
 }
