@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(android.R.id.list)
     RecyclerView mList;
+
+    @BindView(R.id.empty_view)
+    TextView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +140,16 @@ public class MainActivity extends AppCompatActivity {
 
         // favourite tests are displayed higher than others
         RealmResults<Test> tests = mRealm.where(Test.class).findAllSorted("favourite", Sort.DESCENDING);
+
+        if (tests.size() == 0){
+            mList.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else{
+            mList.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+
         mAdapter = new TestsAdapter(this, tests);
         mList.setAdapter(mAdapter);
         mList.setLayoutManager(new LinearLayoutManager(this));
