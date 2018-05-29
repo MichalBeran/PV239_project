@@ -60,4 +60,6 @@ dependencies {
     //Graph
     implementation 'com.jjoe64:graphview:4.2.1'
 
+    //TLS problems with github api
+    implementation 'com.google.android.gms:play-services-auth:11.8.0'
 }
