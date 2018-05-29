@@ -71,6 +71,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             if (!mIsAnswered && itemView!=null) {
                 if (itemView.getTag() != null){
                     itemCheckChanged(this.itemView);
+                    System.out.println("answered " + mIsAnswered);
                 }
             }
         }
@@ -130,31 +131,35 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             holder.mAnswerRadioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemCheckChanged(view);
+                    if (!mIsAnswered) {
+                        itemCheckChanged(view);
+                    }
                 }
             });
 
             holder.mAnswerLabel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemCheckChanged(view);
+                    if (!mIsAnswered) {
+                        itemCheckChanged(view);
+                    }
                 }
-
-
             });
+            if(mSelectedPosition == position){
+                setBorder(mContext.getResources().getColor(R.color.colorAccent), 6, 8, holder.mAnswerItem);
+            }else{
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = mContext.getTheme();
+                theme.resolveAttribute(R.attr.colorText, typedValue, true);
+                int textColor = typedValue.data;
+                setBorder(textColor, 6, 8, holder.mAnswerItem);
+            }
         } else {
             markCorrectAndSelectedPositions(holder, position);
+            holder.mAnswerRadioButton.setClickable(false);
         }
 
-        if(mSelectedPosition == position){
-            setBorder(mContext.getResources().getColor(R.color.colorAccent), 6, 8, holder.mAnswerItem);
-        }else{
-            TypedValue typedValue = new TypedValue();
-            Resources.Theme theme = mContext.getTheme();
-            theme.resolveAttribute(R.attr.colorText, typedValue, true);
-            int textColor = typedValue.data;
-            setBorder(textColor, 6, 8, holder.mAnswerItem);
-        }
+
     }
 
     @Override
@@ -189,10 +194,12 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
     private void markCorrectAndSelectedPositions(final AnswerViewHolder holder, final int position) {
         if (position == mCorrectPosition) {
-            holder.mAnswerLabel.setTextColor(Color.GREEN);
+            holder.mAnswerLabel.setTextColor(mContext.getResources().getColor(R.color.colorTextRight));
+            holder.changeLabelColor(mContext.getResources().getColor(R.color.colorTextRight));
         }
         if (mCorrectPosition != mSelectedPosition && position == mSelectedPosition) {
-            holder.mAnswerLabel.setTextColor(Color.RED);
+            holder.mAnswerLabel.setTextColor(mContext.getResources().getColor(R.color.colorTextWrong));
+            holder.changeLabelColor(mContext.getResources().getColor(R.color.colorTextWrong));
         }
     }
 
@@ -201,6 +208,11 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         drawable.setStroke(width, color);
         drawable.setCornerRadius(radius);
         layout.setBackground(drawable);
+    }
+
+    public void setAsAnswered(){
+        this.mIsAnswered = true;
+        notifyDataSetChanged();
     }
 
 }

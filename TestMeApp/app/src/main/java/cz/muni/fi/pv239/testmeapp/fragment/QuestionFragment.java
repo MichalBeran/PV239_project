@@ -136,21 +136,12 @@ public class QuestionFragment extends Fragment {
     }
 
     private void markAnswers() {
-        if (!mAdapter.isCorrectAnswer() && mAdapter.getSelectedPosition() >= 0) {
-            ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
-                    .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
-                    .changeLabelColor(getContext().getResources().getColor(R.color.colorTextWrong));
-        }
-
-        ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
-                .findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()))
-                .changeLabelColor(getContext().getResources().getColor(R.color.colorTextRight));
-
         System.out.println("Correct position:  " + mAdapter.getCorrectPosition());
         System.out.println("Selected position: " + mAdapter.getSelectedPosition());
         System.out.println("mAnswersRecyclerV: " +
                 mAnswersRecyclerView.findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()));
 
+        mAdapter.setAsAnswered();
     }
 
     private Test getTest(String testName) {
