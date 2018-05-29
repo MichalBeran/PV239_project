@@ -2,6 +2,9 @@ package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -154,6 +158,14 @@ public class MainActivity extends AppCompatActivity {
         mList.setAdapter(mAdapter);
         mList.setLayoutManager(new LinearLayoutManager(this));
         mList.setHasFixedSize(true);
+
+        Drawable arrowIcon = AppCompatResources.getDrawable(this, R.drawable.ic_subdirectory_arrow_right_white_92dp);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.getTheme();
+        theme.resolveAttribute(R.attr.colorText, typedValue, true);
+        int color = typedValue.data;
+        arrowIcon.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        emptyView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, arrowIcon);
     }
 
     @Override
