@@ -14,6 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -165,6 +169,11 @@ public class GetTestsListActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
+        try {
+            ProviderInstaller.installIfNeeded(this);
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_download_list_tests);
         mUnbinder = ButterKnife.bind(this);
         mGithubApi = new GithubApi();
