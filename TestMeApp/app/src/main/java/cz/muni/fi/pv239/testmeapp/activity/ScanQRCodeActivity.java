@@ -89,18 +89,9 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
 
     @Override
     public void handleResult(Result rawResult){
-        URI uri = null;
-        try {
-            uri = new URI(rawResult.getText());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        String path = uri.getPath();
-        String end = path.substring(path.lastIndexOf('/') + 1);
-
         mScannerView.removeAllViews();  // here remove all the views, it will make an Activity having no View
         mScannerView.stopCamera();  // then stop the camera
-        loadTest(end);
+        loadTest(rawResult.getText());
         finish();
     }
 
@@ -123,8 +114,9 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
         alert.show();
     }
 
-    private void loadTest(@NonNull final String testname) {
-        Call<Test> testCall = mTestApi.getService().getTest(testname);
+    private void loadTest(@NonNull final String testUrl) {
+        final String path = Uri.parse(testUrl).getPath();
+        Call<Test> testCall = mTestApi.getService().getTest(path);
         testCall.enqueue(new Callback<Test>() {
 
             @Override
@@ -136,7 +128,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                     if (test == null) {
                         return;
                     }
-                    test.url = mTestApi.getUrlBase() + testname;
+                    test.url = mTestApi.getUrlBase() + path;
                     Boolean state = saveResult(test);
                 }
             }
