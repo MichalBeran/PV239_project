@@ -8,7 +8,24 @@
             android:title="@string/pref_dark_theme"
             android:summary="@string/pref_dark_theme_summary"
             android:defaultValue="false" />
-
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_git_category">
+        <EditTextPreference
+            android:key="pref_git_user"
+            android:title="@string/pref_git_user"
+            android:summary="@string/pref_git_user_default"
+            android:defaultValue="@string/pref_git_user_default" />
+        <EditTextPreference
+            android:key="pref_git_repo"
+            android:title="@string/pref_git_repo"
+            android:summary="@string/pref_git_repo_default"
+            android:defaultValue="@string/pref_git_repo_default" />
+        <EditTextPreference
+            android:key="pref_git_folder"
+            android:title="@string/pref_git_folder"
+            android:summary="@string/pref_git_folder_default"
+            android:defaultValue="@string/pref_git_folder_default" />
     </PreferenceCategory>
 
 

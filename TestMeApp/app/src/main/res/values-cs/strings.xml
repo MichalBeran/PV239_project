@@ -65,6 +65,13 @@
     <!--setting-->
     <string name="pref_dark_theme">Tmavý režim</string>
     <string name="pref_dark_theme_summary">Nastavení tmavého režimu</string>
+    <string name="pref_git_category">Nastavení GIT repozitáře</string>
+    <string name="pref_git_user">Vlastník GIT repozitáře</string>
+    <string name="pref_git_repo">GIT repozitář</string>
+    <string name="pref_git_folder">Složka v GIT repozitáři</string>
+    <string name="pref_git_user_default">MichalBeran</string>
+    <string name="pref_git_repo_default">PV239_project</string>
+    <string name="pref_git_folder_default">Tests</string>
     <string name="button_download_test_from_list">Stáhnout test</string>
     <string name="no_tests_available">Nejsou dostupné žádné testy, nejprve si je musíš stáhnout pomocí tlačítka plus.</string>
 </resources>

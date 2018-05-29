@@ -21,6 +21,9 @@ public class TestMeApp
     private static TestMeApp sInstance;
 
     public static final String THEME_PREFERENCES = "pref_dark_theme";
+    public static final String GIT_USER = "pref_git_user";
+    public static final String GIT_REPO = "pref_git_repo";
+    public static final String GIT_FOLDER = "pref_git_folder";
 
     public static TestMeApp getInstance() {
         return sInstance;
@@ -42,5 +45,17 @@ public class TestMeApp
 
     public static void setTheme(Activity activity){
         activity.setTheme(isDarkThemeSet(activity) ? R.style.AppThemeDark : R.style.AppTheme);
+    }
+
+    public static String getGitUser(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(GIT_USER, appContext.getString(R.string.pref_git_user_default));
+    }
+
+    public static String getGitRepo(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(GIT_REPO, appContext.getString(R.string.pref_git_repo_default));
+    }
+
+    public static String getGitFolder(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(GIT_FOLDER, appContext.getString(R.string.pref_git_folder_default));
     }
 }
