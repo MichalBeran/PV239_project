@@ -139,12 +139,12 @@ public class QuestionFragment extends Fragment {
         if (!mAdapter.isCorrectAnswer() && mAdapter.getSelectedPosition() >= 0) {
             ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
                     .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
-                    .changeLabelColor(Color.RED);
+                    .changeLabelColor(getContext().getResources().getColor(R.color.colorTextWrong));
         }
 
         ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
                 .findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()))
-                .changeLabelColor(Color.GREEN);
+                .changeLabelColor(getContext().getResources().getColor(R.color.colorTextRight));
 
         System.out.println("Correct position:  " + mAdapter.getCorrectPosition());
         System.out.println("Selected position: " + mAdapter.getSelectedPosition());

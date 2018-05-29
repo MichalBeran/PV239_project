@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorFavouriteGray">@color/colorFavouriteGray</item>
         <item name="colorFavouriteYellow">@color/colorFavouriteYellow</item>
+        <item name="colorText">@color/colorTextLight</item>
         <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
         <item name="displayOptions">showHome|homeAsUp|showTitle</item>
         <item name="PrimaryButton">@style/PrimaryButtonLight</item>
@@ -26,6 +27,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorFavouriteGray">@color/colorFavouriteGray</item>
         <item name="colorFavouriteYellow">@color/colorFavouriteYellow</item>
+        <item name="colorText">@color/colorTextDark</item>
         <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
         <item name="displayOptions">showHome|homeAsUp|showTitle</item>
         <item name="PrimaryButton">@style/PrimaryButtonDark</item>

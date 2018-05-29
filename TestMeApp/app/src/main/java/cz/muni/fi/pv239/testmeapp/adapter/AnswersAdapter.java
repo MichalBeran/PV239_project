@@ -1,6 +1,7 @@
 package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
         public void changeLabelColor(int color) {
             this.mAnswerLabel.setTextColor(color);
-            setBorder(color, 3, 5, mAnswerItem);
+            setBorder(color, 6, 8, mAnswerItem);
         }
 
         @OnClick
@@ -69,7 +71,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             if (!mIsAnswered && itemView!=null) {
                 if (itemView.getTag() != null){
                     itemCheckChanged(this.itemView);
-//                    setBorder(mContext.getResources().getColor(R.color.colorAccent), 3, 5, mAnswerItem);
                 }
             }
         }
@@ -146,9 +147,13 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         }
 
         if(mSelectedPosition == position){
-            setBorder(mContext.getResources().getColor(R.color.colorAccent), 3, 5, holder.mAnswerItem);
+            setBorder(mContext.getResources().getColor(R.color.colorAccent), 6, 8, holder.mAnswerItem);
         }else{
-            setBorder(mContext.getResources().getColor(R.color.colorFavouriteGray), 3, 5, holder.mAnswerItem);
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.colorText, typedValue, true);
+            int textColor = typedValue.data;
+            setBorder(textColor, 6, 8, holder.mAnswerItem);
         }
     }
 
