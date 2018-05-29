@@ -219,8 +219,9 @@ public class QuestionFragment extends Fragment {
                 .setMessage(getString(R.string.text_gathered_points) + ": " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getActivity().finish();
                         dialog.dismiss();
+                        dialog.cancel();
+                        getActivity().finish();
                     }
                 })
                 .setCancelable(false)

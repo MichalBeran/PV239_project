@@ -33,17 +33,20 @@
                 android:id="@+id/answers_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp" />
         </LinearLayout>
     </ScrollView>
     <Button
         android:id="@+id/test_drill_submit_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".15"
+        android:layout_height="70dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:visibility="visible"
+        android:textStyle="bold"
+        android:textSize="18dp"
         android:theme="?PrimaryButton"
+        style="?PrimaryButton"
         android:text="" />
 
 </LinearLayout>
