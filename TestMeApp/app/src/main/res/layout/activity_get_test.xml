@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/urlText"
             android:inputType="textUri"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:paddingEnd="80dp"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

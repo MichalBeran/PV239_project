@@ -13,7 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/runTestTimer"
-        android:text="HELLO THERE"/>
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:theme="?TimerText"
+        style="?TimerText"
+        android:text="0:0:0"/>
     <FrameLayout
         android:name="cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment"
         android:layout_width="match_parent"

@@ -41,6 +41,7 @@
     <string name="text_headline_download_url">Test URL address</string>
     <string name="test_downloading">Downloading ...</string>
     <string name="test_download_failed">Download failed</string>
+    <string name="test_download_failed_bad_response">Download failed. \nBad address.</string>
     <string name="test_save_successful">Saved</string>
     <string name="retry">Retry</string>
     <string name="share">Share</string>

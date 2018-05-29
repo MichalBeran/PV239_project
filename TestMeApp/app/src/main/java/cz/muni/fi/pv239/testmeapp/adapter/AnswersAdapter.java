@@ -1,12 +1,20 @@
 package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -17,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.model.Answer;
 
@@ -25,6 +34,9 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     public class AnswerViewHolder extends RecyclerView.ViewHolder {
 
         private Answer mAnswer;
+
+        @BindView(R.id.answer_item)
+        LinearLayout mAnswerItem;
 
         @BindView(R.id.answer_label)
         TextView mAnswerLabel;
@@ -35,6 +47,10 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         public AnswerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setStroke(3, mContext.getResources().getColor(R.color.colorFavouriteGray));
+            drawable.setCornerRadius(5);
+            mAnswerItem.setBackground(drawable);
         }
 
         public Answer getAnswer() {
@@ -47,6 +63,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
         public void changeLabelColor(int color) {
             this.mAnswerLabel.setTextColor(color);
+            setBorder(color, 6, 8, mAnswerItem);
+        }
+
+        @OnClick
+        public void click(){
+            if (!mIsAnswered && itemView!=null) {
+                if (itemView.getTag() != null){
+                    itemCheckChanged(this.itemView);
+                }
+            }
         }
     }
 
@@ -99,6 +125,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         //Set the position tag to both radio button and label
         holder.mAnswerRadioButton.setTag(position);
         holder.mAnswerLabel.setTag(position);
+        holder.mAnswerItem.setTag(position);
         if (!mIsAnswered) {
             holder.mAnswerRadioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,6 +144,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             });
         } else {
             markCorrectAndSelectedPositions(holder, position);
+        }
+
+        if(mSelectedPosition == position){
+            setBorder(mContext.getResources().getColor(R.color.colorAccent), 6, 8, holder.mAnswerItem);
+        }else{
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.colorText, typedValue, true);
+            int textColor = typedValue.data;
+            setBorder(textColor, 6, 8, holder.mAnswerItem);
         }
     }
 
@@ -157,6 +194,13 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         if (mCorrectPosition != mSelectedPosition && position == mSelectedPosition) {
             holder.mAnswerLabel.setTextColor(Color.RED);
         }
+    }
+
+    private void setBorder(int color, int width, int radius, LinearLayout layout){
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setStroke(width, color);
+        drawable.setCornerRadius(radius);
+        layout.setBackground(drawable);
     }
 
 }

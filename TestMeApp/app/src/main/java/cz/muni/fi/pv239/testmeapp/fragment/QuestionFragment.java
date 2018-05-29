@@ -139,12 +139,12 @@ public class QuestionFragment extends Fragment {
         if (!mAdapter.isCorrectAnswer() && mAdapter.getSelectedPosition() >= 0) {
             ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
                     .findViewHolderForAdapterPosition(mAdapter.getSelectedPosition()))
-                    .changeLabelColor(Color.RED);
+                    .changeLabelColor(getContext().getResources().getColor(R.color.colorTextWrong));
         }
 
         ((AnswersAdapter.AnswerViewHolder) mAnswersRecyclerView
                 .findViewHolderForAdapterPosition(mAdapter.getCorrectPosition()))
-                .changeLabelColor(Color.GREEN);
+                .changeLabelColor(getContext().getResources().getColor(R.color.colorTextRight));
 
         System.out.println("Correct position:  " + mAdapter.getCorrectPosition());
         System.out.println("Selected position: " + mAdapter.getSelectedPosition());
@@ -219,8 +219,9 @@ public class QuestionFragment extends Fragment {
                 .setMessage(getString(R.string.text_gathered_points) + ": " + getActivity().getIntent().getExtras().getInt("points"))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getActivity().finish();
                         dialog.dismiss();
+                        dialog.cancel();
+                        getActivity().finish();
                     }
                 })
                 .setCancelable(false)

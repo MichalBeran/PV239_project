@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorFavouriteGray">@color/colorFavouriteGray</item>
         <item name="colorFavouriteYellow">@color/colorFavouriteYellow</item>
+        <item name="colorText">@color/colorTextLight</item>
         <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
         <item name="displayOptions">showHome|homeAsUp|showTitle</item>
         <item name="PrimaryButton">@style/PrimaryButtonLight</item>
@@ -16,6 +17,7 @@
         <item name="FavouriteButton">@style/FavouriteButton</item>
         <item name="FavouriteButtonChecked">@style/FavouriteButtonChecked</item>
         <item name="HorizontalLine">@style/HorizontalLineLight</item>
+        <item name="TimerText">@style/TimerTextLight</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat">
@@ -25,6 +27,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorFavouriteGray">@color/colorFavouriteGray</item>
         <item name="colorFavouriteYellow">@color/colorFavouriteYellow</item>
+        <item name="colorText">@color/colorTextDark</item>
         <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
         <item name="displayOptions">showHome|homeAsUp|showTitle</item>
         <item name="PrimaryButton">@style/PrimaryButtonDark</item>
@@ -33,6 +36,7 @@
         <item name="FavouriteButton">@style/FavouriteButton</item>
         <item name="FavouriteButtonChecked">@style/FavouriteButtonChecked</item>
         <item name="HorizontalLine">@style/HorizontalLineDark</item>
+        <item name="TimerText">@style/TimerTextDark</item>
     </style>
 
     <style name="PrimaryButtonLight" parent="Theme.AppCompat">
@@ -93,5 +97,13 @@
     </style>
     <style name="HorizontalLineDark" parent="Theme.AppCompat">
         <item name="android:background">#cccccc</item>
+    </style>
+    <style name="TimerTextLight" parent="Theme.AppCompat">
+        <item name="android:textColor">#111111</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+    <style name="TimerTextDark" parent="Theme.AppCompat">
+        <item name="android:textColor">#eeeeee</item>
+        <item name="android:textSize">25dp</item>
     </style>
 </resources>

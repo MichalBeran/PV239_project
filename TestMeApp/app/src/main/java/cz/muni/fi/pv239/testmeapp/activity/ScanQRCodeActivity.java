@@ -1,6 +1,8 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,8 @@ import com.google.zxing.Result;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
@@ -84,7 +89,6 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
 
     @Override
     public void handleResult(Result rawResult){
-        Toast.makeText(ScanQRCodeActivity.this, "SCAN SUCCESFULL", Toast.LENGTH_SHORT).show();
         URI uri = null;
         try {
             uri = new URI(rawResult.getText());
@@ -125,32 +129,29 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
 
             @Override
             public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
-                Test test = response.body();
-                if (test == null) {
-                    return;
+                if (response.code() == 404 || response.code() == 400){
+                    Toast.makeText(ScanQRCodeActivity.this, R.string.test_download_failed_bad_response, Toast.LENGTH_SHORT).show();
+                }else {
+                    Test test = response.body();
+                    if (test == null) {
+                        return;
+                    }
+                    test.url = mTestApi.getUrlBase() + testname;
+                    Boolean state = saveResult(test);
                 }
-                test.url = mTestApi.getUrlBase() + testname;
-                saveResult(test);
             }
 
             @Override
             public void onFailure(Call<Test> call, Throwable t) {
                 t.printStackTrace();
-                Snackbar.make(mScannerView, R.string.test_download_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Respond to the click, such as by undoing the modification that caused
-                                // this message to be displayed
-                                loadTest(testname);
-                            }
-                        }).show();
+                Toast.makeText(ScanQRCodeActivity.this, R.string.test_download_failed, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void saveResult(final Test test) {
+    private boolean saveResult(final Test test) {
         Realm realm = null;
+        Boolean state = false;
         try {
             realm = Realm.getDefaultInstance();
             realm.executeTransaction(new Realm.Transaction() {
@@ -159,12 +160,14 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                     realm.insertOrUpdate(test);
                 }
             });
-            Snackbar.make(mScannerView, R.string.test_save_successful, Snackbar.LENGTH_LONG).show();
+            Toast.makeText(ScanQRCodeActivity.this, R.string.test_save_successful, Toast.LENGTH_SHORT).show();
+            state = true;
         } finally {
             if(realm != null) {
                 realm.close();
             }
         }
+        return state;
     }
 
     private void startCamera(){

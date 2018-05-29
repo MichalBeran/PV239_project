@@ -8,4 +8,8 @@
     <color name="colorFavouriteYellow">#ffc300</color>
     <color name="colorFavouriteGray">#888888</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorTextLight">#111111</color>
+    <color name="colorTextDark">#eeeeee</color>
+    <color name="colorTextRight">#00a400</color>
+    <color name="colorTextWrong">#FF1010</color>
 </resources>

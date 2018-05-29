@@ -13,7 +13,10 @@
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -23,22 +26,27 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="?colorText"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/answers_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp" />
         </LinearLayout>
     </ScrollView>
     <Button
         android:id="@+id/test_drill_submit_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".15"
+        android:layout_height="70dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:visibility="visible"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:theme="?PrimaryButton"
+        style="?PrimaryButton"
         android:text="" />
 
 </LinearLayout>
