@@ -98,7 +98,16 @@ public class RunTestActivity extends FragmentActivity {
                 int hours = (int) (millisUntilFinished/1000) / 3600;
                 int minutes = (int) ((millisUntilFinished/1000) - (hours * 3600))/60;
                 int seconds = (int) ((millisUntilFinished/1000) - (hours * 3600) - (minutes *60));
-                mTimerText.setText(getString(R.string.text_remaining) + ": " + hours + ":" + minutes + ":" + seconds);
+
+                String sHours = Integer.toString(hours);
+                String sMinutes = Integer.toString(minutes);
+                String sSeconds = Integer.toString(seconds);
+
+                if (hours < 10) sHours = "0" + sHours;
+                if (minutes < 10) sMinutes = "0" + sMinutes;
+                if (seconds < 10) sSeconds = "0" + sSeconds;
+
+                mTimerText.setText(getString(R.string.text_remaining) + ": " + sHours + ":" + sMinutes + ":" + sSeconds);
                 remainingTime = millisUntilFinished;
             }
             @Override
