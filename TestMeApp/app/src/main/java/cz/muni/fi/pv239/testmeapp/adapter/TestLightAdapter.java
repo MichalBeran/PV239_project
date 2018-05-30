@@ -1,19 +1,32 @@
 package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.activity.GetTestsListActivity;
+import cz.muni.fi.pv239.testmeapp.api.TestApi;
+import cz.muni.fi.pv239.testmeapp.model.Test;
 import cz.muni.fi.pv239.testmeapp.model.TestLight;
+import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 /**
@@ -24,11 +37,9 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
 
     private Context mContext;
     private List<TestLight> mTests;
-    private GetTestsListActivity mActivity;
 
-    public TestLightAdapter(@NonNull List<TestLight> tests, GetTestsListActivity mActivity) {
+    public TestLightAdapter(@NonNull List<TestLight> tests) {
         mTests = tests;
-        this.mActivity = mActivity;
     }
 
     public void refreshTests(@NonNull List<TestLight> tests) {
@@ -60,6 +71,12 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
         @BindView(R.id.name)
         TextView mFileName;
 
+        @BindView(R.id.loadingPanel)
+        ProgressBar mLoadingBar;
+
+        @BindView(R.id.downloadTestFromListButton)
+        Button downloadButton;
+
         public String getDownloadUrl() {
             return downloadUrl;
         }
@@ -75,8 +92,76 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
 
         @OnClick(R.id.downloadTestFromListButton)
         protected void downloadTestFromList(){
-            mActivity.downloadTest(downloadUrl);
+            dowloadByHolder();
+        }
 
+        private void dowloadByHolder(){
+            final TestApi mTestApi = new TestApi();
+            final String path = Uri.parse(downloadUrl).getPath();
+            final Call<Test> testCall = mTestApi.getService().getTest(path);
+
+            mLoadingBar.setVisibility(View.VISIBLE);
+            downloadButton.setVisibility(View.GONE);
+
+            testCall.enqueue(new Callback<Test>() {
+
+                @Override
+                public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
+                    if (response.code() == 404 || response.code() == 400){
+                        // FAILURE - 404 or 400
+                        mLoadingBar.setVisibility(View.GONE);
+                        downloadButton.setText(mContext.getString(R.string.test_download_failed) + " - " + mContext.getString(R.string.retry));
+                        downloadButton.setVisibility(View.VISIBLE);
+                    }else {
+                        Test test = response.body();
+                        if (test == null) {
+                            return;
+                        }
+                        test.url = mTestApi.getUrlBase() + path;
+                        Boolean state = saveResult(test);
+                        // OK state
+                        if(state){
+                            mLoadingBar.setVisibility(View.GONE);
+                            downloadButton.setText(mContext.getString(R.string.test_save_successful));
+                            downloadButton.setClickable(false);
+                            downloadButton.setVisibility(View.VISIBLE);
+                        }else{
+                            mLoadingBar.setVisibility(View.GONE);
+                            downloadButton.setText(mContext.getString(R.string.test_download_failed) + " - " + mContext.getString(R.string.retry));
+                            downloadButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Test> call, Throwable t) {
+                    // FAILURE
+                    t.printStackTrace();
+                    mLoadingBar.setVisibility(View.GONE);
+                    downloadButton.setText(mContext.getString(R.string.test_download_failed) + " - " + mContext.getString(R.string.retry));
+                    downloadButton.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+
+        private Boolean saveResult(final Test test) {
+            Realm realm = null;
+            Boolean state = false;
+            try {
+                realm = Realm.getDefaultInstance();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.insertOrUpdate(test);
+                    }
+                });
+                state = true;
+            } finally {
+                if(realm != null) {
+                    realm.close();
+                }
+            }
+            return state;
         }
     }
 
