@@ -179,7 +179,7 @@ public class GetTestsListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_download_list_tests);
         mUnbinder = ButterKnife.bind(this);
         mGithubApi = new GithubApi();
-        mAdapter = new TestLightAdapter(new ArrayList<TestLight>(), this);
+        mAdapter = new TestLightAdapter(new ArrayList<TestLight>());
         mList.setAdapter(mAdapter);
         mTestApi = new TestApi();
         mList.setLayoutManager(new LinearLayoutManager(this));
