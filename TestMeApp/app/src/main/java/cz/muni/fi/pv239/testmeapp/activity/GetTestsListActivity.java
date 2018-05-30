@@ -58,115 +58,6 @@ public class GetTestsListActivity extends AppCompatActivity{
     @BindView(android.R.id.list)
     RecyclerView mList;
 
-    public void downloadTest(@NonNull final String testUrl){
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(getString(R.string.test_downloading));
-        mProgressDialog.setCancelable(true);
-        mProgressDialog.setCanceledOnTouchOutside(true);
-
-        final Dialog m404Dialog;
-        final Dialog mDialog;
-        final Dialog mSuccessDialog;
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        m404Dialog = mBuilder.setTitle(R.string.test_download_failed_bad_response)
-                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(this);
-        mDialog = mBuilder1.setTitle(R.string.test_download_failed)
-                .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        downloadTest(testUrl);
-                    }
-                })
-                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(this);
-        mSuccessDialog = mBuilder2.setTitle(R.string.test_save_successful)
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-
-        final String path = Uri.parse(testUrl).getPath();
-        final Call<Test> testCall = mTestApi.getService().getTest(path);
-
-        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.text_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                testCall.cancel();
-                dialog.dismiss();
-            }
-        });
-        mProgressDialog.show();
-
-        testCall.enqueue(new Callback<Test>() {
-
-            @Override
-            public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
-                if (response.code() == 404 || response.code() == 400){
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                        m404Dialog.show();
-                        final Timer t = new Timer();
-                        t.schedule(new TimerTask() {
-                            public void run() {
-                                if (m404Dialog.isShowing()) {
-                                    m404Dialog.dismiss();
-                                }
-                                t.cancel();
-                            }
-                        }, 2000);
-                    }
-                }else {
-                    Test test = response.body();
-                    if (test == null) {
-                        return;
-                    }
-                    test.url = mTestApi.getUrlBase() + path;
-                    Boolean state = saveResult(test);
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                        mSuccessDialog.show();
-                        final Timer t = new Timer();
-                        t.schedule(new TimerTask() {
-                            public void run() {
-                                if (mSuccessDialog.isShowing()) {
-                                    mSuccessDialog.dismiss();
-                                }
-                                t.cancel();
-                            }
-                        }, 3000);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Test> call, Throwable t) {
-                t.printStackTrace();
-                if(mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
-                    mDialog.show();
-                }
-            }
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TestMeApp.setTheme(this);
@@ -203,27 +94,7 @@ public class GetTestsListActivity extends AppCompatActivity{
         mUnbinder.unbind();
         mRealm.close();
     }
-
-    private Boolean saveResult(final Test test) {
-        Realm realm = null;
-        Boolean state = false;
-        try {
-            realm = Realm.getDefaultInstance();
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insertOrUpdate(test);
-                }
-            });
-            state = true;
-        } finally {
-            if(realm != null) {
-                realm.close();
-            }
-        }
-        return state;
-    }
-
+    
     @NonNull
     public static Intent newIntent(@NonNull Context context) {
         Intent intent = new Intent(context,GetTestsListActivity.class);
