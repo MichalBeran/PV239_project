@@ -1,0 +1,1068 @@
+{
+	"name": "PV233 - all",
+	"testCount": 40,
+	"testDuration": "40:00",
+	"testMinPoint": 40,
+	"questions": [
+		{
+			"text": "Which term refers to a network that provides secure access to the corporate offices by suppliers, customers and collaborators?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "extranet",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "Internet",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Internet",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "extendednet",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A small business user is looking for an ISP connection that provides high speed digital transmission over regular phone lines. What ISP connection type should be used?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "DSL",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "dial-up",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "satellite",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "cell modem",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "cable modem",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which keys act as a hot key combination that is used to interrupt an IOS process?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "Ctrl-Shift-6",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "Ctrl-Shift-X",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Ctrl-Z",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Ctrl-C",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the purpose of the SVI on a Cisco switch?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "The SVI provides a virtual interface for remote access to the switch.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "The SVI provides a physical interface for remote access to the switch.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The SVI provides a faster method for switching traffic between ports on the switch.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The SVI adds Layer 4 connectivity between VLANs.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which message delivery option is used when all devices need to receive the same message simultaneously?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "broadcast",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "multicast",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "unicast",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "duplex",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What PDU is associated with the transport layer?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "segment",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "packet",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "frame",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "bits",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is done to an IP packet before it is transmitted over the physical medium?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "It is encapsulated in a Layer 2 frame.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "It is encapsulated into a TCP segment.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "It is segmented into smaller individual pieces.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "It is tagged with information guaranteeing reliable delivery.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What type of communication medium is used with a wireless LAN connection?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "radio waves",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "fiber",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "microwave",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "UTP",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What type of communication rule would best describe CSMA/CD?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "access method",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "flow control",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "message encapsulation",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "message encoding",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "If data is being sent over a wireless network, then connects to an Ethernet network, and eventually connects to a DSL connection, which header will be replaced each time the data travels through a network infrastructure device?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "data link",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "Layer 3",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "physical",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Layer 4",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What best describes the destination IPv4 address that is used by multicasting?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "a single IP multicast address that is used by all destinations in a group",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "an IP address that is unique for each destination in the group",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "a group address that shares the last 23 bits with the source IPv4 address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "a 48 bit address that is determined by the number of members in the multicast group",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "In an Ethernet network, when a device receives a frame of 1200 bytes, what will it do?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "process the frame as it is",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "drop the frame",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "send an error message to the sending device",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "add random data bytes to make the frame 1518 bytes long and then forward it",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What important information is examined in the Ethernet frame header by a Layer 2 device in order to forward the data onward?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "destination MAC address",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "source MAC address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "source IP address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Ethernet type",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "destination IP address",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What will a Layer 2 switch do when the destination MAC address of a received frame is not in the MAC table?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "It forwards the frame out of all ports except for the port at which the frame was received.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "It notifies the sending host that the frame cannot be delivered.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "It broadcasts the frame out of all ports on the switch.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "It initiates an ARP request.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is a basic characteristic of the IP protocol?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "connectionless",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "media dependent",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "user data segmentation",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "reliable end-to-end delivery",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the valid most compressed format possible of the IPv6 address 2001:0DB8:0000:AB00:0000:0000:0000:1234?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "2001:DB8:0:AB00::1234",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "2001:DB8:0:AB::1234",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "2001:DB8::AB00::1234",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "2001:DB8:0:AB:0:1234",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "At a minimum, which address is required on IPv6-enabled interfaces?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "link-local",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "unique local",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "site local",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "global unicast",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "An IPv6 enabled device sends a data packet with the destination address of FF02::2. What is the target of this packet?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "all IPv6 configured routers on the local link",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "all IPv6 DHCP servers",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "all IPv6 enabled devices on the local link",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "all IPv6 enabled devices across the network",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the purpose of ICMP messages?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "to provide feedback of IP packet transmissions",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "to inform routers about network topology changes",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to ensure the delivery of an IP packet",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to monitor the process of a domain name to IP address resolution",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which connection provides a secure CLI session with encryption to a Cisco switch?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "an SSH connection",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "a Telnet connection",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "an AUX connection",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "a console connection",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "The buffers for packet processing and the running configuration file are temporarily stored in which type of router memory?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "RAM",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "ROM",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "NVRAM",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "flash",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which type of inter-VLAN communication design requires the configuration of multiple subinterfaces?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "router on a stick",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "legacy inter-VLAN routing",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "routing for the management VLAN",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "routing via a multilayer switch",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "After sticky learning of MAC addresses is enabled, what action is needed to prevent dynamically learned MAC addresses from being lost in the event that an associated interface goes down?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "Copy the running configuration to the startup configuration",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "Reboot the switch",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Shut down the interface then enable it again with the no shutdown command",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Configure port security for violation protect mode",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A network technician is configuring port security on switches. The interfaces on the switches are configured in such a way that when a violation occurs, packets with unknown source addresses are dropped and no notification is sent. Which violation mode is configured on the interfaces?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "protect",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "restrict",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "off",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "shutdown",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the minimum configuration for a router interface that is participating in IPv6 routing?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "to have only a link-local IPv6 address",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "to have both a link-local and a global unicast IPv6 address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to have both an IPv4 and an IPv6 address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to have a self-generated loopback address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to have only an automatically generated multicast IPv6 address",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What command will enable a router to begin sending messages that allow it to configure a link-local address without using an IPv6 DHCP server?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "the ipv6 unicast-routing command",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "a static route",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "the ipv6 route ::/0 command",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "the ip routing command",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which switching method provides error-free data transmission?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "store-and-forward",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "ntegrity-checking",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "fast-forward",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "fragment-free",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which problem is evident if the show ip interface command shows that the interface is down and the line protocol is down?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "A cable has not been attached to the port.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "There is an IP address conflict with the configured address on the interface.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The no shutdown command has not been issued on the interface.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "An encapsulation mismatch has occurred.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A company security policy requires that all MAC addressing be dynamically learned and added to both the MAC address table and the running configuration on each switch. Which port security configuration will accomplish this?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "sticky secure MAC addresses*",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "static secure MAC addresses",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "dynamic secure MAC addresses",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "auto secure MAC addresses",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A network administrator is configuring an ACL with the command access-list 10 permit 172.16.32.0 0.0.15.255. Which IPv4 address matches the ACE?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "172.16.45.2",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "172.16.48.5",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "172.16.26.254",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "172.16.20.2",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which command is issued in the VTY line configuration mode to apply a standard ACL that will control Telnet access to a router?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "access-class 11 in",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "access-group 11 in",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "access-list 11 in",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "access-list 110 in",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which destination do Cisco routers and switches use by default when sending syslog messages for all severity levels?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "console",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "NVRAM",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "nearest syslog server",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "RAM",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which requirement should be checked before a network administrator performs an IOS image upgrade on a router?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "There is sufficient space in flash memory.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "The old IOS image file has been deleted.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The FTP server is operational.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The desired IOS image file has been downloaded to the router.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which type of static route typically uses the distance parameter in the ip route global configuration command?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "floating static route",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "standard static route",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "default static route",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "summary static route",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "To enable RIP routing for a specific subnet, the configuration command network 192.168.5.64 was entered by the network administrator. What address, if any, appears in the running configuration file to identify this network?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "192.168.5.0",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "192.168.0.0",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "No address is displayed.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "192.168.5.64",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the name of the layer in the Cisco borderless switched network design that would have more switches deployed than other layers in the network design of a large organization?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "access",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "network",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "network access",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "core",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "data link",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is a function of the distribution layer?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "interconnection of large-scale networks in wiring closets",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "network access to the user",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "fault isolation",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "high-speed backbone connectivity",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which network design principle focuses on the capability of on-demand seamless network expansion in a switched network?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "modularity",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "flexibility",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "resiliency",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "hierarchical",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "In an IPv6 routing table, all routing table entries are classified as which type of routes?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "level 1 ultimate routes",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "level 1 network routes",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "level 2 child routes",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "level 1 parent routes",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which type of traffic requires a separate VLAN, strict QoS requirements, and a one-way overall delay of less than 150 ms across the network?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "VoIP",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "HTTP",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "POP/IMAP",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "video",
+					"correct": false,
+					"points": -1
+				}
+			]
+		}
+	]
+}
