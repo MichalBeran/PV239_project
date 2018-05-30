@@ -73,4 +73,5 @@
     <string name="pref_git_folder_default">Tests</string>
     <string name="button_download_test_from_list">Download test</string>
     <string name="no_tests_available">There are no tests available, because you have not downloaded any yet. You can add new by add button.</string>
+    <string name="list_loading_failed">List loading failed. Please check your internet connection.</string>
 </resources>

@@ -9,8 +9,7 @@
     <LinearLayout
         android:id="@+id/tests_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
@@ -20,7 +19,30 @@
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
+            android:visibility="gone"
             />
+        <RelativeLayout
+            android:id="@+id/loadingBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ProgressBar
+                android:layout_width="1500dp"
+                android:layout_height="150dp"
+                android:indeterminate="true" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/loadingFailed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/list_loading_failed"
+            android:visibility="gone"
+            android:textSize="30dp"
+            android:paddingRight="16dp"
+            android:layout_marginLeft="16dp">
+        </TextView>
 
     </LinearLayout>
 

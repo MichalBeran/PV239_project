@@ -13,7 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -57,6 +62,12 @@ public class GetTestsListActivity extends AppCompatActivity{
 
     @BindView(android.R.id.list)
     RecyclerView mList;
+
+    @BindView(R.id.loadingBar)
+    RelativeLayout mProgressBar;
+
+    @BindView(R.id.loadingFailed)
+    TextView mLoadingFailed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +130,15 @@ public class GetTestsListActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<List<TestLight>> call, Response<List<TestLight>> response) {
                 populateList(response.body());
+                mProgressBar.setVisibility(View.GONE);
+                mList.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<List<TestLight>> call, Throwable t) {
                 t.printStackTrace();
+                mProgressBar.setVisibility(View.GONE);
+                mLoadingFailed.setVisibility(View.VISIBLE);
             }
         });
     }
