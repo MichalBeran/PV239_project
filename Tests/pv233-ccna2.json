@@ -1,0 +1,538 @@
+{
+	"name": "PV233 - CCNA2",
+	"testCount": 20,
+	"testDuration": "20:00",
+	"testMinPoint": 20,
+	"questions": [
+		{
+			"text": "The buffers for packet processing and the running configuration file are temporarily stored in which type of router memory?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "RAM",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "ROM",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "NVRAM",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "flash",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which type of inter-VLAN communication design requires the configuration of multiple subinterfaces?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "router on a stick",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "legacy inter-VLAN routing",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "routing for the management VLAN",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "routing via a multilayer switch",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "After sticky learning of MAC addresses is enabled, what action is needed to prevent dynamically learned MAC addresses from being lost in the event that an associated interface goes down?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "Copy the running configuration to the startup configuration",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "Reboot the switch",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Shut down the interface then enable it again with the no shutdown command",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "Configure port security for violation protect mode",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A network technician is configuring port security on switches. The interfaces on the switches are configured in such a way that when a violation occurs, packets with unknown source addresses are dropped and no notification is sent. Which violation mode is configured on the interfaces?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "protect",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "restrict",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "off",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "shutdown",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the minimum configuration for a router interface that is participating in IPv6 routing?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "to have only a link-local IPv6 address",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "to have both a link-local and a global unicast IPv6 address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to have both an IPv4 and an IPv6 address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to have a self-generated loopback address",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "to have only an automatically generated multicast IPv6 address",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What command will enable a router to begin sending messages that allow it to configure a link-local address without using an IPv6 DHCP server?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "the ipv6 unicast-routing command",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "a static route",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "the ipv6 route ::/0 command",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "the ip routing command",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which switching method provides error-free data transmission?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "store-and-forward",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "ntegrity-checking",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "fast-forward",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "fragment-free",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which problem is evident if the show ip interface command shows that the interface is down and the line protocol is down?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "A cable has not been attached to the port.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "There is an IP address conflict with the configured address on the interface.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The no shutdown command has not been issued on the interface.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "An encapsulation mismatch has occurred.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A company security policy requires that all MAC addressing be dynamically learned and added to both the MAC address table and the running configuration on each switch. Which port security configuration will accomplish this?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "sticky secure MAC addresses*",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "static secure MAC addresses",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "dynamic secure MAC addresses",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "auto secure MAC addresses",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "A network administrator is configuring an ACL with the command access-list 10 permit 172.16.32.0 0.0.15.255. Which IPv4 address matches the ACE?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "172.16.45.2",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "172.16.48.5",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "172.16.26.254",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "172.16.20.2",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which command is issued in the VTY line configuration mode to apply a standard ACL that will control Telnet access to a router?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "access-class 11 in",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "access-group 11 in",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "access-list 11 in",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "access-list 110 in",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which destination do Cisco routers and switches use by default when sending syslog messages for all severity levels?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "console",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "NVRAM",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "nearest syslog server",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "RAM",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which requirement should be checked before a network administrator performs an IOS image upgrade on a router?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "There is sufficient space in flash memory.",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "The old IOS image file has been deleted.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The FTP server is operational.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "The desired IOS image file has been downloaded to the router.",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which type of static route typically uses the distance parameter in the ip route global configuration command?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "floating static route",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "standard static route",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "default static route",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "summary static route",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "To enable RIP routing for a specific subnet, the configuration command network 192.168.5.64 was entered by the network administrator. What address, if any, appears in the running configuration file to identify this network?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "192.168.5.0",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "192.168.0.0",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "No address is displayed.",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "192.168.5.64",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is the name of the layer in the Cisco borderless switched network design that would have more switches deployed than other layers in the network design of a large organization?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "access",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "network",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "network access",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "core",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "data link",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "What is a function of the distribution layer?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "interconnection of large-scale networks in wiring closets",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "network access to the user",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "fault isolation",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "high-speed backbone connectivity",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which network design principle focuses on the capability of on-demand seamless network expansion in a switched network?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "modularity",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "flexibility",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "resiliency",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "hierarchical",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "In an IPv6 routing table, all routing table entries are classified as which type of routes?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "level 1 ultimate routes",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "level 1 network routes",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "level 2 child routes",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "level 1 parent routes",
+					"correct": false,
+					"points": -1
+				}
+			]
+		},
+		{
+			"text": "Which type of traffic requires a separate VLAN, strict QoS requirements, and a one-way overall delay of less than 150 ms across the network?",
+			"type": "test",
+			"answers": [
+				{
+					"text": "VoIP",
+					"correct": true,
+					"points": 2
+				},
+				{
+					"text": "HTTP",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "POP/IMAP",
+					"correct": false,
+					"points": -1
+				},
+				{
+					"text": "video",
+					"correct": false,
+					"points": -1
+				}
+			]
+		}
+	]
+}
