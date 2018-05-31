@@ -45,7 +45,6 @@ public class GetTestActivity extends AppCompatActivity{
     private Realm mRealm;
 
     @BindView(R.id.urlText)
-    public
     EditText mUrlText;
 
     @BindView(R.id.floatingButtonDownload)
@@ -80,31 +79,7 @@ public class GetTestActivity extends AppCompatActivity{
             }
         });
 
-//        mFragmentManager = this.getFragmentManager();
         mFragmentManager = this.getSupportFragmentManager();
-
-        m404Dialog = TestDialogFragment.newInstance(2);
-        m404Dialog.onCreate(m404Dialog.getArguments());
-
-        mRetryDialog = TestDialogFragment.newInstance(1);
-        mRetryDialog.onCreate(mRetryDialog.getArguments());
-
-//        mSuccessDialog = TestDialogFragment.newInstance(3);
-//        mSuccessDialog.onCreate(mSuccessDialog.getArguments());
-
-//        if(getFragmentManager().findFragmentByTag("mProgressDialog") != null){
-//            mProgressDialog = (TestDialogFragment) getFragmentManager().findFragmentByTag("mProgressDialog");
-//        }else {
-        mProgressDialog = TestDialogFragment.newInstance(4);
-        mProgressDialog.onCreate(mProgressDialog.getArguments());
-//        }
-        System.out.println("savedInstanceState = [HERE IT IS]" + mProgressDialog.getTag() + mProgressDialog.getDialog());
-//            else{
-//                m404Dialog = dialogFragment.onCreateDialog(null);
-//            }
-//        }else{
-//            m404Dialog = dialogFragment.onCreateDialog(null);
-//        }
 
     }
 
@@ -122,62 +97,8 @@ public class GetTestActivity extends AppCompatActivity{
     public void loadTest(@NonNull final String testUrl) {
         mRetryDialog = TestDialogFragment.newInstance(1);
         mRetryDialog.onCreate(mRetryDialog.getArguments());
-//        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-//        mProgressDialog.setIndeterminate(true);
-//        mProgressDialog.setMessage(getString(R.string.test_downloading));
-//        mProgressDialog.setCancelable(true);
-//        mProgressDialog.setCanceledOnTouchOutside(true);
-
-//        final Dialog mDialog;
-//        final Dialog mSuccessDialog;
-//        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-//        m404Dialog = mBuilder.setTitle(R.string.test_download_failed_bad_response)
-//                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .create();
-//        AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(this);
-//        mDialog = mBuilder1.setTitle(R.string.test_download_failed)
-//                .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        loadTest(testUrl);
-//                    }
-//                })
-//                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .create();
-//        AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(this);
-//        mSuccessDialog = mBuilder2.setTitle(R.string.test_save_successful)
-//                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .create();
-
         final String path = Uri.parse(testUrl).getPath();
         testCall = mTestApi.getService().getTest(path);
-
-//        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.text_cancel), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                testCall.cancel();
-//                dialog.dismiss();
-//            }
-//        });
-//        mProgressDialog.show();
-
-        //mProgressDialog.show(getFragmentManager(), "mProgressDialog");
 
         FragmentTransaction ft = mFragmentManager.beginTransaction();
         Fragment prev = mFragmentManager.findFragmentByTag("mProgressDialog");
@@ -193,12 +114,6 @@ public class GetTestActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
                 if (response.code() == 404 || response.code() == 400 || response.code() == 406){
-//                    if (mProgressDialog.getDialog().isShowing()) {
-//                    if (mProgressDialog.isAdded()) {
-//                        mProgressDialog.dismiss();
-//                    }
-
-
                     FragmentTransaction ft = mFragmentManager.beginTransaction();
                     Fragment progFragment = mFragmentManager.findFragmentByTag("mProgressDialog");
                     ft.remove(progFragment);
@@ -245,15 +160,6 @@ public class GetTestActivity extends AppCompatActivity{
             @Override
             public void onFailure(Call<Test> call, Throwable t) {
                 t.printStackTrace();
-//                Snackbar.make(findViewById(R.id.getTestLayout), R.string.test_download_failed, Snackbar.LENGTH_LONG)
-//                        .setAction(R.string.retry, new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                // Respond to the click, such as by undoing the modification that caused
-//                                // this message to be displayed
-//                                loadTest(testname);
-//                            }
-//                        }).show();
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
                 TestDialogFragment progFragment = (TestDialogFragment) mFragmentManager.findFragmentByTag("mProgressDialog");
                 ft.remove(progFragment);
@@ -263,7 +169,6 @@ public class GetTestActivity extends AppCompatActivity{
                 TestDialogFragment retryFragment = TestDialogFragment.newInstance(1);
                 ft.add(retryFragment, "mRetryDialog");
                 ft.commitAllowingStateLoss();
-//                mRetryDialog.show(getFragmentManager(), "mRetryDialog");
 
             }
         });
@@ -293,7 +198,6 @@ public class GetTestActivity extends AppCompatActivity{
                     realm.insertOrUpdate(test);
                 }
             });
-//            Snackbar.make(findViewById(R.id.getTestLayout), R.string.test_save_successful, Snackbar.LENGTH_LONG).show();
             state = true;
         } finally {
             if(realm != null) {
@@ -330,4 +234,7 @@ public class GetTestActivity extends AppCompatActivity{
         return test.favourite;
     }
 
+    public String getUrlText() {
+        return mUrlText.getText().toString();
+    }
 }
