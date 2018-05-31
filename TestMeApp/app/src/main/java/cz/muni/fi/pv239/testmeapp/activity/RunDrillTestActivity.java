@@ -74,7 +74,6 @@ public class RunDrillTestActivity extends FragmentActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         TestDialogFragment mDialog = TestDialogFragment.newInstance(6);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mQuitDrilltDialog");

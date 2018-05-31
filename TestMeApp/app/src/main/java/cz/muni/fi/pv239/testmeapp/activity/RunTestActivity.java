@@ -127,7 +127,6 @@ public class RunTestActivity extends FragmentActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         TestDialogFragment mDialog = TestDialogFragment.newInstance(5);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mQuitTestDialog");

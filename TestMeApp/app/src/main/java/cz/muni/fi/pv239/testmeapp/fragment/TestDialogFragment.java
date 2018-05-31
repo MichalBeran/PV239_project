@@ -9,12 +9,16 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.NumberPicker;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.activity.GetTestActivity;
+import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 
 public class TestDialogFragment extends DialogFragment {
 
@@ -27,11 +31,8 @@ public class TestDialogFragment extends DialogFragment {
     private int QUIT_TEST_DIALOG = 5;
     private int QUIT_DRILL_DIALOG = 6;
     private int FINISH_TEST_DIALOG = 7;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
+    private int DRILL_NUMBER_PICKER = 8;
+    private int REMOVE_TEST_DIALOG = 9;
 
     public static TestDialogFragment newInstance(int type) {
         TestDialogFragment frag = new TestDialogFragment();
@@ -45,23 +46,14 @@ public class TestDialogFragment extends DialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("type", mType);
-        System.out.println(mType + "MTYPE ????????????????????????????");
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         int type = getArguments().getInt("type");
-        Boolean isShowing = getArguments().getBoolean("isShowing");
-        System.out.println("ON FRAGMENT CREATED > " + type);
 
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        android.support.v7.app.AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new android.support.v7.app.AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new android.support.v7.app.AlertDialog.Builder(getContext());
-        }
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
         final Dialog dialog;
         if (type == RETRY_DIALOG){
             builder.setTitle(R.string.test_download_failed)
@@ -180,6 +172,52 @@ public class TestDialogFragment extends DialogFragment {
                         }
                     })
                     .setCancelable(false);
+            dialog = builder.create();
+        }else if(type == DRILL_NUMBER_PICKER){
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.item_number_picker, null);
+
+
+            final ShowTestActivity act = (ShowTestActivity)getActivity();
+            final NumberPicker np = act.setUpNumberPicker(dialogView);
+
+            builder.setTitle(R.string.how_many_questions)
+                    .setView(dialogView)
+                    .setPositiveButton(R.string.text_run_drill, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            dialog.cancel();
+                            if (np.getValue() > 0) {
+                                act.startDrillTest(act.getCorrectNumberOfQuestions(np.getValue()));
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            dialog.cancel();
+                        }
+                    });
+            dialog = builder.create();
+        }else if(type == REMOVE_TEST_DIALOG){
+            builder.setTitle(R.string.are_you_sure_delete)
+                    .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ShowTestActivity act = (ShowTestActivity)getActivity();
+                            act.removeThisTest();
+                            getActivity().finish();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
             dialog = builder.create();
         }
         else {

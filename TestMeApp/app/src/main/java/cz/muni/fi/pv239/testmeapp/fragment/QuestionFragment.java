@@ -205,7 +205,6 @@ public class QuestionFragment extends Fragment {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         TestDialogFragment mDialog = TestDialogFragment.newInstance(7);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mFinishTestDialog");

@@ -184,7 +184,6 @@ public class GetTestActivity extends AppCompatActivity{
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         TestDialogFragment mProgDialog = TestDialogFragment.newInstance(4);
         mProgDialog.onCreate(mProgDialog.getArguments());
         ft.add(mProgDialog, "mProgressDialog");
@@ -210,7 +209,6 @@ public class GetTestActivity extends AppCompatActivity{
                     if (prev != null) {
                         ft.remove(prev);
                     }
-                    ft.addToBackStack(null);
                     TestDialogFragment mDialog = TestDialogFragment.newInstance(2);
                     mDialog.onCreate(mDialog.getArguments());
                     ft.add(mDialog, "m404Dialog");
@@ -234,7 +232,6 @@ public class GetTestActivity extends AppCompatActivity{
                     if (prev != null) {
                         ft.remove(prev);
                     }
-                    ft.addToBackStack(null);
                     TestDialogFragment mDialog = TestDialogFragment.newInstance(3);
                     mDialog.onCreate(mDialog.getArguments());
                     ft.add(mDialog, "mSuccessDialog");
