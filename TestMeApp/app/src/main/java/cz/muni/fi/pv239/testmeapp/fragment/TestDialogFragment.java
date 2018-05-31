@@ -62,7 +62,7 @@ public class TestDialogFragment extends DialogFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             GetTestActivity act = (GetTestActivity)getActivity();
-                            act.loadTest(act.mUrlText.getText() + "");
+                            act.loadTest(act.getUrlText());
                         }
                     })
                     .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
@@ -228,17 +228,7 @@ public class TestDialogFragment extends DialogFragment {
     }
 
     public boolean isShowing(){
-//        return mDialog.isShowing();
         return super.getDialog().isShowing();
     }
-//
-//    public Dialog getDialog() {
-//        return mDialog;
-//    }
-//
-//    @Override
-//    public void onDismiss(DialogInterface dialog) {
-//        mDialog.dismiss();
-//        super.onDismiss(dialog);
-//    }
+
 }

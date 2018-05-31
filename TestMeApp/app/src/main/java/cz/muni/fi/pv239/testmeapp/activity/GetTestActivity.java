@@ -45,7 +45,6 @@ public class GetTestActivity extends AppCompatActivity{
     private Realm mRealm;
 
     @BindView(R.id.urlText)
-    public
     EditText mUrlText;
 
     @BindView(R.id.floatingButtonDownload)
@@ -235,4 +234,7 @@ public class GetTestActivity extends AppCompatActivity{
         return test.favourite;
     }
 
+    public String getUrlText() {
+        return mUrlText.getText().toString();
+    }
 }
