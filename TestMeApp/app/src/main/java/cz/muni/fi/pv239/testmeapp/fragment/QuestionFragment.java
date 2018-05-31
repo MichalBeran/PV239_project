@@ -1,6 +1,5 @@
 package cz.muni.fi.pv239.testmeapp.fragment;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,6 +42,9 @@ public class QuestionFragment extends Fragment {
     private Realm mRealm;
     private Unbinder mUnbinder;
     private AnswersAdapter mAdapter;
+
+    @BindView(R.id.questions_left)
+    TextView mQuestionsLeft;
 
     @BindView(R.id.answers_view)
     RecyclerView mAnswersRecyclerView;
@@ -89,6 +91,9 @@ public class QuestionFragment extends Fragment {
         Test test = getTest(getActivity().getIntent().getStringExtra("testName"));
         updateViewVariables(test, savedInstanceState);
         updateSubmitButtonName();
+        mQuestionsLeft.setText(getString(R.string.answered_questions) +
+                (mCurrentQuestionNumber + 1) + "/" + mNumberOfQuestions
+        );
         System.out.println(
                 String.format("Points gathered: %d.",
                         getActivity().getIntent().getExtras().getInt("points"))

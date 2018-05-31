@@ -274,7 +274,7 @@ public class ShowTestActivity extends AppCompatActivity {
     public NumberPicker setUpNumberPicker(View dialogView) {
         NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.number_picker);
 
-        numberPicker.setMaxValue(mTest.questions.size() / 20 + 1);
+        numberPicker.setMaxValue(setMaxNumberPickerValue());
         numberPicker.setMinValue(0);
         numberPicker.setWrapSelectorWheel(false);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -300,6 +300,15 @@ public class ShowTestActivity extends AppCompatActivity {
             return mTest.questions.size();
         }
         return numberPickerValue * 20;
+    }
+
+    private int setMaxNumberPickerValue() {
+        int questions = mTest.questions.size();
+        if (questions % 20 == 0) {
+            return questions / 20;
+        } else {
+            return questions / 20 + 1;
+        }
     }
 
     private void getTestResultsGraph(){
