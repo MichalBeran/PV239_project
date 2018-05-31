@@ -14,6 +14,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +51,7 @@ import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.adapter.HistoryAdapter;
 import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
+import cz.muni.fi.pv239.testmeapp.fragment.TestDialogFragment;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import cz.muni.fi.pv239.testmeapp.model.TestHistory;
 import io.realm.Realm;
@@ -164,31 +167,26 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.removeTest)
     public void removeTest(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("mRemoveTestDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(9);
+        mDialog.onCreate(mDialog.getArguments());
+        ft.add(mDialog, "mRemoveTestDialog");
+        ft.commitAllowingStateLoss();
+
+    }
+
+    public void removeThisTest(){
         final RealmResults<TestHistory> history = mRealm.where(TestHistory.class).equalTo("testURL", mTest.url).findAll();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        mDialog = builder.setTitle(R.string.are_you_sure_delete)
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mDialog.show();
-                        mRealm.beginTransaction();
-                        for(int i = history.size()-1; i >= 0; i--){
-                            history.get(i).deleteFromRealm();
-                        }
-                        mTest.deleteFromRealm();
-                        mRealm.commitTransaction();
-                        finish();
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        mDialog.show();
+        mRealm.beginTransaction();
+        for(int i = history.size()-1; i >= 0; i--){
+            history.get(i).deleteFromRealm();
+        }
+        mTest.deleteFromRealm();
+        mRealm.commitTransaction();
     }
 
     @OnClick(R.id.addToFavourites)
@@ -215,33 +213,15 @@ public class ShowTestActivity extends AppCompatActivity {
 
     @OnClick(R.id.runDrillButton)
     public void runTestDrill(){
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.item_number_picker, null);
-
-        final NumberPicker np = setUpNumberPicker(dialogView);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        mDialog = builder.setTitle(R.string.how_many_questions)
-                .setView(dialogView)
-                .setPositiveButton(R.string.text_run_drill, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                if (np.getValue() > 0) {
-                                    startDrillTest(getCorrectNumberOfQuestions(np.getValue()));
-                                }
-                    }
-                })
-                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-
-
-        mDialog.show();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("mDrillNumberPickerDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(8);
+        mDialog.onCreate(mDialog.getArguments());
+        ft.add(mDialog, "mDrillNumberPickerDialog");
+        ft.commitAllowingStateLoss();
     }
 
     @OnClick(R.id.runTestButton)
@@ -294,7 +274,7 @@ public class ShowTestActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void startDrillTest(int numberOfQuestions) {
+    public void startDrillTest(int numberOfQuestions) {
         Intent intent = RunDrillTestActivity.newIntent(this, numberOfQuestions);
         intent.putExtra("testName", mTest.name);
         startActivity(intent);
@@ -306,7 +286,7 @@ public class ShowTestActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private NumberPicker setUpNumberPicker(View dialogView) {
+    public NumberPicker setUpNumberPicker(View dialogView) {
         NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.number_picker);
 
         numberPicker.setMaxValue(mTest.questions.size() / 20 + 1);
@@ -329,7 +309,7 @@ public class ShowTestActivity extends AppCompatActivity {
         return numberPicker;
     }
 
-    private int getCorrectNumberOfQuestions(int numberPickerValue) {
+    public int getCorrectNumberOfQuestions(int numberPickerValue) {
         System.out.println("Number picker value is: " + numberPickerValue);
         if ((numberPickerValue * 20) > mTest.questions.size()) {
             return mTest.questions.size();

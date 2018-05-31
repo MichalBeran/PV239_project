@@ -118,6 +118,7 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
                             return;
                         }
                         test.url = mTestApi.getUrlBase() + path;
+                        test.favourite = isFavouriteTest(test.url);
                         Boolean state = saveResult(test);
                         // OK state
                         if(state){
@@ -162,6 +163,26 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
                 }
             }
             return state;
+        }
+
+        private boolean isFavouriteTest(String url) {
+            Realm realm = null;
+            Test test = null;
+            try {
+                realm = Realm.getDefaultInstance();
+                test = realm.where(Test.class)
+                        .equalTo("url", url)
+                        .findFirst();
+
+            } finally {
+                if (realm != null) {
+                    realm.close();
+                }
+            }
+            if (test != null) {
+                return test.favourite;
+            }
+            return false;
         }
     }
 

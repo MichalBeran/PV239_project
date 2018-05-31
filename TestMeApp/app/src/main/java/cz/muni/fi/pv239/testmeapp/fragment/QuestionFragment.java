@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -195,32 +196,26 @@ public class QuestionFragment extends Fragment {
     }
 
     public void finishTest() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(getContext());
-        }
-
         if(getActivity().getClass() == RunTestActivity.class) {
             saveTestResults();
         }
 
-        mDialog = builder.setTitle(R.string.text_test_finished)
-                .setMessage(getString(R.string.text_gathered_points) + ": " + getActivity().getIntent().getExtras().getInt("points"))
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        dialog.cancel();
-                        getActivity().finish();
-                    }
-                })
-                .setCancelable(false)
-                .create();
-        mDialog.show();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("mFinishTestDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(7);
+        mDialog.onCreate(mDialog.getArguments());
+        mDialog.setCancelable(false);
+        ft.add(mDialog, "mFinishTestDialog");
+        ft.commitAllowingStateLoss();
     }
 
     private void saveTestResults(){
+        if (getActivity().getIntent().getBooleanExtra("testResultsSaved", false)){
+            return;
+        }
         Test test = mRealm.where(Test.class)
                 .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
                 .findFirst();
@@ -242,6 +237,7 @@ public class QuestionFragment extends Fragment {
                 mRealm.close();
             }
         }
+        getActivity().getIntent().putExtra("testResultsSaved", true);
     }
 
     private void checkAnswer() {

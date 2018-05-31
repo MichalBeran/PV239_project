@@ -128,6 +128,7 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                         return;
                     }
                     test.url = mTestApi.getUrlBase() + path;
+                    test.favourite = isFavouriteTest(test.url);
                     Boolean state = saveResult(test);
                 }
             }
@@ -196,5 +197,15 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean isFavouriteTest(String url) {
+        Test test = mRealm.where(Test.class)
+                .equalTo("url", url)
+                .findFirst();
+        if (test == null) {
+            return false;
+        }
+        return test.favourite;
     }
 }
