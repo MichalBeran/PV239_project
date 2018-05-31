@@ -11,6 +11,10 @@ Jedná se o aplikaci pro mobilní systém android, jejíž jméno je TestMeApp a
 Aplikace dává možnost opakovaně cvičit testové otázky (drill), i možnost zkoušet si testy naostro (omezený časový limit). Z výsledků ostrých testů se pak zobrazuje graf, jak si dotyčný student vedl.
 Zdrojové soubory testů jsou uložené na githubu projektu. Je možné přidávat vlastní testy přes vlastní repozitář, který si studentu může nastavit v nastavení aplikace.
 
+## Podporované platformy
+Android 4.4 (API 19) a vyšší
+
+
 ## Funkce
 * Drillování testů
 * Ostré testy s časovým odpočtem
