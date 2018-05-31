@@ -6,6 +6,7 @@ import android.app.Dialog;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -24,15 +25,16 @@ public class TestDialogFragment extends DialogFragment {
 
     private static int mType;
 
-    private int RETRY_DIALOG = 1;
-    private int FAILURE_404_DIALOG = 2;
-    private int SUCCESS_DIALOG = 3;
-    private int DOWNLOAD_PROGRESS_DIALOG = 4;
-    private int QUIT_TEST_DIALOG = 5;
-    private int QUIT_DRILL_DIALOG = 6;
-    private int FINISH_TEST_DIALOG = 7;
-    private int DRILL_NUMBER_PICKER = 8;
-    private int REMOVE_TEST_DIALOG = 9;
+    private static final int RETRY_DIALOG = 1;
+    private static final int FAILURE_404_DIALOG = 2;
+    private static final int SUCCESS_DIALOG = 3;
+    private static final int DOWNLOAD_PROGRESS_DIALOG = 4;
+    private static final int QUIT_TEST_DIALOG = 5;
+    private static final int QUIT_DRILL_DIALOG = 6;
+    private static final int FINISH_TEST_DIALOG = 7;
+    private static final int DRILL_NUMBER_PICKER = 8;
+    private static final int REMOVE_TEST_DIALOG = 9;
+    private static final int WRONG_ACCESS_DATA = 10;
 
     public static TestDialogFragment newInstance(int type) {
         TestDialogFragment frag = new TestDialogFragment();
@@ -219,6 +221,20 @@ public class TestDialogFragment extends DialogFragment {
                         }
                     });
             dialog = builder.create();
+        }
+        else if(type == WRONG_ACCESS_DATA){
+            builder.setTitle(R.string.list_tests_failed_bad_response_title)
+                    .setMessage(R.string.list_tests_failed_bad_response)
+                    .setNegativeButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+                    });
+            dialog = builder
+                    .create();
+            setCancelable(false);
         }
         else {
             dialog = builder.create();

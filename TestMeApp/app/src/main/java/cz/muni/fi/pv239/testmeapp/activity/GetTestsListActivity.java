@@ -1,22 +1,17 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,24 +21,18 @@ import com.google.android.gms.security.ProviderInstaller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Optional;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.adapter.TestLightAdapter;
-import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
 import cz.muni.fi.pv239.testmeapp.api.GithubApi;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
-import cz.muni.fi.pv239.testmeapp.model.Test;
+import cz.muni.fi.pv239.testmeapp.fragment.TestDialogFragment;
 import cz.muni.fi.pv239.testmeapp.model.TestLight;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +48,8 @@ public class GetTestsListActivity extends AppCompatActivity{
     private Unbinder mUnbinder;
     private Realm mRealm;
     private GithubApi mGithubApi;
+    private TestDialogFragment mNotFoundDialog;
+    private FragmentManager mFragmentManager;
 
     @BindView(android.R.id.list)
     RecyclerView mList;
@@ -87,6 +78,10 @@ public class GetTestsListActivity extends AppCompatActivity{
         mList.setLayoutManager(new LinearLayoutManager(this));
         mRealm = Realm.getDefaultInstance();
 
+        mFragmentManager = this.getSupportFragmentManager();
+
+        mNotFoundDialog = TestDialogFragment.newInstance(10);
+        mNotFoundDialog.onCreate(mNotFoundDialog.getArguments());
 
         loadTests(TestMeApp.getGitUser(this), TestMeApp.getGitRepo(this), TestMeApp.getGitFolder(this));
     }
@@ -129,9 +124,22 @@ public class GetTestsListActivity extends AppCompatActivity{
 
             @Override
             public void onResponse(Call<List<TestLight>> call, Response<List<TestLight>> response) {
-                populateList(response.body());
-                mProgressBar.setVisibility(View.GONE);
-                mList.setVisibility(View.VISIBLE);
+                if (response.code() != 404) {
+                    populateList(response.body());
+                    mProgressBar.setVisibility(View.GONE);
+                    mList.setVisibility(View.VISIBLE);
+                } else {
+                    mProgressBar.setVisibility(View.GONE);
+                    FragmentTransaction ft = mFragmentManager.beginTransaction();
+                    Fragment notFoundDialog = mFragmentManager.findFragmentByTag("mNotFoundDialog");
+                    if (notFoundDialog != null) {
+                        ft.remove(notFoundDialog);
+                    }
+                    TestDialogFragment mDialog = TestDialogFragment.newInstance(10);
+                    mDialog.onCreate(mDialog.getArguments());
+                    ft.add(mDialog, "mNotFoundDialog");
+                    ft.commitAllowingStateLoss();
+                }
             }
 
             @Override
