@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.fragment.QuestionFragment;
+import cz.muni.fi.pv239.testmeapp.fragment.TestDialogFragment;
 import cz.muni.fi.pv239.testmeapp.model.Question;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
@@ -122,26 +124,16 @@ public class RunTestActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        dialog.dismiss();
-                        finish();
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        dialog.dismiss();
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.text_quit_test_title)
-                .setMessage(R.string.text_quit_test_message).setPositiveButton(R.string.text_yes, dialogClickListener)
-                .setNegativeButton(R.string.text_no, dialogClickListener).show();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("mQuitTestDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(5);
+        mDialog.onCreate(mDialog.getArguments());
+        ft.add(mDialog, "mQuitTestDialog");
+        ft.commitAllowingStateLoss();
     }
 
     @Override

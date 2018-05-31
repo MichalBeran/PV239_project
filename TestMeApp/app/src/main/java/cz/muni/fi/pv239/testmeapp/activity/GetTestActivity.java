@@ -7,16 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,6 +28,7 @@ import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.api.TestApi;
+import cz.muni.fi.pv239.testmeapp.fragment.TestDialogFragment;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -46,10 +45,20 @@ public class GetTestActivity extends AppCompatActivity{
     private Realm mRealm;
 
     @BindView(R.id.urlText)
+    public
     EditText mUrlText;
 
     @BindView(R.id.floatingButtonDownload)
     android.support.design.widget.FloatingActionButton submitButton;
+
+    private TestDialogFragment m404Dialog;
+    private TestDialogFragment mRetryDialog;
+    private TestDialogFragment mProgressDialog;
+    private TestDialogFragment mSuccessDialog;
+
+    private FragmentManager mFragmentManager;
+
+    private Call<Test> testCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +79,33 @@ public class GetTestActivity extends AppCompatActivity{
                 return false;
             }
         });
+
+//        mFragmentManager = this.getFragmentManager();
+        mFragmentManager = this.getSupportFragmentManager();
+
+        m404Dialog = TestDialogFragment.newInstance(2);
+        m404Dialog.onCreate(m404Dialog.getArguments());
+
+        mRetryDialog = TestDialogFragment.newInstance(1);
+        mRetryDialog.onCreate(mRetryDialog.getArguments());
+
+//        mSuccessDialog = TestDialogFragment.newInstance(3);
+//        mSuccessDialog.onCreate(mSuccessDialog.getArguments());
+
+//        if(getFragmentManager().findFragmentByTag("mProgressDialog") != null){
+//            mProgressDialog = (TestDialogFragment) getFragmentManager().findFragmentByTag("mProgressDialog");
+//        }else {
+        mProgressDialog = TestDialogFragment.newInstance(4);
+        mProgressDialog.onCreate(mProgressDialog.getArguments());
+//        }
+        System.out.println("savedInstanceState = [HERE IT IS]" + mProgressDialog.getTag() + mProgressDialog.getDialog());
+//            else{
+//                m404Dialog = dialogFragment.onCreateDialog(null);
+//            }
+//        }else{
+//            m404Dialog = dialogFragment.onCreateDialog(null);
+//        }
+
     }
 
     @Override
@@ -83,81 +119,103 @@ public class GetTestActivity extends AppCompatActivity{
         loadTest(mUrlText.getText().toString());
     }
 
-    private void loadTest(@NonNull final String testUrl) {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(getString(R.string.test_downloading));
-        mProgressDialog.setCancelable(true);
-        mProgressDialog.setCanceledOnTouchOutside(true);
+    public void loadTest(@NonNull final String testUrl) {
+        mRetryDialog = TestDialogFragment.newInstance(1);
+        mRetryDialog.onCreate(mRetryDialog.getArguments());
+//        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage(getString(R.string.test_downloading));
+//        mProgressDialog.setCancelable(true);
+//        mProgressDialog.setCanceledOnTouchOutside(true);
 
-        final Dialog m404Dialog;
-        final Dialog mDialog;
-        final Dialog mSuccessDialog;
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        m404Dialog = mBuilder.setTitle(R.string.test_download_failed_bad_response)
-                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(this);
-        mDialog = mBuilder1.setTitle(R.string.test_download_failed)
-                .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        loadTest(testUrl);
-                    }
-                })
-                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(this);
-        mSuccessDialog = mBuilder2.setTitle(R.string.test_save_successful)
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
+//        final Dialog mDialog;
+//        final Dialog mSuccessDialog;
+//        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+//        m404Dialog = mBuilder.setTitle(R.string.test_download_failed_bad_response)
+//                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .create();
+//        AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(this);
+//        mDialog = mBuilder1.setTitle(R.string.test_download_failed)
+//                .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        loadTest(testUrl);
+//                    }
+//                })
+//                .setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .create();
+//        AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(this);
+//        mSuccessDialog = mBuilder2.setTitle(R.string.test_save_successful)
+//                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .create();
 
         final String path = Uri.parse(testUrl).getPath();
-        final Call<Test> testCall = mTestApi.getService().getTest(path);
+        testCall = mTestApi.getService().getTest(path);
 
-        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.text_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                testCall.cancel();
-                dialog.dismiss();
-            }
-        });
-        mProgressDialog.show();
+//        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.text_cancel), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                testCall.cancel();
+//                dialog.dismiss();
+//            }
+//        });
+//        mProgressDialog.show();
+
+        //mProgressDialog.show(getFragmentManager(), "mProgressDialog");
+
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        Fragment prev = mFragmentManager.findFragmentByTag("mProgressDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        TestDialogFragment mProgDialog = TestDialogFragment.newInstance(4);
+        mProgDialog.onCreate(mProgDialog.getArguments());
+        ft.add(mProgDialog, "mProgressDialog");
+        ft.commitAllowingStateLoss();
 
         testCall.enqueue(new Callback<Test>() {
-
             @Override
             public void onResponse(Call<Test> call, retrofit2.Response<Test> response) {
-                if (response.code() == 404 || response.code() == 400){
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                        m404Dialog.show();
-                        final Timer t = new Timer();
-                        t.schedule(new TimerTask() {
-                            public void run() {
-                                if (m404Dialog.isShowing()) {
-                                    m404Dialog.dismiss();
-                                }
-                                t.cancel();
-                            }
-                        }, 2000);
+                if (response.code() == 404 || response.code() == 400 || response.code() == 406){
+//                    if (mProgressDialog.getDialog().isShowing()) {
+//                    if (mProgressDialog.isAdded()) {
+//                        mProgressDialog.dismiss();
+//                    }
+
+
+                    FragmentTransaction ft = mFragmentManager.beginTransaction();
+                    Fragment progFragment = mFragmentManager.findFragmentByTag("mProgressDialog");
+                    ft.remove(progFragment);
+                    ft.commitAllowingStateLoss();
+
+                    ft = mFragmentManager.beginTransaction();
+                    Fragment prev = mFragmentManager.findFragmentByTag("m404Dialog");
+                    if (prev != null) {
+                        ft.remove(prev);
                     }
+                    ft.addToBackStack(null);
+                    TestDialogFragment mDialog = TestDialogFragment.newInstance(2);
+                    mDialog.onCreate(mDialog.getArguments());
+                    ft.add(mDialog, "m404Dialog");
+                    ft.commitAllowingStateLoss();
+
                 }else {
                     Test test = response.body();
                     if (test == null) {
@@ -165,21 +223,26 @@ public class GetTestActivity extends AppCompatActivity{
                     }
                     test.url = mTestApi.getUrlBase() + path;
                     Boolean state = saveResult(test);
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                        mSuccessDialog.show();
-                        final Timer t = new Timer();
-                        t.schedule(new TimerTask() {
-                            public void run() {
-                                if (mSuccessDialog.isShowing()) {
-                                    mSuccessDialog.dismiss();
-                                }
-                                t.cancel();
-                            }
-                        }, 3000);
+
+                    FragmentTransaction ft = mFragmentManager.beginTransaction();
+                    Fragment progFragment = mFragmentManager.findFragmentByTag("mProgressDialog");
+                    ft.remove(progFragment);
+                    ft.commitAllowingStateLoss();
+
+                    ft = mFragmentManager.beginTransaction();
+                    Fragment prev = mFragmentManager.findFragmentByTag("mSuccessDialog");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+                    TestDialogFragment mDialog = TestDialogFragment.newInstance(3);
+                    mDialog.onCreate(mDialog.getArguments());
+                    ft.add(mDialog, "mSuccessDialog");
+                    ft.commitAllowingStateLoss();
+
                     }
                 }
-            }
+
 
             @Override
             public void onFailure(Call<Test> call, Throwable t) {
@@ -193,10 +256,17 @@ public class GetTestActivity extends AppCompatActivity{
 //                                loadTest(testname);
 //                            }
 //                        }).show();
-                if(mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
-                    mDialog.show();
-                }
+                FragmentTransaction ft = mFragmentManager.beginTransaction();
+                TestDialogFragment progFragment = (TestDialogFragment) mFragmentManager.findFragmentByTag("mProgressDialog");
+                ft.remove(progFragment);
+                ft.commitAllowingStateLoss();
+
+                ft = mFragmentManager.beginTransaction();
+                TestDialogFragment retryFragment = TestDialogFragment.newInstance(1);
+                ft.add(retryFragment, "mRetryDialog");
+                ft.commitAllowingStateLoss();
+//                mRetryDialog.show(getFragmentManager(), "mRetryDialog");
+
             }
         });
     }
@@ -245,4 +315,11 @@ public class GetTestActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void CancelTestCall(){
+        if(testCall != null){
+            testCall.cancel();
+        }
+    }
+
 }
