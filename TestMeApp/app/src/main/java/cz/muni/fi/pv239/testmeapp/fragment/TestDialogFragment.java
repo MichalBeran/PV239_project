@@ -187,6 +187,7 @@ public class TestDialogFragment extends DialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            dialog.cancel();
                             if (np.getValue() > 0) {
                                 act.startDrillTest(act.getCorrectNumberOfQuestions(np.getValue()));
                             }
@@ -196,6 +197,7 @@ public class TestDialogFragment extends DialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            dialog.cancel();
                         }
                     });
             dialog = builder.create();

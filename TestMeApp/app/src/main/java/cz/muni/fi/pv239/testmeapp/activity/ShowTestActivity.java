@@ -172,7 +172,6 @@ public class ShowTestActivity extends AppCompatActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         TestDialogFragment mDialog = TestDialogFragment.newInstance(9);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mRemoveTestDialog");
@@ -219,7 +218,6 @@ public class ShowTestActivity extends AppCompatActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         TestDialogFragment mDialog = TestDialogFragment.newInstance(8);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mDrillNumberPickerDialog");
