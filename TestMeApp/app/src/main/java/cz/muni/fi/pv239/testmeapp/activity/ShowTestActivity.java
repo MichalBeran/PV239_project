@@ -1,15 +1,11 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,13 +13,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +33,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,8 +42,6 @@ import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.adapter.HistoryAdapter;
-import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
-import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.fragment.TestDialogFragment;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import cz.muni.fi.pv239.testmeapp.model.TestHistory;
@@ -63,13 +54,11 @@ import io.realm.Sort;
  */
 
 public class ShowTestActivity extends AppCompatActivity {
-    private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
     private Test mTest;
     private Animation rotate_backward_90, rotate_forward_90, menu_open, menu_close;
     private boolean isMenuOpen = false;
-    private Dialog mDialog;
     private HistoryAdapter mAdapter;
 
     @BindView(R.id.testNumQuestions)
@@ -108,7 +97,6 @@ public class ShowTestActivity extends AppCompatActivity {
         TestMeApp.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_test);
-        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         String url = getIntent().getStringExtra("url");
@@ -172,7 +160,7 @@ public class ShowTestActivity extends AppCompatActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        TestDialogFragment mDialog = TestDialogFragment.newInstance(9);
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.REMOVE_TEST_DIALOG);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mRemoveTestDialog");
         ft.commitAllowingStateLoss();
@@ -218,7 +206,7 @@ public class ShowTestActivity extends AppCompatActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        TestDialogFragment mDialog = TestDialogFragment.newInstance(8);
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.DRILL_NUMBER_PICKER);
         mDialog.onCreate(mDialog.getArguments());
         ft.add(mDialog, "mDrillNumberPickerDialog");
         ft.commitAllowingStateLoss();
@@ -242,9 +230,6 @@ public class ShowTestActivity extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         mRealm.close();
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
     }
 
     @Override

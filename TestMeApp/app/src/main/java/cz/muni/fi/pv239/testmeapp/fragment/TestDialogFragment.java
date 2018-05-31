@@ -1,12 +1,8 @@
 package cz.muni.fi.pv239.testmeapp.fragment;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -24,15 +20,16 @@ public class TestDialogFragment extends DialogFragment {
 
     private static int mType;
 
-    private int RETRY_DIALOG = 1;
-    private int FAILURE_404_DIALOG = 2;
-    private int SUCCESS_DIALOG = 3;
-    private int DOWNLOAD_PROGRESS_DIALOG = 4;
-    private int QUIT_TEST_DIALOG = 5;
-    private int QUIT_DRILL_DIALOG = 6;
-    private int FINISH_TEST_DIALOG = 7;
-    private int DRILL_NUMBER_PICKER = 8;
-    private int REMOVE_TEST_DIALOG = 9;
+    public static final int RETRY_DIALOG = 1;
+    public static final int FAILURE_404_DIALOG = 2;
+    public static final int SUCCESS_DIALOG = 3;
+    public static final int DOWNLOAD_PROGRESS_DIALOG = 4;
+    public static final int QUIT_TEST_DIALOG = 5;
+    public static final int QUIT_DRILL_DIALOG = 6;
+    public static final int FINISH_TEST_DIALOG = 7;
+    public static final int DRILL_NUMBER_PICKER = 8;
+    public static final int REMOVE_TEST_DIALOG = 9;
+    public static final int WRONG_ACCESS_DATA = 10;
 
     public static TestDialogFragment newInstance(int type) {
         TestDialogFragment frag = new TestDialogFragment();
@@ -170,8 +167,7 @@ public class TestDialogFragment extends DialogFragment {
                             dialog.cancel();
                             getActivity().finish();
                         }
-                    })
-                    .setCancelable(false);
+                    });
             dialog = builder.create();
         }else if(type == DRILL_NUMBER_PICKER){
             LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -219,10 +215,24 @@ public class TestDialogFragment extends DialogFragment {
                         }
                     });
             dialog = builder.create();
+        } else if(type == WRONG_ACCESS_DATA){
+            builder.setTitle(R.string.list_tests_failed_bad_response_title)
+                    .setMessage(R.string.list_tests_failed_bad_response)
+                    .setNegativeButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+                    });
+            dialog = builder
+                    .create();
         }
         else {
             dialog = builder.create();
         }
+
+        setCancelable(false);
 
         return dialog;
     }

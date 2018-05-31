@@ -1,26 +1,18 @@
 package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cz.muni.fi.pv239.testmeapp.R;
-import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
-import cz.muni.fi.pv239.testmeapp.model.Test;
 import cz.muni.fi.pv239.testmeapp.model.TestHistory;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;

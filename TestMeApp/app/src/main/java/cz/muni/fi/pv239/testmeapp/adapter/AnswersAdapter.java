@@ -2,12 +2,7 @@ package cz.muni.fi.pv239.testmeapp.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -19,8 +14,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
