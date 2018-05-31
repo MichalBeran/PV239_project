@@ -220,6 +220,7 @@ public class GetTestActivity extends AppCompatActivity{
                         return;
                     }
                     test.url = mTestApi.getUrlBase() + path;
+                    test.favourite = isFavouriteTest(test.url);
                     Boolean state = saveResult(test);
 
                     FragmentTransaction ft = mFragmentManager.beginTransaction();
@@ -289,7 +290,6 @@ public class GetTestActivity extends AppCompatActivity{
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    test.favourite = isFavourite(realm, test);
                     realm.insertOrUpdate(test);
                 }
             });
@@ -320,14 +320,14 @@ public class GetTestActivity extends AppCompatActivity{
         }
     }
 
-    private boolean isFavourite(Realm realm, Test test) {
-        Test t = realm.where(Test.class)
-                .equalTo("url", test.url)
+    private boolean isFavouriteTest(String url) {
+        Test test = mRealm.where(Test.class)
+                .equalTo("url", url)
                 .findFirst();
         if (test == null) {
             return false;
         }
-        return t.favourite;
+        return test.favourite;
     }
 
 }

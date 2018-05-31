@@ -76,7 +76,7 @@ public class RunDrillTestActivity extends FragmentActivity {
         }
         TestDialogFragment mDialog = TestDialogFragment.newInstance(6);
         mDialog.onCreate(mDialog.getArguments());
-        ft.add(mDialog, "mQuitDrilltDialog");
+        ft.add(mDialog, "mQuitDrillDialog");
         ft.commitAllowingStateLoss();
     }
 
