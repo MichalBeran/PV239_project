@@ -292,6 +292,7 @@ public class GetTestActivity extends AppCompatActivity{
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
+                    test.favourite = isFavourite(realm, test);
                     realm.insertOrUpdate(test);
                 }
             });
@@ -320,6 +321,16 @@ public class GetTestActivity extends AppCompatActivity{
         if(testCall != null){
             testCall.cancel();
         }
+    }
+
+    private boolean isFavourite(Realm realm, Test test) {
+        Test t = realm.where(Test.class)
+                .equalTo("url", test.url)
+                .findFirst();
+        if (test == null) {
+            return false;
+        }
+        return t.favourite;
     }
 
 }

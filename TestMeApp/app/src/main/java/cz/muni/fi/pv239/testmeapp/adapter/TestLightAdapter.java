@@ -152,6 +152,7 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
+                        test.favourite = isFavourite(realm, test);
                         realm.insertOrUpdate(test);
                     }
                 });
@@ -162,6 +163,16 @@ public class TestLightAdapter  extends RecyclerView.Adapter<TestLightAdapter.Vie
                 }
             }
             return state;
+        }
+
+        private boolean isFavourite(Realm realm, Test test) {
+            Test t = realm.where(Test.class)
+                        .equalTo("url", test.url)
+                        .findFirst();
+            if (t == null) {
+                return false;
+            }
+            return t.favourite;
         }
     }
 

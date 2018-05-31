@@ -213,6 +213,9 @@ public class QuestionFragment extends Fragment {
     }
 
     private void saveTestResults(){
+        if (getActivity().getIntent().getBooleanExtra("testResultsSaved", false)){
+            return;
+        }
         Test test = mRealm.where(Test.class)
                 .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
                 .findFirst();
@@ -234,6 +237,7 @@ public class QuestionFragment extends Fragment {
                 mRealm.close();
             }
         }
+        getActivity().getIntent().putExtra("testResultsSaved", true);
     }
 
     private void checkAnswer() {

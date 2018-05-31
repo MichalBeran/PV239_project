@@ -1,7 +1,6 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -39,7 +37,7 @@ public class RunTestActivity extends FragmentActivity {
     private Realm mRealm;
     private Unbinder mUnbinder;
     private CountDownTimer mTimer;
-    private long remainingTime;
+    private long mRemainingTime;
 
     @BindView(R.id.runTestTimer)
     TextView mTimerText;
@@ -110,7 +108,7 @@ public class RunTestActivity extends FragmentActivity {
                 if (seconds < 10) sSeconds = "0" + sSeconds;
 
                 mTimerText.setText(getString(R.string.text_remaining) + ": " + sHours + ":" + sMinutes + ":" + sSeconds);
-                remainingTime = millisUntilFinished;
+                mRemainingTime = millisUntilFinished;
             }
             @Override
             public void onFinish() {
@@ -177,6 +175,6 @@ public class RunTestActivity extends FragmentActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong("remainingTime", remainingTime);
+        outState.putLong("remainingTime", mRemainingTime);
     }
 }
