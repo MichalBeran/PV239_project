@@ -207,6 +207,7 @@ public class QuestionFragment extends Fragment {
         }
         TestDialogFragment mDialog = TestDialogFragment.newInstance(7);
         mDialog.onCreate(mDialog.getArguments());
+        mDialog.setCancelable(false);
         ft.add(mDialog, "mFinishTestDialog");
         ft.commitAllowingStateLoss();
     }
