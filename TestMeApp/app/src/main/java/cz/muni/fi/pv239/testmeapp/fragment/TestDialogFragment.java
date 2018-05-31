@@ -6,6 +6,7 @@ import android.app.Dialog;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
@@ -24,6 +25,8 @@ public class TestDialogFragment extends DialogFragment {
     private int SUCCESS_DIALOG = 3;
     private int DOWNLOAD_PROGRESS_DIALOG = 4;
     private int QUIT_TEST_DIALOG = 5;
+    private int QUIT_DRILL_DIALOG = 6;
+    private int FINISH_TEST_DIALOG = 7;
 
     @Override
     public void onAttach(Activity activity) {
@@ -52,7 +55,13 @@ public class TestDialogFragment extends DialogFragment {
         Boolean isShowing = getArguments().getBoolean("isShowing");
         System.out.println("ON FRAGMENT CREATED > " + type);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        android.support.v7.app.AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new android.support.v7.app.AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new android.support.v7.app.AlertDialog.Builder(getContext());
+        }
         final Dialog dialog;
         if (type == RETRY_DIALOG){
             builder.setTitle(R.string.test_download_failed)
@@ -142,6 +151,35 @@ public class TestDialogFragment extends DialogFragment {
                             dialog.dismiss();
                         }
                     });
+            dialog = builder.create();
+        }else if(type == QUIT_DRILL_DIALOG){
+            builder.setTitle(R.string.text_quit_drill_title)
+                    .setMessage(R.string.text_quit_drill_message)
+                    .setPositiveButton(R.string.text_yes,  new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.text_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            dialog = builder.create();
+        }else if(type == FINISH_TEST_DIALOG){
+            builder.setTitle(R.string.text_test_finished)
+                    .setMessage(getString(R.string.text_gathered_points) + ": " + getActivity().getIntent().getExtras().getInt("points"))
+                    .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            dialog.cancel();
+                            getActivity().finish();
+                        }
+                    })
+                    .setCancelable(false);
             dialog = builder.create();
         }
         else {
