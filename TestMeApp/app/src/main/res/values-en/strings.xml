@@ -26,6 +26,7 @@
     <string name="text_quit_test_title">Quit test</string>
     <string name="text_quit_drill_message">Are you sure you want to quit drill?</string>
     <string name="text_quit_test_message">Are you sure you want to quit test?\nYour answers will not be saved.</string>
+    <string name="answered_questions">Answered questions: </string>
     <string name="how_many_questions">How many questions would you like to get?</string>
     <string name="are_you_sure_delete">Delete this test. Are you sure ?</string>
 
@@ -42,6 +43,8 @@
     <string name="test_downloading">Downloading ...</string>
     <string name="test_download_failed">Download failed</string>
     <string name="test_download_failed_bad_response">Download failed. \nBad address.</string>
+    <string name="list_tests_failed_bad_response_title">Repository was not found.</string>
+    <string name="list_tests_failed_bad_response">Please check GIT access data in settings.</string>
     <string name="test_save_successful">Saved</string>
     <string name="retry">Retry</string>
     <string name="share">Share</string>

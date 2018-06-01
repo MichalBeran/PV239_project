@@ -1,16 +1,10 @@
 package cz.muni.fi.pv239.testmeapp.fragment;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +23,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.activity.RunTestActivity;
-import cz.muni.fi.pv239.testmeapp.activity.ShowTestActivity;
 import cz.muni.fi.pv239.testmeapp.adapter.AnswersAdapter;
 import cz.muni.fi.pv239.testmeapp.model.Question;
 import cz.muni.fi.pv239.testmeapp.model.Test;
@@ -50,7 +42,9 @@ public class QuestionFragment extends Fragment {
     private Realm mRealm;
     private Unbinder mUnbinder;
     private AnswersAdapter mAdapter;
-    private Dialog mDialog;
+
+    @BindView(R.id.questions_left)
+    TextView mQuestionsLeft;
 
     @BindView(R.id.answers_view)
     RecyclerView mAnswersRecyclerView;
@@ -97,6 +91,9 @@ public class QuestionFragment extends Fragment {
         Test test = getTest(getActivity().getIntent().getStringExtra("testName"));
         updateViewVariables(test, savedInstanceState);
         updateSubmitButtonName();
+        mQuestionsLeft.setText(getString(R.string.answered_questions) +
+                (mCurrentQuestionNumber + 1) + "/" + mNumberOfQuestions
+        );
         System.out.println(
                 String.format("Points gathered: %d.",
                         getActivity().getIntent().getExtras().getInt("points"))
@@ -205,17 +202,13 @@ public class QuestionFragment extends Fragment {
         if (prev != null) {
             ft.remove(prev);
         }
-        TestDialogFragment mDialog = TestDialogFragment.newInstance(7);
+        TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.FINISH_TEST_DIALOG);
         mDialog.onCreate(mDialog.getArguments());
-        mDialog.setCancelable(false);
         ft.add(mDialog, "mFinishTestDialog");
         ft.commitAllowingStateLoss();
     }
 
     private void saveTestResults(){
-        if (getActivity().getIntent().getBooleanExtra("testResultsSaved", false)){
-            return;
-        }
         Test test = mRealm.where(Test.class)
                 .equalTo("name", getActivity().getIntent().getStringExtra("testName"))
                 .findFirst();
@@ -237,7 +230,6 @@ public class QuestionFragment extends Fragment {
                 mRealm.close();
             }
         }
-        getActivity().getIntent().putExtra("testResultsSaved", true);
     }
 
     private void checkAnswer() {

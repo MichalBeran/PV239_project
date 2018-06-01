@@ -1,15 +1,12 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.DataSetObserver;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +26,6 @@ import butterknife.Unbinder;
 import cz.muni.fi.pv239.testmeapp.R;
 import cz.muni.fi.pv239.testmeapp.TestMeApp;
 import cz.muni.fi.pv239.testmeapp.adapter.TestsAdapter;
-import cz.muni.fi.pv239.testmeapp.api.TestApi;
 import cz.muni.fi.pv239.testmeapp.model.Test;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -54,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.addByList)
     protected Button addByListButton;
 
-    private TestApi mTestApi;
     private Realm mRealm;
     private TestsAdapter mAdapter;
 
@@ -72,10 +67,8 @@ public class MainActivity extends AppCompatActivity {
         darkThemeSet = TestMeApp.isDarkThemeSet(this);
         setContentView(R.layout.activity_main);
 
-        mTestApi = new TestApi();
         mUnbinder = ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
-
 
         rotate_backward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_backward_45);
         rotate_forward_45 = AnimationUtils.loadAnimation(this, R.anim.rotate_forward_45);

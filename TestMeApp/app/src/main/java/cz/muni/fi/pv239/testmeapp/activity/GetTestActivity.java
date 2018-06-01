@@ -1,9 +1,6 @@
 package cz.muni.fi.pv239.testmeapp.activity;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,9 +14,6 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,21 +37,14 @@ public class GetTestActivity extends AppCompatActivity{
     private TestApi mTestApi;
     private Unbinder mUnbinder;
     private Realm mRealm;
+    private FragmentManager mFragmentManager;
+    private Call<Test> testCall;
 
     @BindView(R.id.urlText)
     EditText mUrlText;
 
     @BindView(R.id.floatingButtonDownload)
     android.support.design.widget.FloatingActionButton submitButton;
-
-    private TestDialogFragment m404Dialog;
-    private TestDialogFragment mRetryDialog;
-    private TestDialogFragment mProgressDialog;
-    private TestDialogFragment mSuccessDialog;
-
-    private FragmentManager mFragmentManager;
-
-    private Call<Test> testCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +82,6 @@ public class GetTestActivity extends AppCompatActivity{
     }
 
     public void loadTest(@NonNull final String testUrl) {
-        mRetryDialog = TestDialogFragment.newInstance(1);
-        mRetryDialog.onCreate(mRetryDialog.getArguments());
         final String path = Uri.parse(testUrl).getPath();
         testCall = mTestApi.getService().getTest(path);
 
@@ -105,7 +90,7 @@ public class GetTestActivity extends AppCompatActivity{
         if (prev != null) {
             ft.remove(prev);
         }
-        TestDialogFragment mProgDialog = TestDialogFragment.newInstance(4);
+        TestDialogFragment mProgDialog = TestDialogFragment.newInstance(TestDialogFragment.DOWNLOAD_PROGRESS_DIALOG);
         mProgDialog.onCreate(mProgDialog.getArguments());
         ft.add(mProgDialog, "mProgressDialog");
         ft.commitAllowingStateLoss();
@@ -124,7 +109,7 @@ public class GetTestActivity extends AppCompatActivity{
                     if (prev != null) {
                         ft.remove(prev);
                     }
-                    TestDialogFragment mDialog = TestDialogFragment.newInstance(2);
+                    TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.FAILURE_404_DIALOG);
                     mDialog.onCreate(mDialog.getArguments());
                     ft.add(mDialog, "m404Dialog");
                     ft.commitAllowingStateLoss();
@@ -148,7 +133,7 @@ public class GetTestActivity extends AppCompatActivity{
                     if (prev != null) {
                         ft.remove(prev);
                     }
-                    TestDialogFragment mDialog = TestDialogFragment.newInstance(3);
+                    TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.SUCCESS_DIALOG);
                     mDialog.onCreate(mDialog.getArguments());
                     ft.add(mDialog, "mSuccessDialog");
                     ft.commitAllowingStateLoss();
@@ -166,7 +151,7 @@ public class GetTestActivity extends AppCompatActivity{
                 ft.commitAllowingStateLoss();
 
                 ft = mFragmentManager.beginTransaction();
-                TestDialogFragment retryFragment = TestDialogFragment.newInstance(1);
+                TestDialogFragment retryFragment = TestDialogFragment.newInstance(TestDialogFragment.RETRY_DIALOG);
                 ft.add(retryFragment, "mRetryDialog");
                 ft.commitAllowingStateLoss();
 
