@@ -27,7 +27,7 @@
     <string name="text_quit_test_title">Ukončit test</string>
     <string name="text_quit_drill_message">Skutečne chcete ukončit drill?</string>
     <string name="text_quit_test_message">Skutečne chcete ukončit test? Vaše odpovědi nebudou uloženy.</string>
-    <string name="answered_questions">Zodpovězených otázek: </string>
+    <string name="answered_questions">Otázka: </string>
     <string name="how_many_questions">Kolik otázek chcete dostat?</string>
     <string name="are_you_sure_delete">Smazat test. Jste si jistý ?</string>
 
