@@ -22,6 +22,8 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
 /**
+ * AndroidStudio bohuzel jako default nechava tento JavaDoc, ale realne je to zbytecne pridani 3 radku do kodu, ktery pak clovek musi o neco vic odscrollovat.
+ * Tyto informace jsou v Gitu, neni potreba delat JavaDoc s redundantnimi informacemi.
  * Created by Michal on 21.03.2018.
  */
 

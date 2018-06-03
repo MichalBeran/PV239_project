@@ -50,6 +50,7 @@ public class RunDrillTestActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
+            // Keys do konstant!
             getIntent().putIntegerArrayListExtra("questionIndexes", (ArrayList<Integer>) mQuestionsIndexes);
             getIntent().putExtra("points", 0);
             getIntent().putExtra("questionNumber", 0);
@@ -68,6 +69,7 @@ public class RunDrillTestActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        Nazvy do konstant. Nejen tady, mate to takhle v celem projektu.
         Fragment prev = getSupportFragmentManager().findFragmentByTag("mQuitDrillDialog");
         if (prev != null) {
             ft.remove(prev);

@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // favourite tests are displayed higher than others
+//        Deprecated, pouzivejte findAll().sort()
         RealmResults<Test> tests = mRealm.where(Test.class).findAllSorted("favourite", Sort.DESCENDING);
 
         if (tests.size() == 0){
