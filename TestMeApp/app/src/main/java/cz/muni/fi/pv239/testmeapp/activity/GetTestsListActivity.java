@@ -124,10 +124,16 @@ public class GetTestsListActivity extends AppCompatActivity{
             public void onResponse(Call<List<TestLight>> call, Response<List<TestLight>> response) {
                 if (response.code() != 404) {
                     populateList(response.body());
-                    mProgressBar.setVisibility(View.GONE);
+                    if (mProgressBar != null){
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+
                     mList.setVisibility(View.VISIBLE);
                 } else {
-                    mProgressBar.setVisibility(View.GONE);
+                    if (mProgressBar != null){
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+
                     FragmentTransaction ft = mFragmentManager.beginTransaction();
                     Fragment notFoundDialog = mFragmentManager.findFragmentByTag("mNotFoundDialog");
                     if (notFoundDialog != null) {
