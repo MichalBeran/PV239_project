@@ -34,6 +34,7 @@ public class TestMeApp
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
 
+//    Tyto metody nepatri do Application, na to je lepsi separatni trida.
     public static Boolean isDarkThemeSet(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(THEME_PREFERENCES, false);
     }
@@ -43,6 +44,7 @@ public class TestMeApp
     }
 
     public static String getGitUser(Context context){
+//        Co treba misto ukladani appContextu pouzit sInstance.getString()? appContext je v takovem pripade redundantni
         return PreferenceManager.getDefaultSharedPreferences(context).getString(GIT_USER, appContext.getString(R.string.pref_git_user_default));
     }
 

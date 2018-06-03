@@ -66,6 +66,7 @@ public class GetTestActivity extends AppCompatActivity{
             }
         });
 
+//        Redundantni this
         mFragmentManager = this.getSupportFragmentManager();
 
     }

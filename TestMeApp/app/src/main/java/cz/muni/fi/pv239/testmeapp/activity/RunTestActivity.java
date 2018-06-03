@@ -136,6 +136,7 @@ public class RunTestActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // V Activity neni potreba ukladat unbinder a unbindovat
         mUnbinder.unbind();
         mRealm.close();
         mTimer.cancel();

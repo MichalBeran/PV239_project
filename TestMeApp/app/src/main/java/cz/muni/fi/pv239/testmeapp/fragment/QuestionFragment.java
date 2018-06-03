@@ -55,6 +55,7 @@ public class QuestionFragment extends Fragment {
     @BindView(R.id.test_drill_submit_button)
     Button mSubmitButton;
 
+//    Activity by mohla Fragmentu dat uz nactenou otazku pri vytvareni instance a Fragment by si nemusel vubec sahat na databazi. Pro cely test by stacila jedna query na cely list.
     @NonNull
     public int getCurrentQuestionNumber() {
         return getActivity().getIntent().getExtras().getIntegerArrayList("questionIndexes").get(mCurrentQuestionNumber);

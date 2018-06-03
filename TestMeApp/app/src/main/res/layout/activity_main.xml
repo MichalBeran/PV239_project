@@ -21,6 +21,8 @@
             android:layout_marginTop="5dp"
             />
 
+        <!-- Ne left, right, ale start, end. V nekterych zemich pisou zprava doleva. -->
+        <!-- textSize v sp, ne v dp! I Lint vam tady krici, tak ho poslechnete. -->
         <TextView
             android:id="@+id/empty_view"
             android:layout_width="match_parent"

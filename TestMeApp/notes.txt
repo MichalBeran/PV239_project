@@ -1,0 +1,15 @@
+- Proc mate default strings.xml v anglictine a navic jeste en/strings.xml? To nedava smysl.
+- Je to sice zbytecne obrovsky font, ale hodne ocenuju info message po prvnim spusteni appky.
+- Nastaveni Git repository, owner a folder bych dal do jedineho dialogu nebo fragmentu navic s tlacitkem Test, ktere zjisti, jestli jsou udaje spravne a jsou tam validni data.
+- Po pokusu o stazeni z prazdne URL vyskoci error dialog, ktery sam od sebe po chvilce zmizi. Tohle urcite ne. Kdyz chcete mizeni, dejte to do Toastu, jinak dialog zustava viditelny, dokud ho sam nezavru. (a budte pozitivni, misto cancel dat ok, jakoze "OK, precetl jsem si to a chapu" misto "Ted zrusim dialog a uz myslim na to, jak to udelat spravne")
+- Button SHOW TEST je uplne zbytecny, seda hvezda taky. Kliknuti na vsechno vcetne samotneho prvku listu dela to same. Takze button pryc a hvezdu zobrazovat jenom zlutou.
+- Skoda, ze kdyz se zmeni test, ja se to nedozvim, protoze se automaticky neaktualizuje, takze musim porad chodit do listu a znovu a znovu stahovat (aktualizovat) manualne. Navic si musim pamatovat presne nazvy testu, protoze info SAVED po stazeni testu tam zustane jenom do te doby, nez odejdu z listu.
+- Landscape mod je dost otravny, protoze musim pokazde scrollovat. Pritom ten button Next Question by na landscape prece nemusel byt tak velky a s takovym odsazenim, nahore by taky nemusela byt tak velka mezera a cele by se to dalo udelat tak, abych videl vic odpovedi najednou. Samozrejme s dlouhou otazkou a dlouhymi odpovedmi uz je slozite tam vsechno nacpat, ale tam to musi clovek pochopit, proste nema v ruce monitor, ale mobil.
+- Test finished dialog - OK je pozitivni text, positive button patri vpravo, prectete si guidelines. Vlevo je neutral button.
+- Pri spusteni testu nebo drillu mam vzdy odscollovano az dolu a musim vyjet nahoru na otazku. Pak uz je to v poradku. Taky hodne otravna vec.
+- <TT>Proc mam v otazkach milion tagu?</TT> <I>Blbe se mi to cte</I>
+- Myslim si, ze i to dark theme by se dalo resit elegantneji, abyste to nemuseli vsude hlidat a delat recreate(), ale jeste jsem s tim nepracoval, takze stopro to nevim.
+- Crash: Chci stahnout novy test z listu testu, zavolam download a odejdu z aktivity, nez se list stahne:
+java.lang.NullPointerException: Attempt to invoke virtual method 'void android.view.View.setVisibility(int)' on a null object reference
+        at cz.muni.fi.pv239.testmeapp.activity.MainActivity$1.onItemRangeInserted(MainActivity.java:161)
+A tohle se vam bude dit na vsech mistech, kde volate call.enqueue a v onResponse() nebo onFailure() pristupujete ke globalnim promennym rodicovske tridy (Activity, Fragment). Jelikoz call je asynchronni, rodic uz davno nemusi existovat, kdyz prijde vysledek. Pro jednodussi testing si muzete nastavit na emulatoru GPRS nebo EDGE. A tohle mate na hromade mist, takze hromada crashu.

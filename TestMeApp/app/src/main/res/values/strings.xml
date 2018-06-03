@@ -71,6 +71,7 @@
     <string name="pref_git_user">GIT repository owner</string>
     <string name="pref_git_repo">GIT repository</string>
     <string name="pref_git_folder">GIT repository folder</string>
+    <!-- Atribut translatable="false" a nemusis to davat do prekladu. Nektere stringy se nemaji prekladat a Android s tim pocita -->
     <string name="pref_git_user_default">MichalBeran</string>
     <string name="pref_git_repo_default">PV239_project</string>
     <string name="pref_git_folder_default">Tests</string>
