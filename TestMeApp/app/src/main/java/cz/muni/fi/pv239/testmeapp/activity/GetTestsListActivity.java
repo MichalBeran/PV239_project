@@ -127,30 +127,41 @@ public class GetTestsListActivity extends AppCompatActivity{
                     if (mProgressBar != null){
                         mProgressBar.setVisibility(View.GONE);
                     }
-
-                    mList.setVisibility(View.VISIBLE);
+                    if (mList != null) {
+                        mList.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     if (mProgressBar != null){
                         mProgressBar.setVisibility(View.GONE);
                     }
 
-                    FragmentTransaction ft = mFragmentManager.beginTransaction();
-                    Fragment notFoundDialog = mFragmentManager.findFragmentByTag("mNotFoundDialog");
-                    if (notFoundDialog != null) {
-                        ft.remove(notFoundDialog);
+                    if (mFragmentManager != null) {
+                        FragmentTransaction ft = mFragmentManager.beginTransaction();
+                        Fragment notFoundDialog = mFragmentManager.findFragmentByTag("mNotFoundDialog");
+                        if (notFoundDialog != null) {
+                            ft.remove(notFoundDialog);
+                        }
+
+                        TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.WRONG_ACCESS_DATA);
+                        mDialog.onCreate(mDialog.getArguments());
+                        ft.add(mDialog, "mNotFoundDialog");
+                        ft.commitAllowingStateLoss();
                     }
-                    TestDialogFragment mDialog = TestDialogFragment.newInstance(TestDialogFragment.WRONG_ACCESS_DATA);
-                    mDialog.onCreate(mDialog.getArguments());
-                    ft.add(mDialog, "mNotFoundDialog");
-                    ft.commitAllowingStateLoss();
+
+
                 }
             }
 
             @Override
             public void onFailure(Call<List<TestLight>> call, Throwable t) {
                 t.printStackTrace();
-                mProgressBar.setVisibility(View.GONE);
-                mLoadingFailed.setVisibility(View.VISIBLE);
+                if (mProgressBar != null) {
+                    mProgressBar.setVisibility(View.GONE);
+                }
+
+                if (mLoadingFailed != null){
+                    mLoadingFailed.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
